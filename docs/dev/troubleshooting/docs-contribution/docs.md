@@ -50,7 +50,7 @@ zkSync 文档是开源的，它欢迎包括您在内的来自世界各地的社�
   ![create-pull-request](https://user-images.githubusercontent.com/55744578/136703597-6644e43c-7c64-4cc0-bf8b-7fb8db9544cf.jpg)
 
 
-### 学习/提高的相关资源：
+### 学习/提高的相关资料：
 
 - [技术写作的最佳实践](https://proedit.com/technical-writing-best-practices/)。
 - [每个作者都需要知道的 9 个技术写作技巧](https://www.instructionalsolutions.com/blog/technical-writing-tips)。

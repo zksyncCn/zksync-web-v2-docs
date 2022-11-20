@@ -1,56 +1,43 @@
-# Intro to rollups
+# rollups 介绍
 
-## Introduction
+## 背景
 
-To better understand rollups we need to dive briefly into Ethereum and Layer 2 solutions.
+为了更好地理解 rollups，我们需要简单地了解以太坊和第 2 层解决方案。
 
-The Ethereum network is frequently congested, which results in slow transactions and increased gas prices.
-While this has remained so for a long time, an improved solution is needed: one that will not put limits on the throughput, but instead, 
-achieve a high transaction rate without having to trade off security. That is where Layer 2 solutions shine.
+以太坊网络经常拥堵，导致交易缓慢和 gas 价格上涨。虽然这种情况已经持续了很长时间，但仍需要一种改进的解决方案：一种不会限制吞吐量，并且在不牺牲安全性的情况下实现高效交易的解决方案。这就是第 2 层解决方案的亮点所在。
 
-Layer 2 solutions are designed as an extension to Ethereum, and offer various solutions poised to be the critical scalability component to 
-the inherent network congestion on Ethereum. Covering all Layer 2 solutions is beyond the scope of this doc.
-We will go through a brief explainer on rollups in this section.
+第 2 层解决方案为以太坊的扩容提供各种解决方案，同时有望在将来成为以太坊的关键扩容解决方案。本文档内容不包括全部第 2 层解决方案。
+在本节中，我们将简要介绍 rollups。
 
-## Optimistic rollups versus ZK rollups
+## Optimistic rollups 与 ZK rollups 对比
 
-There are mainly two types of rollups, ZK rollups and Optimistic rollups.
+rollups 主要有两种，ZK rollups 和 Optimistic rollups。
 
-### What are rollups?
+### 什么是 rollups?
 
-Rollups are a recent development intended to increase the scalability of Ethereum by performing calculations off-chain, rolling many
-transactions up into a single batch, and sending it to the main Ethereum chain in a single action.
-Instead of submitting each transaction separately, rollup operators submit a summary of the required changes to represent all transactions
-in a batch.
+Rollups 诞生没有多久，通过将链下的多笔交易汇总成一笔，发送到以太坊主网，从而完成以太坊的扩容。
+Rollup 的运营者不需要单独提交每笔交易，而是提交所需更改的摘要以代表一批中的所有交易。
 
-To be able to work on a rollup, funds need to be locked on a smart contract on the Layer 1 blockchain.
-This allows transactions to be processed without the overhead of all the data associated with performing a transaction on the main chain. 
-Rollups significantly decrease associated transaction processing times and gas fees.
+为了能够执行 rollups，资金需要锁定在第 1 层区块链上的智能合约中。
+这样可以让交易在不产生任何与以太坊主网交互的费用的情况下被处理。 
+Rollup 大大缩短了交易的处理时间并减少了 gas 费用。
 
-The main difference between ZK and Optimistic rollups is in the way this batch of transactions becomes <em>final</em>.
+ZK 和 Optimistic rollups 之间的主要区别在于这批交易成为<em>最终交易</em>的方式。
 
-### What are ZK rollups?
 
-In ZK rollups ('ZK' standing for zero-knowledge) the batch of transactions is verified for correctness on the Ethereum network. After the 
-verification passes, the batch of transactions is considered final like any other Ethereum transaction. This is achieved through the power 
-of cryptographic <em>validity proofs</em> (commonly called zero-knowledge proofs). With any batch of off-chain transactions, the ZK rollup 
-operator generates a proof of validity for this batch. Once the proof is generated, it is submitted to Ethereum to make the roll-up batch final. 
-In zkSync, this is done via a **SNARK**, succinct non-interactive argument of knowledge.
+### 什么是 ZK rollups?
 
-### What are Optimistic rollups?
+在 ZK rollups（“ZK”代表零知识）中，任何批量交易在以太坊网络上被验证为有效的。验证通过后，这批交易与任何其他以太坊交易一样被视为最终交易。这是通过加密<em>有效性证明</em>（通常称为零知识证明）来实现的。对于任何批次的链下交易，ZK rollups 运营者都会为该批次生成有效性证明。一旦生成证明，它就会被提交给以太坊，使被压缩交易的批次最终确定。
+在 zkSync 中，这是通过 **SNARK** 简洁的非交互式知识论证来完成的。
 
-Optimistic rollups, on the other hand, have no mechanism to prove the validity of the off-chain transactions. Instead, they are considered 
-“optimistic” because they assume off-chain transactions are valid unless proven otherwise. Hence, they rely on <em>fraud proofs</em>, a 
-challenge to the submitted state to Ethereum. If such a challenge is submitted, the Optimistic rollup operator needs to show that the 
-state and transactions in questions are actually valid. This is a cumbersome process, and requires watchers to make sure that the Optimistic 
-rollup operator is honest at all times.
+### 什么是 Optimistic rollups?
 
-### L1 and L2: what's the difference?
-The term **Layer 1** (or **L1**) is used to refer to the underlying primary chain, such as the Ethereum network or Bitcoin. Layer 1 
-blockchains determine protocol rules and transaction finality, and perform the base-level functions of applications built upon them.
+Optimistic rollups 没有机制来证明链下交易的有效性。相反，它们被认为是“乐观的”，因为它们假设链下交易是有效的，除非有其他证明。因此，他们依赖于<em>欺诈证明</em>，这是对提交给以太坊的状态的挑战。如果提交了这样的挑战，Optimistic rollup 运营商需要证明有关的状态和交易实际上是有效的。这是一个繁琐的过程，需要观察者确保 Optimistic rollup 运营商始终是诚实的。
 
-The term **Layer 2** (or **L2**) is used to describe an overlaying application or network that operates on top of the Layer 1 chain. These 
-are most often built to provide further scalability solutions by taking on a portion of transaction-based tasks to lighten the impact on the
-layer 1 chain, quickening transaction times and lowering gas fees.
+### L1 和 L2 的区别是什么?
 
-zkSync is an L2, where L1 is the main Ethereum blockchain.
+术语 **第 1 层**（或 **L1**）用于指代底层主链，例如以太坊网络或比特币。第 1 层区块链确定协议规则和交易最终结果，并执行基于它们构建的应用程序的基本功能。
+
+术语 **第 2 层**（或 **L2**）用于描述在第 1 层链的上层运行的叠加应用或网络。这些通常是为了提供进一步的可扩容性解决方案而构建的，通过承担一部分基于交易的任务来减轻对第 1 层链的影响，加快交易时间并降低 gas 费。
+
+zkSync 是第 2 层区块链, 以太坊是主要的第 1 层区块链。

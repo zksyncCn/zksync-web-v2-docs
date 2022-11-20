@@ -8,7 +8,7 @@ zkSync 文档是开源的，它欢迎包括您在内的来自世界各地的社�
 
 - 即时通讯工具，如 [zkSync Discord](https://discord.gg/px2aR7w), [Telegram: 用户支持小组](https://t.me/zksync_support)。
 - 问题沟通 - 就可操作的项目（可以采取行动和完成的事情，例如特定文档页面的问题、重组需求等）进行沟通：
-    - 如果您发现 zkSync 文档中的某个页面有问题，你可以随时[编辑该页面](./edit-doc.md) 来修复它。
+    - 如果您发现 zkSync 文档中的某个页面有问题，你可以随时[编辑该页面](./edit-doc.md)来修复它。
     - 如果您想发现更大的问题或建议对 zkSync 文档进行重大修改，您可以[在 Github 上提出该问题](https://github.com/matter-labs/zksync-web-v2-docs/issues)。
 - 在我们的[社区论坛](https://community.zksync.io/)上分享观点并了解最新话题。
 - 在 Twitter 上关注 zkSync 以获取最新动态。
@@ -39,7 +39,7 @@ zkSync 文档是开源的，它欢迎包括您在内的来自世界各地的社�
 ### 详细步骤
 
 1. 在希望编辑的页面，点击 `Edit this page`，
-2. 第 1 步会将您带到 GitHub：在 [GitHub](https://github.com/join) 上创建一个账户，或者如果您已经有一个账户，请登录。
+2. 第 1 步会将您带到 GitHub：在 [GitHub](https://github.com/join) 上创建一个账户，或者如果您已经有一个账户，那么请登录。
 3. 点击笔的图标，就可以分叉该版本，这样您就可以开始为文档作出贡献。
   ![fork-repo](https://user-images.githubusercontent.com/55744578/136702921-3105350a-a68a-4aa4-8c5d-fb24742652b2.jpg)
 4. 编辑 MD 文件:

@@ -1,18 +1,20 @@
-# Getting started
+# 入门
 
-In this guide we will demonstrate how to:
+在本指南中，我们将演示如何:
 
-1. Connect to the zkSync network.
-2. Deposit assets from Ethereum into zkSync.
-3. Transfer and withdraw funds (native and ERC20 tokens).
-4. Deploy a smart contract.
-5. Interact with any smart contract.
+1. 连接到zkSync网络。
+2. 将资产从以太坊存入zkSync。
+3. 转移和提取资金（本地和ERC20代币）。
+4. 部署智能合约。
+5. 与智能合约交互。
 
-## Prerequisite
-This guide assumes that you are familiar with the basics of [Java](https://docs.oracle.com/en/java/) programming language.
+## 先决条件
 
-##  Installation
-To install the zkSync Java SDK, just add the following dependency:
+此指南假定你熟悉 [Java](https://docs.oracle.com/en/java/) 编程语言的基础知识。
+
+## 安装
+
+要安装 zkSync Java SDK, 你需要添加以下依赖项:
 
 Maven `pom.xml`
 
@@ -27,7 +29,6 @@ Maven `pom.xml`
     </dependency>
   </dependencies>
 </project>
-
 ```
 
 Gradle `build.gradle`
@@ -38,11 +39,11 @@ dependencies {
 }
 ```
 
-## Instantiating the SDK
-To start using this SDK, you just need to pass in a provider configuration.
+## 运行 SDK 实例
+
+要开始使用这个SDK，你只需要传入一个提供的配置。
 
 ```java
-
 import io.zksync.protocol.zksync;
 import org.web3j.protocol.http.HttpService;
 
@@ -51,19 +52,18 @@ public class Main {
         zksync zksync = zksync.build(new HttpService("<http://127.0.0.1:3050>"));
     }
 }
-
 ```
 
-## Ethereum signer
+## Ethereum 签名
 
-::: warning
+::: 警告
 
-⚠️ Never commit private keys to file tracking history, or your account could be compromised.
+⚠️ 切勿将私钥提交给文件追踪历史记录，否则你的账户可能会被泄露。
 
 :::
 
-Ethereum signer is necessary for sending both L1 and L2 transactions, given L2 transactions require an Ethereum signature as a part of a 2-factor authentication scheme.
-Ethereum signer is represented by the `PrivateKeyEthSigner` abstract class from `zksync.crypto.signer`.
+以太坊签名是发送 L1 和 L2 交易所必需的，因为 L2 交易需要以太坊签名作为双重身份验证方案的一部分。
+以太坊签名者由`zksync.crypto.signer`的`PrivateKeyEthSigner` 抽象来表示。
 
 ```java
 import io.zksync.crypto.signer.EthSigner;
@@ -79,11 +79,11 @@ public class Main {
         EthSigner signer = new PrivateKeyEthSigner(credentials, chainId);
     }
 }
-
 ```
 
-## Creating a wallet
-To control your account in zksync, use the `zksync.crypto.signer.EthSigner`. It can sign transactions with keys and send transactions to the zksync network.
+## 创建钱包
+
+要在 zksync 中控制您的帐户，请使用 `zksync.crypto.signer.EthSigner`。 它可以使用密钥签署交易并将交易发送到 zksync 网络。
 
 ```java
 import io.zksync.crypto.signer.EthSigner;
@@ -98,16 +98,13 @@ public class Main {
         ZkSyncWallet wallet = new ZkSyncWallet(zksync, signer, Token.ETH);
     }
 }
-
 ```
 
-## Transactions
+## 交易
 
-zksync2 supports Ethereum's `Legacy` and `EIP-1155` transactions except for deploying contracts.
-
+zksync 支持以太坊的`Legacy`和`EIP-1155`交易，但部署合约除外。
 
 ```java
-
 import io.zksync.abi.TransactionEncoder;
 import io.zksync.crypto.signer.EthSigner;
 import io.zksync.methods.request.Eip712Meta;
@@ -178,13 +175,11 @@ public class Main {
         TransactionReceipt receipt = zksync.ethGetTransactionReceipt(sentTransactionHash).send().getTransactionReceipt();
     }
 }
-
 ```
 
-### Deploy a smart contract
+### 部署一个智能合约
 
 ```java
-
 import io.zksync.abi.TransactionEncoder;
 import io.zksync.crypto.signer.EthSigner;
 import io.zksync.methods.request.Eip712Meta;
@@ -259,13 +254,11 @@ public class Main {
         TransactionReceipt receipt = zksync.ethGetTransactionReceipt(sentTransactionHash).send().getTransactionReceipt();
     }
 }
-
 ```
 
-### Deploy contract via ZkSyncWallet
+### 通过 ZkSyncWallet 部署合约
 
 ```java
-
 import io.zksync.ZkSyncWallet;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Numeric;
@@ -277,13 +270,11 @@ public class Main {
         TransactionReceipt receipt = wallet.deploy(Numeric.hexStringToByteArray("0x<bytecode_of_the_contract>")).send();
     }
 }
-
 ```
 
-### Interacting with smart contracts
+### 与智能合约交互
 
 ```java
-
 import io.zksync.abi.TransactionEncoder;
 import io.zksync.crypto.signer.EthSigner;
 import io.zksync.methods.request.Eip712Meta;
@@ -347,13 +338,11 @@ public class Main {
         TransactionReceipt receipt = zksync.ethGetTransactionReceipt(sentTransactionHash).send().getTransactionReceipt();
     }
 }
-
 ```
 
-### Interacting with smart contracts via ZkSyncWallet
+### 通过 ZkSyncWallet 与智能合约进行交互
 
-```java 
-
+```java
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -376,13 +365,11 @@ public class Main {
         TransactionReceipt receipt = wallet.execute(contractAddress, contractFunction).send();
     }
 }
-
 ```
 
-### Interacting with smart contracts via Web3j generic Contract
+### 通过 Web3j 通用合约与智能合约进行交互
 
 ```java
-
 import io.zksync.crypto.signer.EthSigner;
 import io.zksync.protocol.zksync;
 import io.zksync.protocol.core.Token;
@@ -413,13 +400,11 @@ public class Main {
         BigInteger result = contract.get().send();
     }
 }
-
 ```
 
-### Transfer funds
+### 转移资金
 
 ```java
-
 import io.zksync.abi.TransactionEncoder;
 import io.zksync.crypto.signer.EthSigner;
 import io.zksync.methods.request.Eip712Meta;
@@ -483,13 +468,11 @@ public class Main {
         TransactionReceipt receipt = zksync.ethGetTransactionReceipt(sentTransactionHash).send().getTransactionReceipt();
     }
 }
-
 ```
 
-### Transfer funds (ERC20 tokens)
+### 转移资金(ERC20 tokens)
 
 ```java
-
 import io.zksync.abi.TransactionEncoder;
 import io.zksync.crypto.signer.EthSigner;
 import io.zksync.methods.request.Eip712Meta;
@@ -560,13 +543,11 @@ public class Main {
         TransactionReceipt receipt = zksync.ethGetTransactionReceipt(sentTransactionHash).send().getTransactionReceipt();
     }
 }
-
 ```
 
-### Transfer funds via ZkSyncWallet
+### 通过 ZkSyncWallet 转移资金
 
 ```java
-
 import io.zksync.protocol.core.Token;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
@@ -588,13 +569,11 @@ public class Main {
         BigDecimal decimalBalance = Token.ETH.intoDecimal(balance);
     }
 }
-
 ```
 
-### Withdraw funds
+### 提取资金
 
 ```java
-
 import io.zksync.abi.TransactionEncoder;
 import io.zksync.crypto.signer.EthSigner;
 import io.zksync.methods.request.Eip712Meta;
@@ -664,13 +643,11 @@ public class Main {
         TransactionReceipt receipt = zksync.ethGetTransactionReceipt(sentTransactionHash).send().getTransactionReceipt();
     }
 }
-
 ```
 
-### Withdraw funds (ERC20 tokens)
+### 提取资金 (ERC20 tokens)
 
 ```java
-
 import io.zksync.abi.TransactionEncoder;
 import io.zksync.crypto.signer.EthSigner;
 import io.zksync.methods.request.Eip712Meta;
@@ -745,13 +722,11 @@ public class Main {
         TransactionReceipt receipt = zksync.ethGetTransactionReceipt(sentTransactionHash).send().getTransactionReceipt();
     }
 }
-
 ```
 
-### Withdraw funds via ZkSyncWallet
+### 通过 ZkSyncWallet 提取资金
 
 ```java
-
 import io.zksync.protocol.core.Token;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
@@ -772,14 +747,13 @@ public class Main {
         TransactionReceipt receipt = wallet.withdraw("0x<receiver_address>", amount, token).send();
     }
 }
-
 ```
 
-## Wallet
-Get the price of the execution of the transaction
+## 钱包
+
+获取执行交易的价格
 
 ```java
-
 import io.zksync.crypto.signer.EthSigner;
 import io.zksync.methods.request.Transaction;
 import io.zksync.protocol.zksync;
@@ -799,13 +773,11 @@ public class Main {
         BigInteger gasUsed = zksync.ethEstimateGas(forEstimate).send().getAmountUsed();
     }
 }
-
 ```
 
-### Get fee via TransactionFeeProvider
+### 通过 TransactionFeeProvider 获取费用
 
 ```java
-
 import io.zksync.methods.request.Transaction;
 import io.zksync.protocol.zksync;
 import io.zksync.protocol.core.Token;
@@ -824,11 +796,10 @@ public class Main {
         Fee fee = feeProvider.getFee(forEstimate);
     }
 }
-
 ```
 
-::: warning
+::: 注意
 
-⚠️ This section of the docs is still in progress and will be updated with more detailed information soon.
+⚠️ 这一部分文档仍在更新中，不久将会更新更详细的信息。
 
 :::

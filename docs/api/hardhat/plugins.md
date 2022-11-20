@@ -1,14 +1,14 @@
-# Plugins
+# 插件
 
 ## `hardhat-zksync-solc`
 
-This plugin is used to provide a convenient interface for compiling Solidity smart contracts before deploying them to zkSync 2.0.
+这个插件用于在将Solidity智能合约部署到 zkSync 2.0 之前提供一个方便的接口来编译它们。
 
 ### Npm
 
 [@matterlabs/hardhat-zksync-solc](https://www.npmjs.com/package/@matterlabs/hardhat-zksync-solc)
 
-Add the latest version of this plugin to your project with the following command:
+使用以下命令将此插件的最新版本添加到您的项目中：
 
 ```
 # Yarn
@@ -20,11 +20,11 @@ npm i -D @matterlabs/hardhat-zksync-solc
 
 ### Exports
 
-This plugin most often will not be used directly in the code.
+这个插件通常不会直接在代码中使用。
 
-### Configuration
+### 配置
 
-This plugin is configured in the `hardhat.config.ts` file of your project. Here is an example
+此插件在项目的 `hardhat.config.ts`文件中配置。 这是一个例子：
 
 ```typescript
 zksolc: {
@@ -46,36 +46,36 @@ networks: {
 }
 ```
 
-- `version` is a field with the version of the `zksolc` compiler. Currently not used.
-- `compilerSource` indicates the compiler source and can be either `docker` or `binary` (recommended). If there isnn't a compiler binary already installed, the plugin will automatically download it. If `docker` is used, you'd need to run Docker desktop in the background and provide both `dockerImage` and `tag` in the experimental section.
-- `compilerPath` is a field with the path to the `zksolc` binary. By default, the binary in `$PATH` is used. If `compilerSource` is `docker`, this field is ignored.
-- `dockerImage` and `tag` make up the name of the compiler docker image. If `compilerSource` is `binary`, these fields are ignored.
-- `libraries` if your contract uses non-inlinable libraries as dependencies, they have to be defined here. Learn more about [compiling libraries here](./compiling-libraries.md)
-- `zksync` network option indicates whether zksolc is enabled on a certain network. `false` by default. Useful for multichain projects in which you can enable `zksync` only for specific networks.
+- `version` 是带有 `zksolc` 编译器版本的字段。目前没有使用。
+- `compilerSource` 表示编译器源，可以是 `docker` 或 `binary`（推荐）。如果尚未安装编译器二进制文件，插件将自动下载它。如果使用 `docker`，您需要在后台运行 Docker desktop，并在实验部分提供 `dockerImage` 和 `tag`。
+- `compilerPath` 是一个包含 `zksolc` 二进制文件路径的字段。默认情况下，使用 `$PATH` 中的二进制文件。如果 `compilerSource` 是 `docker`，这个字段会被忽略。
+- `dockerImage` 和 `tag` 组成编译器 docker 镜像的名称。如果  `compilerSource`  是 `binary`，这些字段将被忽略。
+- `libraries` 如果您的合约使用不可内联的库作为依赖项，则必须在此处定义它们。详细了解[在此处编译库](./compiling-libraries.md)
+- `zksync` 网络选项指示是否在特定网络上启用了 zksolc。默认情况下为“假”。对于您可以仅为特定网络启用“zksync”的多链项目很有用。
 
-### Commands
+### 命令
 
-`hardhat compile` -- compiles all the smart contracts in the `contracts` directory and creates the `artifacts-zk` folder with all the compilation artifacts, including factory dependencies for the contracts, which could be used for contract deployment.
+`hardhat compile` -- 编译 `contracts` 目录中的所有智能合约，并创建包含所有编译工件的 `artifacts-zk` 文件夹，包括合约的工厂依赖项，可用于合约部署。
 
-To understand what the factory dependencies are, read more about them in the [Web3 API](../api.md) documentation.
+要了解工厂依赖项是什么，请在 [Web3 API](../api.md) 文档中阅读更多相关信息。
 
 ## `hardhat-zksync-vyper`
 
-This plugin is used to provide a convenient interface for compiling Vyper smart contracts before deploying them to zkSync 2.0.
+该插件用于在将 Vyper 智能合约部署到 zkSync 2.0 之前为编译 Vyper  智能合约提供一个方便的接口。
 
 ### Npm
 
 [@matterlabs/hardhat-zksync-vyper](https://www.npmjs.com/package/@matterlabs/hardhat-zksync-vyper)
 
-This plugin is used in conjunction with [@nomiclabs/hardhat-vyper](https://www.npmjs.com/package/@nomiclabs/hardhat-vyper).
-To use it, you have to install and import both plugins in the `hardhat.config.ts` file:
+此插件与 [@nomiclabs/hardhat-vyper](https://www.npmjs.com/package/@nomiclabs/hardhat-vyper) 结合使用。
+要使用它，您必须在 hardhat.config.ts 文件中安装并导入这两个插件：
 
 ```javascript
 import "@nomiclabs/hardhat-vyper";
 import "@matterlabs/hardhat-zksync-vyper";
 ```
 
-Add the latest version of this plugin to your project with the following command:
+使用以下命令将此插件的最新版本添加到您的项目中：
 
 ```
 # Yarn
@@ -87,9 +87,9 @@ npm i -D @matterlabs/hardhat-zksync-vyper
 
 ### Exports
 
-This plugin most often will not be used directly in the code.
+这个插件通常不会直接在代码中使用。
 
-### Configuration
+### 配置
 
 ```typescript
 zkvyper: {
@@ -112,24 +112,24 @@ networks: {
 }
 ```
 
-- `version` is a field with the version of the `zkvyper` compiler. Currently not used.
-- `compilerSource` indicates the compiler source and can be either `docker` or `binary` (recommended). If there isnn't a compiler binary already installed, the plugin will automatically download it. If `docker` is used, you'd need to run Docker desktop in the background and provide both `dockerImage` and `tag` in the experimental section.
-- `compilerPath` is a field with the path to the `zkvyper` binary. By default, the binary in `$PATH` is used. If `compilerSource` is `docker`, this field is ignored.
-- `dockerImage` and `tag` make up the name of the compiler docker image. If `compilerSource` is `binary`, these fields are ignored.
-- `libraries` if your contract uses non-inlinable libraries as dependencies, they have to be defined here. Learn more about [compiling libraries here](./compiling-libraries.md)
-- `zksync` network option indicates whether zkvyper is enabled on a certain network. `false` by default. Useful for multichain projects in which you can enable `zksync` only for specific networks.
+- `version` 是带有 `zkvyper` 编译器版本的字段。目前没有使用。
+- `compilerSource` 表示编译器源，可以是 `docker` 或 `binary`（推荐）。如果尚未安装编译器二进制文件，插件将自动下载它。如果使用 `docker`，您需要在后台运行 Docker desktop，并在实验部分提供 `dockerImage` 和 `tag`。
+- `compilerPath` 是一个包含 `zkvyper` 二进制文件路径的字段。默认情况下，使用 `$PATH` 中的二进制文件。如果 `compilerSource` 是 `docker`，这个字段会被忽略。
+- `dockerImage` 和 `tag` 组成编译器 docker 镜像的名称。如果 compilerSource 是 binary，这些字段将被忽略。
+- `libraries` 如果您的合约使用不可内联的库作为依赖项，则必须在此处定义它们。详细了解[在此处编译库](./compiling-libraries.md)
+- `zksync` 网络选项指示是否在特定网络上启用了 zkvyper。默认情况下为“假”。对于您可以仅为特定网络启用“zksync”的多链项目很有用。
 
 ### Commands
 
-`hardhat compile` -- compiles all the smart contracts in the `contracts` directory and creates `artifacts-zk` folder with all the compilation artifacts, including factory dependencies for the contracts, which could be used for contract deployment.
+`hardhat compile`——编译 `contracts` 目录中的所有智能合约，并创建 `artifacts-zk` 文件夹，其中包含所有编译工件，包括合约的工厂依赖项，可用于合约部署。
 
-To understand what the factory dependencies are, read more about them in the [Web3 API](../api.md) documentation.
+要了解工厂依赖项是什么，请在 [Web3 API](../api.md) 文档中阅读更多相关信息。
 
 ## `hardhat-zksync-deploy`
 
-This plugin provides utilities for deploying smart contracts on zkSync with artifacts built by the `@matterlabs/hardhat-zksync-solc` or `@matterlabs/hardhat-zksync-vyper` plugins.
+该插件提供实用程序，用于在 zkSync 上部署智能合约，并使用 `@matterlabs/hardhat-zksync-solc` 或 `@matterlabs/hardhat-zksync-vyper` 插件构建的工件。
 
-::: warning
+::: 注意
 
 Contracts must be compiled using the official `@matterlabs/hardhat-zksync-solc` or `@matterlabs/hardhat-zksync-vyper` plugins. Contracts compiled with other compilers will fail to deploy to zkSync using this plugin.
 
@@ -142,7 +142,6 @@ Contracts must be compiled using the official `@matterlabs/hardhat-zksync-solc` 
 Add the latest version of this plugin to your project with the following command:
 
 ```
-
 # Yarn
 
 yarn add -D @matterlabs/hardhat-zksync-deploy
@@ -150,7 +149,6 @@ yarn add -D @matterlabs/hardhat-zksync-deploy
 # Npm
 
 npm i -D @matterlabs/hardhat-zksync-deploy
-
 ```
 
 ### Exports

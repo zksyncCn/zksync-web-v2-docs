@@ -1,28 +1,25 @@
-# Getting started
+# 入门
 
-[Hardhat](https://hardhat.org) is an Ethereum development environment, designed for easy smart contract development in Solidity. One of its most prominent features is extendability: you can easily add new plugins to your hardhat project.
+[Hardhat](https://hardhat.org) 是一个以太坊开发环境，专为在 Solidity 中轻松开发智能合约而设计。它最突出的特性之一是可扩展性：您可以轻松地将新插件添加到您的 hardhat 项目中。
 
-zkSync has three plugins for Hardhat:
+zkSync 为 Hardhat 提供了三个插件：
 
-- [@matterlabs/hardhat-zksync-solc](./plugins.md#matterlabs-hardhat-zksync-solc) - used to compile contracts written in Solidity.
-- [@matterlabs/hardhat-zksync-vyper](./plugins.md#matterlabs-hardhat-zksync-vyper) - used to compile contracts written in Vyper.
-- [@matterlabs/hardhat-zksync-deploy](./plugins.md#matterlabs-hardhat-zksync-deploy) - used to deploy smart contracts.
+- [@matterlabs/hardhat-zksync-solc](./plugins.md#matterlabs-hardhat-zksync-solc) - 用于编译用 Solidity 编写的合约。
+- [@matterlabs/hardhat-zksync-vyper](./plugins.md#matterlabs-hardhat-zksync-vyper) - 用于编译用 Vyper 编写的合约。
+- [@matterlabs/hardhat-zksync-deploy](./plugins.md#matterlabs-hardhat-zksync-deploy) - 用于部署智能合约。
 
-To learn more about Hardhat itself, check out [its official documentation](https://hardhat.org/getting-started/).
+要了解有关 Hardhat 本身的更多信息，请查看 [its official documentation](https://hardhat.org/getting-started/).
 
-This tutorial shows how to set up a zkSync Solidity project using Hardhat from scratch.
-If you are using Vyper, check out the [Vyper plugin documentation](./plugins.md#matterlabs-hardhat-zksync-vyper) or [this example](https://github.com/matter-labs/hardhat-zksync/tree/main/examples/vyper-example) in GitHub!
+本教程展示了如何使用 Hardhat 从头开始​​设置 zkSync Solidity 项目。
+如果您使用的 Vyper，请在 GitHub 查看 [Vyper plugin documentation](./plugins.md#matterlabs-hardhat-zksync-vyper) 或 [this example](https://github.com/matter-labs/hardhat-zksync/tree/main/examples/vyper-example) 。
 
-## Prerequisites
+## 先决条件
 
-For this tutorial, the following programs must be installed:
+对于本教程，必须安装以下程序：
 
-- `yarn` package manager. `npm` examples will be added soon.
-- A wallet with sufficient Göerli `ETH` on L1 to pay for bridging funds to zkSync as well as deploying smart contracts. We recommend using [our faucet from the zkSync portal](https://portal.zksync.io/faucet).
-
-## Project setup
-
-1. To initialize the project and install the dependencies, run the following commands in the terminal:
+- `yarn` 包管理器。 `npm` 示例将很快添加。
+- 一个在 L1 上有足够 Göerli `ETH` 的钱包，用于支付 zkSync 的桥接资金以及部署智能合约。 我们建议使用 [我们来自 zkSync 门户的水龙头](https://portal.zksync.io/faucet)。
+1. 要初始化项目并安装依赖项，请在终端中运行以下命令：
 
 ```
 mkdir greeter-example
@@ -31,11 +28,11 @@ yarn init -y
 yarn add -D typescript ts-node ethers zksync-web3 hardhat @matterlabs/hardhat-zksync-solc @matterlabs/hardhat-zksync-deploy
 ```
 
-The `typescript` and `ts-node` dependencies are optional - plugins will work fine in a vanilla JavaScript environment. Although, please note that this tutorial _does_ use TypeScript.
+`typescript` 和 `ts-node` 依赖项是可选的——插件可以在 vanilla JavaScript 环境中正常工作。 不过，请注意本教程 _确实_ 使用了 TypeScript。
 
-## Configuration
+## 配置
 
-2. Create the `hardhat.config.ts` file and paste the following code within it:
+2. 创建 `hardhat.config.ts`文件并将以下代码粘贴到其中：
 
 ```typescript
 require("@matterlabs/hardhat-zksync-deploy");
@@ -70,17 +67,17 @@ module.exports = {
 };
 ```
 
-::: tip
+::: 提示
 
-To learn more about each specific property in the `hardhat.config.ts` file, check out the [plugins documentation](./plugins.md)
+要了解有关“hardhat.config.ts”文件中每个特定属性的更多信息，请查看 [插件文档](./plugins.md)
 
 :::
 
-## Write and deploy a contract
+## 编写和部署合同
 
-3. Create the `contracts` and `deploy` folders. In the `contracts` folder we will store all the smart contract files. In the `deploy` folder we'll place all the scripts related to deploying the contracts.
+3. 创建 `contracts` 和 `deploy` 文件夹。 在 contracts 文件夹中，我们将存储所有智能合约文件。 在 deploy 文件夹中，我们将放置与部署合约相关的所有脚本。
 
-4. Create the `contracts/Greeter.sol` contract and paste the following code:
+4. 创建 `contracts/Greeter.sol` 合约并粘贴以下代码：
 
 ```solidity
 //SPDX-License-Identifier: Unlicense
@@ -103,15 +100,15 @@ contract Greeter {
 }
 ```
 
-5. Run `yarn hardhat compile` which uses the `hardhat-zksync-solc` plugin to compile the contract. The `artifacts-zk` and `cache-zk` folders will be created in the root directory (instead of the regular Hardhat's `artifacts` and `cache`).
+5. 运行 `yarn hardhat compile`，它使用 `hardhat-zksync-solc`插件来编译合约。 `artifacts-zk` 和 `cache-zk` 文件夹将在根目录中创建（而不是常规 Hardhat 的 `artifacts` 和 `cache`）。
 
-::: tip
+::: 提示
 
-Note that the `artifacts-zk` and `cache-zk` folders contain compilation artifacts and cache, and should not be added to version control, so it's a good practice to include them in the `.gitignore` file of your project.
+请注意，`artifacts-zk` 和 `cache-zk` 文件夹包含编译工件和缓存，不应添加到版本控制中，因此最好将它们包含在项目的 `.gitignore` 文件中。
 
 :::
 
-6. Create the deployment script in `deploy/deploy.ts` with the following code:
+6. 使用以下代码在 `deploy/deploy.ts` 中创建部署脚本：
 
 ```typescript
 import { utils, Wallet } from "zksync-web3";
@@ -171,24 +168,23 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 }
 ```
 
-7. After replacing the `WALLET-PRIVATE-KEY` text with the `0x`-prefixed private key of your Ethereum wallet, run the script using the following command: `yarn hardhat deploy-zksync`. This script will:
+7. 将 `WALLET-PRIVATE-KEY`文本替换为以太坊钱包的“0x”前缀私钥后，使用以下命令运行脚本：`yarn hardhat deploy-zksync`。 该脚本将：
+- 从 Goerli 转 0.001 ETH 到 zkSync。
+- 部署带有消息 `你好！`的 `Greeting` 合约。
+- 从调用 `greet()` 方法的合约中检索消息。
+- 使用 `setGreeting`() 方法更新合约中的问候消息。
+- 再次从合约中检索消息。
 
-- Transfer 0.001 ETH from Goerli to zkSync.
-- Deploy the `Greeting` contract with the message "Hi there!".
-- Retrieve the message from the contract calling the `greet()` method.
-- Update the greet message in the contract with the `setGreeting()` method.
-- Retrieve the message from the contract again.
+**恭喜！ 您的 Hardhat 项目现在正在 zkSync 上运行 🎉**
 
-**Congratulations! Your Hardhat project is now running on zkSync 🎉**
+## 了解更多
 
-## Learn more
+- 要了解有关 zkSync Hardhat 插件的更多信息，请查看 [插件文档](./plugins)。
+- 如果您想了解更多关于如何使用 Javascript 与 zkSync 交互的信息，请查看[zksync-web3 Javascript SDK 文档](../js)。
 
-- To learn more about the zkSync Hardhat plugins check out the [plugins documentation](./plugins).
-- If you want to know more about how to interact with zkSync using Javascript, check out the [zksync-web3 Javascript SDK documentation](../js) .
+## 未来版本
 
-## Future releases
+未来发布的插件主要有两点改进：:
 
-There are two major points of improvement for the plugins which will be released in the future:
-
-- **Composability with the existing hardhat plugins.** Compatibility with other hardhat plugins is planned for the future but has not been a focus yet.
-- **Improved cross-platform support.**
+- **与现有安全帽插件的可组合性** 。与其他安全帽插件的兼容性计划在未来进行，但尚未成为关注重点。
+- **改进的跨平台支持。**

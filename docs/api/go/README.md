@@ -1,5 +1,5 @@
 # Go SDK
 
-While most of the existing SDKs should work out of the box, deploying smart contracts or using unique zkSync features, like paying fees in other tokens, requires providing additional fields to those that Ethereum transactions have by default.
+虽然大多数现有的SDK可以开箱即用，但部署智能合约或使用独特的zkSync功能，如以其他代币支付费用，需要提供Ethereum交易默认的额外字段。
 
-To provide easy access to all of the features of zkSync 2.0, the `zksync2-go` Go SDK was created.
+为了方便访问zkSync 2.0的所有功能， 我们创建了 `zksync2-go` Go SDK 。

@@ -17,8 +17,8 @@
 
 ## 前提条件
 
-- `yarn` package manager(应用程序安装包管理器)：[安装指南](https://yarnpkg.com/getting-started/install)(`npm` 示例将很快被添加)。
-- 一个在 L1 上有足够 Göerli `ETH` 的钱包，用于支付 zkSync 的桥接资金以及部署智能合约。如果您想执行测试网 paymaster 合约，则需要 zkSync 上的 ERC20 测试代币。我们建议使用 [zkSync 门户网站的水龙头](https://portal.zksync.io/faucet)功能来获取测试代币。
+- `yarn` Package Manager(应用程序安装包管理器)：[安装指南](https://yarnpkg.com/getting-started/install)(`npm` 示例将很快被添加)。
+- 一个在 L1 上有足够 Göerli `ETH` 的钱包，用于支付 zkSync 的桥接资金以及部署智能合约。如果您想执行测试网 Paymaster 合约，则需要 zkSync 上的 ERC20 测试代币。我们建议使用 [zkSync 门户网站的水龙头](https://portal.zksync.io/faucet)功能来获取测试代币。
 
 ## 初始化项目并部署智能合约
 
@@ -503,19 +503,19 @@ async changeGreeting() {
 
 你现在有了一个功能齐全的 Greeter-dApp! 然而，它并没有利用任何 zkSync 的特定功能。
 
-### 使用 Testnet paymaster 支付费用
+### 使用测试网 Paymaster 合约支付费用
 
-尽管以太币是您可以用来支付费用的唯一代币，但账户抽象功能允许您集成 [Paymasters](./aa.md#paymasters)，它可以完全为您支付费用或即时交换为您的代币。在本教程中，我们将使用在所有 zkSync 测试网上都提供的 [测试网 paymaster 合约](./aa.md#testnet-paymaster)。它允许用户使用 ERC20 代币支付费用，ETH 的兑换率为 1:1。
+尽管以太币是您可以用来支付费用的唯一代币，但账户抽象功能允许您集成 [Paymasters](./aa.md#paymasters)，它可以完全为您支付费用或即时交换为您的代币。在本教程中，我们将使用在所有 zkSync 测试网上都提供的 [测试网 Paymaster 合约](./aa.md#testnet-paymaster)。它允许用户使用 ERC20 代币支付费用，ETH 的兑换率为 1:1。
 
 ::: 主网集成小提示
 
-测试网的 paymaster 合约纯粹是为了演示该功能，并不会在主网上提供。在主网上集成您的协议时，您应该遵循您将使用的 paymaster 合约文档。
+测试网的 Paymaster 合约纯粹是为了演示该功能，并不会在主网上提供。在主网上集成您的协议时，您应该遵循您将使用的 Paymaster 合约文档。
 
 :::
 
-当用户决定使用以太币支付时，`getOverrides` method 返回对象为“空”，但当用户选择ERC20选项时，它会返回 paymaster 合约地址以及所需的全部信息。具体方法如下:
+当用户决定使用以太币支付时，`getOverrides` method 返回对象为“空”，但当用户选择ERC20选项时，它会返回 Paymaster 合约地址以及所需的全部信息。具体方法如下:
 
-1. 通过 zkSync provider 中获取测试网 paymaster 的合约地址：
+1. 通过 zkSync Provider 中获取测试网 Paymaster 的合约地址：
 
 ```javascript
 async getOverrides() {
@@ -529,7 +529,7 @@ async getOverrides() {
 }
 ```
 
-注意，建议每次在任何交互之前都获取一次测试网 paymaster 的合约地址，因为它可能会发生变化。
+注意，建议每次在任何交互之前都获取一次测试网 Paymaster 的合约地址，因为它可能会发生变化。
 
 2. 在从 `zksync-web3` SDK 导入的文件中加入 `utils`：
 
@@ -537,7 +537,7 @@ async getOverrides() {
 import { Contract, Web3Provider, Provider, utils } from "zksync-web3";
 ```
 
-2. 我们需要计算处理交易需要多少代币。由于 testnet paymaster 合约以 1:1 的比例将任何 ERC20 代币兑换成 ETH，因此数量与 ETH 数量相同：
+2. 我们需要计算处理交易需要多少代币。由于测试网 Paymaster 合约以 1:1 的比例将任何 ERC20 代币兑换成相同数量的$ETH：
 
 ```javascript
 async getOverrides() {

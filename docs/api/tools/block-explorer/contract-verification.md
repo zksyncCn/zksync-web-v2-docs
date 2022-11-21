@@ -54,10 +54,9 @@
 
 - 输入 Solidity Contract 代码：从你的编辑器中复制代码并将其粘贴到文本区域。
   
-  <br>
-  **注意：** 如果 Solidity 代码使用了库或从另一个合约继承依赖项，您可能需要扁平化（flatten）代码。 
-  <br> 
-  我们推荐使用 [Hardhat flatten](https://medium.com/coinmonks/flattening-smart-contracts-using-hardhat-dffe7dbc7b3f)， [Truffle flattener](https://github.com/NomicFoundation/truffle-flattener) 或 [POA Solidity flattener](https://github.com/poanetwork/solidity-flattener)。
+  > **注意：** 如果 Solidity 代码使用了库或从另一个合约继承依赖项，您可能需要扁平化（flatten）代码。 
+  > 
+  > 我们推荐使用 [Hardhat flatten](https://medium.com/coinmonks/flattening-smart-contracts-using-hardhat-dffe7dbc7b3f)， [Truffle flattener](https://github.com/NomicFoundation/truffle-flattener) 或 [POA Solidity flattener](https://github.com/poanetwork/solidity-flattener)。
 
 - 构造函数参数：如果合约需要构造函数参数，则应在此处添加，但应采用 [ABI 16 进制编码形式](https://solidity.readthedocs.io/en/develop/abi-spec.html)。
 

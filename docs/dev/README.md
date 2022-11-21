@@ -27,7 +27,7 @@
   - [L1 / L2 互操作性](./developer-guides/bridging/l1-l2-interop.md) - L1 和 L2 之间数据通信的简要介绍。
     - [L1 向 L2 发送](./developer-guides/bridging/l1-l2.md) - 了解如何从以太坊发送数据到 zkSync。
     - [L2 向 L1 发送](./developer-guides/bridging/l2-l1.md) - 了解如何从 zkSync 发送数据到以太坊。
-- [重要的链接](./troubleshooting/important-links.md) - 通过这里快速找到重要的链接。
+- [重要链接](./troubleshooting/important-links.md) - 通过这里快速找到重要的链接。
 - [状态信息](./troubleshooting/status.md) - 获取我们正在进行的工作的最新信息。
 - [常见问题解答](./troubleshooting/known-issues.md) - 获取您可能发现的常见问题的答案。
 

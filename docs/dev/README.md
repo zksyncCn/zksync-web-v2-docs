@@ -23,7 +23,7 @@
   - [区块](./developer-guides/transactions/blocks.md) - 了解区块如何在 zkSync 上工作的说明。
   - [费用机制](./developer-guides/transactions/fee-model.md) - zkSync 费用结构的简介。
 - [账户抽象](./developer-guides/aa.md) - 了解账户抽象。
-- [资金的跨链](./developer-guides/bridging/bridging-asset.md) - 关于代币跨链的简介。
+- [资金的桥接](./developer-guides/bridging/bridging-asset.md) - 关于代币桥接的简介。
   - [L1 / L2 互操作性](./developer-guides/bridging/l1-l2-interop.md) - L1 和 L2 之间数据通信的简要介绍。
     - [L1 向 L2 发送](./developer-guides/bridging/l1-l2.md) - 了解如何从以太坊发送数据到 zkSync。
     - [L2 向 L1 发送](./developer-guides/bridging/l2-l1.md) - 了解如何从 zkSync 发送数据到以太坊。

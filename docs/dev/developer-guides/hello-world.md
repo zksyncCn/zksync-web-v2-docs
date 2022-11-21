@@ -18,7 +18,7 @@
 ## 前提条件
 
 - `yarn` package manager(应用程序安装包管理器)：[安装指南](https://yarnpkg.com/getting-started/install)(`npm` 示例将很快被添加)。
-- 一个在 L1 上有足够 Göerli `ETH` 的钱包，用于支付 zkSync 的桥接资金以及部署智能合约。如果您想执行测试网 paymaster 合约，则需要 zkSync 上的 ERC20 测试代币。我们建议使用 [zkSync 门户的水龙头](https://portal.zksync.io/faucet)功能来获取测试代币。
+- 一个在 L1 上有足够 Göerli `ETH` 的钱包，用于支付 zkSync 的桥接资金以及部署智能合约。如果您想执行测试网 paymaster 合约，则需要 zkSync 上的 ERC20 测试代币。我们建议使用 [zkSync 门户网站的水龙头](https://portal.zksync.io/faucet)功能来获取测试代币。
 
 ## 初始化项目并部署智能合约
 

@@ -1,26 +1,26 @@
 # Providers
 
-供应商是 zkSync 节点交互的对象，以标准以太坊节点功能提供简洁、一致的接口。如果您不熟悉 `ethers` 中供应商的概念，您应该在 [此处](https://docs.ethers.io/v5/api/providers) 查看他们的文档。
+供应商是与 zkSync 节点交互的对象，以标准节点功能提供简洁、一致的接口。如果您不熟悉 `ethers` 中供应商的概念，您应该在 [此处](https://docs.ethers.io/v5/api/providers) 查看他们的文档。
 
-zkSync 完全支持 Ethereum Web3 API，因此您可以使用 ethers.js 中的提供商对象。 然而，zkSync API 提供了一些额外的 JSON-RPC 方法，允许：
+zkSync 完全支持 Ethereum Web3 API，因此您可以使用 ethers.js 中的供应商对象。 然而，zkSync API 提供了一些额外的 JSON-RPC 方法，允许：
 
 - 轻松跟踪 L1<->L2 交易。
 - 确定最终交易的不同阶段。 默认情况下，我们的 RPC 返回有关服务器处理最后状态的信息，但某些用例可能只需要跟踪“已完成”的交易。
 
-以及更多！ 通常，您可以使用 ethers 中的提供程序快速入门，但稍后切换到 zksync-web3 库中的提供程序。
+ 通常，您可以使用 `ethers` 提供的程序快速入门，但稍后需要切换到 zksync-web3 库中的提供程序。
 
 `zksync-web3` 库导出两种类型的提供程序：
 
 - `Provider ` 继承自 `ethers 的 JsonRpcProvider` 并提供对所有 zkSync JSON-RPC 端点的访问。
-- `Web3Provider` 通过使其与 Web3 钱包更兼容来扩展 `Provider` 类。 这是应用于浏览器集成的钱包类型。
+- `Web3Provider` 通过使其与 Web3 钱包更兼容来扩容 `Provider` 类。 这是应用于浏览器集成的钱包类型。
 
 ## `Provider`
 
-这是最常用的提供程序类型。 它提供与 ethers.providers.JsonRpcProvider 相同的功能，但使用 zkSync 特定方法对其进行扩展。
+这是最常用的提供程序类型。 它提供与 ethers.providers.JsonRpcProvider 相同的功能，但使用 zkSync 特定方法对其进行扩容。
 
-### Creating provider
+### 创建 provider
 
-构造函数接受运算符节点的“url”和“网络”名称（可选）。
+构建函数接受运算符节点的` url`和` network`名称（可选）。
 
 ```typescript
 constructor(url?: ConnectionInfo | string, network?: ethers.providers.Networkish)
@@ -32,9 +32,9 @@ constructor(url?: ConnectionInfo | string, network?: ethers.providers.Networkish
 | ------------------ | ----------------- |
 | url (optional)     | zkSync 运营商节点的 URL |
 | network (optional) | 网络的描述             |
-| returns            | `Provider`对象      |
+| returns            | `Provider`的目的     |
 
-> Example
+> 例子
 
 ```typescript
 import { Provider } from "zksync-web3";
@@ -47,7 +47,7 @@ const provider = new Provider("https://zksync2-testnet.zksync.dev");
 返回用户对某个区块标签和原生代币的余额。
 为了检查 `ETH` 中的余额，您可以省略最后一个参数或提供 `utils` 对象中提供的 `ETH_ADDRESS`。
 
-Example:
+例子:
 
 ```typescript
 async getBalance(address: Address, blockTag?: BlockTag, tokenAddress?: Address): Promise<BigNumber>
@@ -55,14 +55,14 @@ async getBalance(address: Address, blockTag?: BlockTag, tokenAddress?: Address):
 
 #### 输入和输出
 
-| 名称                      | 说明                            |
-| ----------------------- | ----------------------------- |
-| address                 | 用户查询余额的地址                     |
-| blockTag (optional)     | 检查余额的块`committed`，即最新处理的是默认选项 |
-| tokenAddress (optional) | 代币的地址。 默认为ETH                 |
-| returns                 | `BigNumber` 对象                |
+| 名称                      | 说明                           |
+| ----------------------- | ---------------------------- |
+| address                 | 用户查询余额的地址                    |
+| blockTag (optional)     | 检查余额的块`committed`，最新处理的是默认选项 |
+| tokenAddress (optional) | 代币的地址。 默认为ETH                |
+| returns                 | `BigNumber` 的目的              |
 
-> Example
+> 例子
 
 ```typescript
 import { Provider } from "zksync-web3";
@@ -88,7 +88,7 @@ async getMainContractAddress(): Promise<string>
 | ------- | -------------- |
 | returns | zkSync 智能合约的地址 |
 
-> Example
+> 例子
 
 ```typescript
 import { Provider } from "zksync-web3";
@@ -112,7 +112,7 @@ async getTestnetPaymasterAddress(): Promise<string|null>
 | ------- | ---------------------------------- |
 | returns | testnet paymaster 的地址，如果没有则为“null” |
 
-> Example
+> 例子
 
 ```typescript
 import { Provider } from "zksync-web3";
@@ -141,7 +141,7 @@ async getDefaultBridgeAddresses(): Promise<{
 
 ### `getConfirmedTokens`
 
- `from` 和 `limit` 返回关于 ID 在区间 `[from..from+limit-1]` 中的已确认代币的信息（地址、符号、名称、小数）。  "Confirmed" 在这里用词不当，因为确认代币是通过默认 zkSync 桥接的代币。 该方法将主要由 zkSync 团队内部使用。
+提交 `from` 和 `limit` 返回关于 ID 在区间 `[from..from+limit-1]` 中的已确认代币的信息（地址、符号、名称、小数）。  "Confirmed" 在这里用词不当，因为确认代币是通过默认 zkSync 桥接的代币。 该方法将主要由 zkSync 团队内部使用。
 
 标记按其符号的字母顺序返回，因此基本上，标记 id 是它在按字母顺序排列的标记数组中的位置。
 
@@ -155,9 +155,9 @@ async getConfirmedTokens(start: number = 0, limit: number = 255): Promise<Token[
 | ------- | ------------------------ |
 | start   | 开始返回有关代币的信息的令牌 ID。 默认为零。 |
 | limit   | 从 API 返回的代币数。 默认为 255。   |
-| returns | 按符号排序的“Token”对象数组        |
+| returns | 按符号排序的 `Token`对象数组       |
 
-> Example
+> 例子
 
 ```typescript
 import { Provider } from "zksync-web3";
@@ -185,7 +185,7 @@ async getTokenPrice(token: Address): Promise<string | null>
 | token   | 代币的地址            |
 | returns | `string` 价格的字符串值 |
 
-> Example
+> 例子
 
 ```typescript
 import { Provider } from "zksync-web3";
@@ -194,10 +194,9 @@ const provider = new Provider("https://zksync2-testnet.zksync.dev");
 console.log(await provider.getTokenPrice(USDC_L2_ADDRESS));
 ```
 
-### 从 L1 地址获取令牌在 L2 的地址，反之亦然
+### 从 L1 地址获取令牌在 L2 的地址，反过来也是一样
 
-代币在 L2 上的地址将与 L1 上的地址不同。
-ETH 的地址在两个网络上都设置为零地址。
+代币在 L2 上的地址将与 L1 上的地址不同。ETH 的地址在两个网络上都设置为零地址。
 
 提供的方法仅适用于使用默认 zkSync 桥接的代币。
 
@@ -226,7 +225,7 @@ async getTransactionStatus(txHash: string): Promise<TransactionStatus>
 | token   | 代币的地址                                                  |
 | returns | 交易的状态。 您可以在 [types](./types) 中找到`TransactionStatus`的描述 |
 
-> Example
+> 例子
 
 ```typescript
 import { Provider } from "zksync-web3";
@@ -249,7 +248,7 @@ async getTransaction(hash: string | Promise<string>): Promise<TransactionRespons
 | token   | 代币的地址                                 |
 | returns | `TransactionResponse` 对象，它允许轻松跟踪交易的状态 |
 
-> Example
+> 例子
 
 ```typescript
 import { Provider } from "zksync-web3";
@@ -266,11 +265,11 @@ await txHandle.waitFinalize();
 
 ## `Web3Provider`
 
-应用于 web3 浏览器钱包集成的类，适用于与 Metamask、WalletConnect 和其他流行的浏览器钱包轻松兼容。
+应用于 web3 浏览器钱包集成的类型，适用于与 Metamask、WalletConnect 和其他流行的浏览器钱包轻松兼容。
 
-### Creating `Web3Provider`
+### 创建 `Web3Provider`
 
-与 `Provider` 类的构造函数的主要区别在于它接受 `ExternalProvider` 而不是节点 URL。
+与 `Provider` 类型构造函数的主要区别在于它接受 `ExternalProvider` 而不是节点 URL。
 
 ```typescript
 constructor(provider: ExternalProvider, network?: ethers.providers.Networkish)
@@ -278,13 +277,13 @@ constructor(provider: ExternalProvider, network?: ethers.providers.Networkish)
 
 #### 输入和输出
 
-| 名称                 | 说明                                                                          |
-| ------------------ | --------------------------------------------------------------------------- |
-| provider           | `ethers.providers.ExternalProvider` 类实例。 例如，对于 Metamask，它是“window.ethereum” |
-| network (optional) | 网络的描述                                                                       |
-| returns            | `Provider` 对象                                                               |
+| 名称                 | 说明                                                                            |
+| ------------------ |:----------------------------------------------------------------------------- |
+| provider           | `ethers.providers.ExternalProvider` 类型示例。 例如，对于 Metamask，它是 `window.ethereum` |
+| network (optional) | 网络的描述                                                                         |
+| returns            | `Provider` 目的                                                                 |
 
-> Example
+> 例子
 
 ```typescript
 import { Web3Provider } from "zksync-web3";
@@ -294,15 +293,15 @@ const provider = new Web3Provider(window.ethereum);
 
 ### 获取 zkSync 签名者
 
-返回可用于签署 zkSync 交易的 `Signer` 对象。 有关 `Signer` 类的更多详细信息，请参见下一个 [部分](./accounts.md#signer)。
+返回可用于签署 zkSync 交易的 `Signer` 对象。 有关 `Signer` 类型的更多详细信息，请参见下一个 [部分](./accounts.md#signer)。
 
 #### 输入和输出
 
-| 名称      | 说明                       |
-| ------- | ------------------------ |
-| returns | `Signer` class object类对象 |
+| 名称      | 说明            |
+| ------- | ------------- |
+| returns | `Signer` 类型对象 |
 
-> Example
+> 例子
 
 ```typescript
 import { Web3Provider } from "zksync-web3";

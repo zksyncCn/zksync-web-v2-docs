@@ -32,6 +32,7 @@ Batch time, in general, depends on the system activity - the more active the sys
 There are several criteria for sealing a batch, which we defer from explaining in detail here, as the system is still under testing and 
 these may change. 
 In general, a batch will get sealed when:
+
 1. The batch "capacity" is reached. Capacity includes L1 gas used, L2 ergs consumed and several other parameters. 
 2. The batch timeout has passed.
 
@@ -44,6 +45,7 @@ The reason for having a deterministic block hash is that these hashes are not pr
 Projects are advised not to use the L2 block hash as a source of randomness.
 
 ### Block Properties
+
 - Timestamp: The current block's creation time in seconds that returns the timestamp of the L1 batch.
 - Block number: The unique sequential number for this block.
 - Gas limit: The current block gas limit, always returns `2^32-1`.

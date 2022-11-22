@@ -1,23 +1,22 @@
-# Overview
+# 概述
 
-Our SDKs enable you to build web3 applications, with capabilities such as:
+我们的 SDK 使您能够构建 web3 应用程序，具有以下功能：
 
-- Connecting to user's wallets
-- Deploying and interacting with smart contracts
-We support a few languages (and are working on more) to make it easier for you to build different kinds of applications.
+- 连接到用户的钱包
+- 部署智能合约并与之交互，我们支持几种语言（并且正在努力支持更多语言），以便您更轻松地构建不同类型的应用程序。
 
 ## API
 
 - [Web3 API](./api.md)
-- [L1 contract interface](./contracts.md)
+- [L1合约接口](./contracts.md)
 
-## SDK
+## 开发工具包
 
 - [JavaScript SDK](./js)
 - [Python SDK](./python/getting-started.md)
 - [GO SDK](./go/getting-started.md)
 - [Java SDK](./java/getting-started.md)
 
-## Tools
+## 工具
 
-- [Hardhat plugins](./hardhat)
+- [安全帽插件](./hardhat)

@@ -21,6 +21,7 @@ The [hardhat-zksync-deploy](../../../api/hardhat) plugin takes care of the deplo
 Compiling Solidity to zkEVM bytecode requires a special compiler. For the time being Solidity `>=0.4.10` versions are supported, though we strongly recommended using `^0.8.0` as the most stable one. Vyper `^0.3.3` is also supported.
 
 Although, older versions of Solidity are supported, here are some of their limitations in zkSync:
+
 - Contract-local recursion is not supported.
 - Internal function pointers are not supported. 
 
@@ -41,6 +42,7 @@ Under the hood, zkSync stores not bytecodes of contracts, but [specially formatt
 
 Some examples of usage are:
 The obvious one is when you deploy a contract, you need to provide its code in the `factory_deps` field.
+
 - On zkSync, factories (i.e. contracts that can deploy other contracts) do not store bytecodes of their dependencies, i.e. contracts that they can deploy. They only store their hashes. That's why you need to include *all* the bytecodes of the dependencies in the `factory_deps` field.
 
 Both of these examples are already seamlessly done under the hood by our [hardhat plugin](../../../api/hardhat/getting-started.md).

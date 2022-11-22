@@ -1,19 +1,19 @@
-# Accounts: L1->L2 transactions
+# 账户：L1->L2交易
 
-This section explores the methods which allow the [account](./accounts.md) classes to send transactions from L1 to L2.
+本节探讨允许 [账户](./accounts.md) 类将交易从 L1 发送到 L2 的方法。
 
-If you want to get some background on how L1->L2 interaction works on zkSync, go through the [introduction](../../dev/developer-guides/bridging/l1-l2-interop.md) and the [guide](../dev/../../dev/developer-guides/bridging/l1-l2.md).
+如果您想了解 L1->L2 交互如何在 zkSync 上工作的一些背景知识，请阅读 [介绍](../../dev/developer-guides/bridging/l1-l2-interop.md) 和 [ 指南](../dev/../../dev/developer-guides/bridging/l1-l2.md)。
 
-## Supported classes
+## 支持的账户类
 
-The following account classes support sending transactions from L1 to L2:
+以下帐户类支持将交易从L1发送到L2：
 
-- `Wallet` (if connected to an L1 provider)
+- `钱包`（如果连接到 L1 提供商）
 - `L1Signer`
 
-## Approving deposit of tokens
+## 批准代币的存放
 
-Bridging ERC20 tokens from Ethereum requires approving the tokens to the zkSync Ethereum smart contract.
+从以太坊桥接 ERC20 代币需要批准代币到 zkSync 以太坊智能合约。
 
 ```typescript
 async approveERC20(
@@ -23,14 +23,14 @@ async approveERC20(
 ): Promise<ethers.providers.TransactionResponse>
 ```
 
-### Inputs and outputs
+### 输入和输出
 
-| Name                 | Description                                                                      |
-| -------------------- | -------------------------------------------------------------------------------- |
-| token                | The Ethereum address of the token.                                               |
-| amount               | The amount of the token to be approved.                                          |
-| overrides (optional) | Ethereum transaction overrides. May be used to pass `gasLimit`, `gasPrice`, etc. You can also provide a custom address of the L1 bridge to use (the bridge provided by the Matter Labs team is used by default). |
-| returns              | `ethers.providers.TransactionResponse` object.                                   |
+| 名称                   | 说明                                                                                      |
+| -------------------- | --------------------------------------------------------------------------------------- |
+| token                | 以太坊上代币的地址                                                                               |
+| amount               | 要批准的代币数量                                                                                |
+| overrides (optional) | 以太坊交易覆盖。 可用于传递 `gasLimit`、`gasPrice` 等。您也可以提供 L1 网桥的自定义地址以供使用（默认使用 Matter Labs 团队提供的网桥） |
+| returns              | `ethers.providers.TransactionResponse`对象                                                |
 
 > Example
 
@@ -53,7 +53,7 @@ const txHandle = await wallet.approveERC20(
 await txHandle.wait();
 ```
 
-## Depositing tokens to zkSync
+## 向zkSync存入代币
 
 ```typescript
 async deposit(transaction: {
@@ -68,19 +68,19 @@ async deposit(transaction: {
 }): Promise<PriorityOpResponse>
 ```
 
-#### Inputs and outputs
+#### 输入和输出
 
-| Name                                    | Description                                                                                                                                                                                                                                                                                                                                                      |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| transaction.token                       | The address of the token to deposit.                                                                                                                                                                                                                                                                                                                             |
-| transaction.amount                      | The amount of the token to be deposited.                                                                                                                                                                                                                                                                                                                         |
-| transaction.to (optional)               | The address that will receive the deposited tokens on L2.                                                                                                                                                                                                                                                                                                        |                                       
-| transaction.operatorTip (optional)      | If the ETH `value` passed with the transaction is not explicitly stated in the overrides, this field will be equal to the tip the operator will receive on top of the base cost of the transaction. This value has no meaning for the `Deque` type of queue, but it will be used to prioritize the transactions that get into the `Heap` or `HeapBuffer` queues. |
-| transaction.bridgeAddress (optional)    | The address of the bridge contract to be used. Defaults to the default zkSync bridge (either `L1EthBridge` or `L1Erc20Bridge`).                                                                                                                                                                                                                                  |
-| transaction.approveERC20 (optional)     | Whether or not should the token approval be performed under the hood. Set this flag to `true` if you bridge an ERC20 token and didn't call the `approveERC20` function beforehand.                                                                                                                                                                               |
-| transaction.overrides (optional)        | Ethereum transaction overrides. May be used to pass `gasLimit`, `gasPrice`, etc.                                                                                                                                                                                                                                                                                 |
-| transaction.approveOverrides (optional) | Ethereum transaction overrides of the approval transaction. May be used to pass `gasLimit`, `gasPrice`, etc.                                                                                                                                                                                                                                                     |
-| returns                                 | `PriorityOpResponse` object.                                                                                                                                                                                                                                                                                                                                     |
+| 名称                                      | 说明                                                                                                             |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| transaction.token                       | 要存放的令牌的地址                                                                                                      |
+| transaction.amount                      | 要存入的代币数量                                                                                                       |
+| transaction.to (optional)               | 将在 L2 上接收存入代币的地址                                                                                               |
+| transaction.operatorTip (optional)      | 如果随交易传递的 ETH`价值`未在覆盖中明确说明，则此字段将等于运营商将在交易基本成本之上收到的小费。 该值对`Deque`类型的队列没有意义，但它将用于确定进入`Heap`或`HeapBuffer`队列的事务的优先级 |
+| transaction.bridgeAddress (optional)    | 要使用的桥接合约的地址。 默认为默认的 zkSync 桥（`L1EthBridge` 或 `L1Erc20Bridge`）                                                  |
+| transaction.approveERC20 (optional)     | 令牌批准是否应该在幕后执行。 如果您桥接 ERC20 令牌并且没有事先调用 approveERC20 函数，请将此标志设置为 true                                            |
+| transaction.overrides (optional)        | 以太坊交易覆盖。 可用于传递 `gasLimit`、`gasPrice` 等                                                                         |
+| transaction.approveOverrides (optional) | 以太坊交易覆盖批准交易。 可用于传递 `gasLimit`、`gasPrice` 等                                                                     |
+| returns                                 | `PriorityOpResponse` 对象                                                                                        |
 
 > Example
 
@@ -115,28 +115,28 @@ const ethDepositHandle = await wallet.deposit({
 await ethDepositHandle.wait();
 ```
 
-## Adding native token to zkSync
+## 向zkSync添加本地令牌
 
-New tokens are added automatically the first time they are deposited.
+新的代币在第一次存入时就会自动添加。
 
-## Finalizing withdrawals
+## 完成提款
 
-Withdrawals are executed in 2 steps - initiated on L2 and finalized on L1.
+提款分两步执行 - 在 L2 上启动并在 L1 上完成。
 
 ```typescript
 async finalizeWithdrawal(withdrawalHash: BytesLike, index: number = 0): Promise<ethers.TransactionResponse>
 ```
 
-#### Inputs and outputs
+#### 输入和输出
 
-| Name             | Description                                                                                                                               |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| withdrawalHash   | Hash of the L2 transaction where the withdrawal was initiated.                                                                            |
-| index (optional) | In case there where multiple withdrawals in one transaction, you may pass an index of the withdrawal you want to finalize (defaults to 0) |
+| 名称               | 说明                                    |
+| ---------------- | ------------------------------------- |
+| withdrawalHash   | 发起取款的L2交易哈希                           |
+| index (optional) | 如果在一笔交易中有多笔取款，您可以传递一个您想要完成的取款索引（默认为0） |
 
-## Force-executing transactions on L2
+## 在L2上强制执行交易
 
-### Getting the base cost for a transaction
+### 获取交易的基础成本
 
 ```ts
 async getBaseCost(params: {
@@ -146,14 +146,14 @@ async getBaseCost(params: {
 }): Promise<BigNumber>
 ```
 
-#### Inputs and outputs
+#### 输入和输出
 
-| Name                        | Description                                                                                            |
-| --------------------------- | ------------------------------------------------------------------------------------------------------ |
-| params.ergsLimit            | The `ergsLimit` for the call.                                                                          |
-| params.calldataLength       | The length of the calldata in bytes.                                                                   |
-| params.gasPrice (optional)  | The gas price of the L1 transaction that will send the request for an execute call.                    |
-| returns                     | The base cost in ETH for requesting the contract call.                                                 |
+| 名称                         | 描述                       |
+| -------------------------- | ------------------------ |
+| params.ergsLimit           | `ergsLimit` 调用           |
+| params.calldataLength      | 调用数据的长度（以字节为单位）          |
+| params.gasPrice (optional) | 将发送执行调用请求的 L1 交易的 gas 价格 |
+| returns                    | 请求合约调用的 ETH 基本成本         |
 
 ### Requesting transaction execution
 
@@ -168,17 +168,17 @@ async requestExecute(transaction: {
 }): Promise<PriorityOpResponse>
 ```
 
-#### Inputs and outputs
+#### 输入和输出
 
-| Name                               | Description                                                                                                                                                                                                                                                                                                                                                      |
-| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| transaction.contractAddress        | The address of the L2 contract to call.                                                                                                                                                                                                                                                                                                                          |
-| transaction.calldata               | The calldata of the call transaction. It can be encoded the same way as in Ethereum.                                                                                                                                                                                                                                                                             |
-| transaction.ergsLimit              | The `ergsLimit` for the call.                                                                                                                                                                                                                                                                                                                                    |
-| transaction.factoryDeps            | Array of bytecodes of factory dependencies - only used for transactions that deploy contracts.                                                                                                                                                                                                                                                                   |
-| transaction.operatorTip (optional) | If the ETH `value` passed with the transaction is not explicitly stated in the overrides, this field will be equal to the tip the operator will receive on top of the base cost of the transaction. This value has no meaning for the `Deque` type of queue, but it will be used to prioritize the transactions that get into the `Heap` or `HeapBuffer` queues. |
-| overrides (optional)               | Ethereum transaction overrides. May be used to pass `gasLimit`, `gasPrice` etc.                                                                                                                                                                                                                                                                                  |
-| returns                            | `PriorityOpResponse` object.                                                                                                                                                                                                                                                                                                                                     |
+| Name                               | Description                                                                                                       |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| transaction.contractAddress        | 要调用的L2合约的地址                                                                                                       |
+| transaction.calldata               | 调用交易的数据。 它可以像在以太坊中一样被编码                                                                                           |
+| transaction.ergsLimit              | `ergsLimit`调用                                                                                                     |
+| transaction.factoryDeps            | 工厂依赖的字节码数组——仅用于部署合约的交易                                                                                            |
+| transaction.operatorTip (optional) | 如果随交易传递的 ETH`value`未在覆盖中明确说明，则此字段将等于运营商将在交易基本成本之上收到的小费。 该值对“Deque”类型的队列没有意义，但它将用于确定进入“Heap”或“HeapBuffer”队列的事务的优先级 |
+| overrides (optional)               | 以太坊交易覆盖。 可用于传递 `gasLimit`、`gasPrice` 等                                                                            |
+| returns                            | `PriorityOpResponse` 对象                                                                                           |
 
 > Example
 

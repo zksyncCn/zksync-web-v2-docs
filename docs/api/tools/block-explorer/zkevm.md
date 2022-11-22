@@ -8,7 +8,7 @@ The [debugger page](https://explorer.zksync.io/tools/debugger) can be accessed f
 
 ![zkEVM!](../../../assets/images/zk-evm.png "zkEVM page")
 
-### Debugging steps 
+### Debugging steps
 
 Here are the steps to follow to debug or trace a transaction:
 
@@ -18,6 +18,7 @@ Here are the steps to follow to debug or trace a transaction:
 4. To proceed to debug, click on the `Start` button.
 
 These are some **keyboard shortcuts** to note when debugging.
+
 - `Cmd + K`: This opens the search bar.
 - `Arrows Left / Right`: This takes you to the next or previous instruction.
 - `Arrows Top / Bottom`: It takes you to the next previous function inside of this contract.

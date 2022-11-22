@@ -147,7 +147,6 @@ yarn hardhat compile
 
 # deploy contract
 yarn hardhat run --network goerli ./scripts/deploy.ts
-
 ```
 
 The last command will output the deployed governance smart contract address.

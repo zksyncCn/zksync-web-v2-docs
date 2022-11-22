@@ -47,9 +47,12 @@ zkSync 1.x 的一些经验将有助于理解一些核心概念，例如最终确
 2. 点击 "手动添加网络"。
 
 3. 填写关于 zkSync alpha testnet 网络的详细信息，并单击“保存”：
-
 - 网络名称：`zkSync alpha testnet`
+
 - 新的 RPC 地址：`https://zksync2-testnet.zksync.dev`
+
 - 链 ID：`280`
+
 - 货币符号：`ETH`
-<!-- - Block Explorer URL: `https://explorer.zksync.io` -->
+  
+  <!-- - Block Explorer URL: `https://explorer.zksync.io` -->

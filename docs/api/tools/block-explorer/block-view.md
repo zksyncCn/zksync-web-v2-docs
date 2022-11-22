@@ -26,29 +26,30 @@ There are two main sections inside a block:
 ![Single block page!](../../../assets/images/single-block.png "View a single block")
 
 ### Block headers
+
 The following table should help explain what you’ll see in a block.
 For more details on blocks, see the docs on [Blocks](../../../dev/developer-guides/transactions/blocks.md).
 
-| Value            | Description      |
-| ----------------------- | --------- |
-| Block number            | The unique sequential number for this block.|
-| Block size              | The size of the block.  |
-| Timestamp               | The block generation time in seconds since the Unix epoch. |
-| Root hash               | The Cryptographic hash of the block header. |
-| Status                  | The status of the block, could be `sealed`, `finalized`, or `unfinalized`.  |
+| Value        | Description                                                                |
+| ------------ | -------------------------------------------------------------------------- |
+| Block number | The unique sequential number for this block.                               |
+| Block size   | The size of the block.                                                     |
+| Timestamp    | The block generation time in seconds since the Unix epoch.                 |
+| Root hash    | The Cryptographic hash of the block header.                                |
+| Status       | The status of the block, could be `sealed`, `finalized`, or `unfinalized`. |
 
 ### Transactions
 
 This section lists all the transactions that are included in this block. 
 Transactions are served on a first-in-first-out basis, but in the future, we will introduce a "priority heap", which will allow for sorting the transactions. 
 
-| Value            | Description      |
-| ----------------------- | --------- |
-| Block                   | The amount of transactions in a block|
-| Timestamp               | The block generation time in seconds since the Unix epoch.  |
-| Hash                    | The hash of the transaction serving as the transaction’s ID |
-| From                    | The account or smart contract, sending the transaction. |
-| To                      | The account or smart contract, the transaction targeted. |
-| Fee                     | The rate of fees associated with this transaction processing. |
-| Tokens transfered       | Details about the tokens(both `to` and `from` addresses) involved in the transactions, it includes, details like the assets, balance in the wallet address, and token address. |
-| Contract address        | The rate of fees collected by the network. |
+| Value             | Description                                                                                                                                                                    |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Block             | The amount of transactions in a block                                                                                                                                          |
+| Timestamp         | The block generation time in seconds since the Unix epoch.                                                                                                                     |
+| Hash              | The hash of the transaction serving as the transaction’s ID                                                                                                                    |
+| From              | The account or smart contract, sending the transaction.                                                                                                                        |
+| To                | The account or smart contract, the transaction targeted.                                                                                                                       |
+| Fee               | The rate of fees associated with this transaction processing.                                                                                                                  |
+| Tokens transfered | Details about the tokens(both `to` and `from` addresses) involved in the transactions, it includes, details like the assets, balance in the wallet address, and token address. |
+| Contract address  | The rate of fees collected by the network.                                                                                                                                     |

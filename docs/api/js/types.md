@@ -1,6 +1,6 @@
-# Types
+## 类型
 
-All the types which are used in the SDK are referenced here:
+此处引用了 SDK 中使用的所有类型：
 
 ```typescript
 import { BytesLike, BigNumberish, providers, BigNumber } from 'ethers';

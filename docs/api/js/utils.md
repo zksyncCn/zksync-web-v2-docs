@@ -1,49 +1,49 @@
-# Utilities
+# 实用程序
 
-`zksync-web3` provides some useful utilities for zkSync builders. They can be imported the following way:
+`zksync-web3` 为 zkSync 构建器提供了一些有用的实用程序。 它们可以通过以下方式导入：
 
 ```typescript
 import { utils } from "zksync-web3";
 ```
 
-Most of the utilities are used internally by the zkSync team. So this document will describe only those which should be helpful for you.
+大多数实用程序由 zkSync 团队在内部使用。 因此，本文档将仅描述那些对您有帮助的内容。
 
-## The "address" of ether
+## 以太的“地址”
 
-While formally ether is a token with address `0x000000000000000000000000000000000000800a` on zkSync, we use the "zero address" as a more user-friendly alias:
+虽然正式的以太币是 zkSync 上地址为`0x00000000000000000000000000000000000800a`的代币，但我们使用“零地址”作为对用户更友好的别名：
 
 ```typescript
 export const ETH_ADDRESS = "0x0000000000000000000000000000000000000000";
 ```
 
-## ABI of zkSync smart contract
+## zkSync 智能合约的 ABI
 
 ```typescript
 export const ZKSYNC_MAIN_ABI = new utils.Interface(require("../abi/ZkSync.json"));
 ```
 
-## IERC20 interface
+## IERC20 接口
 
-Convenient when interacting with native tokens on zkSync.
+在 zkSync 上与原生代币交互时很方便。
 
 ```typescript
 export const IERC20 = new utils.Interface(require("../abi/IERC20.json"));
 ```
 
-## Encoding paymaster params
+## 编码 paymaster 参数
 
-Utility method that returns the correctly formed `paymasterParams` object for the common [paymaster flows](../../dev/developer-guides/aa.md#built-in-paymaster-flows).
+为常见的 [paymaster 流程](../../dev/developer-guides/aa.md#built-in-paymaster-flows) 返回正确格式 `paymasterParams`对象的实用方法。
 
 ```typescript
 export function getPaymasterParams(paymasterAddress: Address, paymasterInput: PaymasterInput): PaymasterParams;
 ```
 
-The definition of the `PaymasterInput` can be found [here](./types.md).
+`PaymasterInput` 的定义可以在 [这里](./types.md) 找到。
 
-## Default pubdata price limit
+## 默认 pubdata 价格限制
 
-Currently, there is no method to accurately estimate the required `ergsPerPubdataLimit`. That's why for now, it is highly recommended to provide the `DEFAULT_ERGS_PER_PUBDATA_LIMIT`. Users are not charged more by providing it.
-Later on it will be possible to query the current recommended limit.
+目前，没有方法可以准确估计所需的 ergsPerPubdataLimit。 这就是为什么现在强烈建议提供 `DEFAULT_ERGS_PER_PUBDATA_LIMIT`。 提供它不会向用户收取更多费用。
+稍后可以查询当前推荐的限制。
 
 ```typescript
 const GAS_PER_PUBDATA_BYTE = 16;

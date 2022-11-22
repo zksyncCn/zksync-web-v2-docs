@@ -7,14 +7,17 @@
 验证一个合约需要确定链上字节码在编译时是否与给定的源代码相匹配。如果是，我们就可以说我们已经确认了字节码的源代码的完整性。因此而得名--验证。
 
 
+
 ## 智能合约在 zkSync 中是如何验证的？
 
 在使用 zkSync 的验证过程中，将部署的字节码和智能合约的 Solidity 源代码进行比较。该算法编译源代码，将生成的字节码与部署的字节码进行比较。
+
 
 <br>
 如果双方各方面都匹配，则合约验证成功。
 
 验证代码需要六个参数： 
+
 
 - 合约地址
 - 合约名称
@@ -25,6 +28,10 @@
  
  如果这些信息中的任何一条有误，验证过程就会失败。
 
+
+- The constructor arguments
+  
+  If any of these pieces of information is wrong, the process of verification fails.
 
 ## 源代码隐私
 
@@ -40,15 +47,16 @@
 
 如需验证合约，请输入以下详细信息：
 
+
 - 合约地址：所提供的地址必须与合约创建时生成的 `0x` 地址相匹配。
 - 合约名称：名称必须与合约中提供的名称相同。
 - 优化：检查在编译合约时是否使用了优化。如果在编译期间启用了优化，请选 **Yes** 否则选 **No**。
 - Solidity 编译器版本(Solc)：指定了用于编译智能合约的编译器的版本。单击下拉列表以指定使用的编译器版本。
 - zkSync 编译器版本(Zksolc)：所使用的 zkSync 编译器版本，默认为 `v1.2.0`。
-  
 <br>
 
 ![编译器版本](../../../assets/images/compiler-version.png "compiler version")
+
 
 - 输入 Solidity 合约代码：从您的编辑器中复制代码并将其粘贴到文本区域。
 <br>
@@ -79,8 +87,10 @@ console.log(greeterContract.interface.encodeDeploy([greeting]);
 
 然后您将收到构造函数参数数据。
 
+
 - 最后，单击 **Verify Smart Contract** 按钮。
   
+
 <br>
 如果一切顺利，您将看到一条成功的消息：
 

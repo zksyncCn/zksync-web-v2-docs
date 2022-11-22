@@ -157,11 +157,15 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 yarn hardhat deploy-zksync
 ```
 
-In the output, you should see the address the contract was deployed to.
+在 output 中，您将会看到部署智能合约的地址。
+
 
 Congratulations! You have deployed a smart contract to zkSync! Now you can visit the [zkSync block explorer](https://explorer.zksync.io/) and search you contract address to confirm it was successfully deployed.
 
-[This guide](../../api/tools/block-explorer/contract-verification.md) explains how to verify your smart contract using the zkSync block explorer.
+
+
+[本指南](../../api/tools/block-explorer/contract-verification.md)解释了如何使用 zkSync 区块浏览器验证您的智能合约。
+
 
 ## Front-end integration
 
@@ -394,7 +398,9 @@ async getGreeting() {
 },
 ```
 
-After connecting the Metamask wallet, you should see following page:
+
+连接 Metamask 钱包后，您应该会看到以下页面：
+
 
 ![img](../../assets/images/start-1.png)
 
@@ -513,9 +519,11 @@ Testnet paymaster is purely for demonstration of the feature and won't be availa
 
 :::
 
-The `getOverrides` method returns an empty object when users decide to pay with ether but, when users selects the ERC20 option, it should return the paymaster address and all the information required by it. This is how to do it:
 
-1. Retrieve the address of the testnet paymaster from the zkSync provider:
+当用户决定使用以太币支付时，`getOverrides` method 返回对象为“空”，但当用户选择ERC20选项时，它会返回 Paymaster 合约地址以及所需的全部信息。具体方法如下:
+
+
+1. 通过 zkSync Provider 中获取测试网 Paymaster 的合约地址：
 
 ```javascript
 async getOverrides() {

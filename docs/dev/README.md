@@ -16,7 +16,7 @@
 ### 开发者指南
 
 - [快速入门](./developer-guides/hello-world.md) - 学习如何使用 zkSync 开发工具构建一个完整的 dApp。
-- [智能合约开发](./developer-guides/contracts/contracts.md) - 关于如何在 zkSync 上部署智能合约的指南。
+- [合约部署](./developer-guides/contracts/contracts.md) - 关于如何在 zkSync 上部署智能合约的指南。
   - [智能合约验证](../api/tools/block-explorer/contract-verification.md) - 关于如何使用 zkSync 区块浏览器验证智能合约的指南。
 - [系统合约](./developer-guides/contracts/system-contracts.md) - zkSync 系统合约的简介。
 - [交易](./developer-guides/transactions/transactions.md) -关于 zkSync 如何处理交易的说明。

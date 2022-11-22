@@ -1,56 +1,59 @@
-# Transactions
+# 交易
 
-Transactions in Ethereum are cryptographically signed instructions by an externally owned account (an account owned by a user and not by code). These instructions are stored in the blockchain and added to a block.
-The state of the Ethereum virtual machine (EVM) changes when a transaction is initiated. A transaction can be anything from sending ether to another account to invoking the functions of a smart contract.
+以太坊的交易是由外部拥有的账户（由用户而非代码拥有的账户）加密签署的指令。这些指令被存储在区块链中，并添加到一个区块中。
+当一个交易启动时，以太坊虚拟机（EVM）的状态会发生变化。一个交易可以是任何东西，如发送以太币到另一个账户或者调用智能合约的功能。
 
-## Prerequisite
+## 前提条件
 
-We recommend you first read [accounts](https://ethereum.org/en/developers/docs/accounts/) to understand this page.
+我们建议您先阅读 [accounts](https://ethereum.org/en/developers/docs/accounts/) 以理解本页内容。
 
-## How transactions work
+## 交易是如何进行的
 
-When a user initiates a transaction on Ethereum, some specific data is created:
 
-- Receiver: The recipient is the account's address to receive the transaction. The receiver can be a contract account or an externally owned account. Each transaction is aimed toward a specific recipient.
-- Nonce: This field displays the most recent transaction based on the account's counter, which maintains track of how many transactions it does. The network uses the transaction nonce to ensure that transactions are completed in the correct sequence.
-- Gas Price: Most transactions necessitate the payment of a fee to the transaction's author. This cost is computed per unit of gas. The unit is Wei, a smaller ether unit.
-- Gas Limit: The transaction author specifies the number of gas units used for the transaction. This is the total amount of gas that could be consumed.
-- Value: The quantity of Wei or Ether that the sender account wishes to transmit to the recipient is represented by the value.
-- Data: If the transaction receiver is a smart contract, the data contains information for the contract's functions to be executed. This comprises data with varying lengths.
-- Signature: A signature indicates who sent the communication. The signature is created when an externally owned account confirms and signs the transaction with its private key.
+当用户在以太坊上发起交易时，会创建一些特定的数据:
+- Receiver（接收者）：收件人是账户接收交易的地址。接收方可以是合约账户，也可以是外部拥有的账户。每笔交易都针对特定的收件人。
+- Nonce（随机数）: 根据账户的计数器显示最近的交易，它保持着对交易数量的跟踪。区块链交易使用 transaction nonce 来确保交易以正确的顺序完成。
+- Gas Price（Gas 价格）：大多数交易都需要向交易方支付一定的费用。这笔费用是按每单位 gas 计算的。这个单位是 Wei，一个非常小的以太币单位。
+- Gas Limit（Gas 限制）： 交易者指定交易中使用的 gas 单位数量。这是可消耗的 gas 总量。
+- Value（价值）: 发送方账户希望发送给接收方的 wei 或以太币的数量由 value 表示。
+- Data（数据）: 如果交易接收者是一个智能合约，数据包含了合约功能的执行信息。这包括不同长度的数据。
+- Signature（签名）: 签名表明谁发送了通信。当一个外部拥有的账户用其私钥确认并签署交易时，签名就产生了。
 
-### Transaction Types
 
-- Simple or asset transfers: This refers to the regular tokens transfer in the form of ether from one account to another.
+### 交易类型
 
-To deploy a contract, a user calls the `create` function of the ContractDeployer and provides the hash of the contract to be published, as well as the constructor arguments. The contract bytecode itself is supplied in the factory_deps field of the EIP712 transactions. If the contract is a factory (i.e. it can deploy other contracts), these contracts' bytecodes should be included in the factory_deps as well.
+- 简单转账或资产转账:这是指以以太币形式从一个账户到另一个账户的常规代币转账。
 
-- Contract deployment transactions: Contract deployment on zkSync is quite different from Ethereum.
-  - Ethereum: Contract deployment occurs when a user sends a transaction to the zero address `(0x000...000)` with the `data` field of the transaction equal to the contract bytecode concatenated with the constructor parameters.
-  - zkSync: To deploy a contract on zkSync, a user calls the `create` function of the [ContractDeployer](../contracts/system-contracts.md#contractdeployer) and provides the hash of the contract to be published, as well as the constructor arguments. 
-    The contract bytecode itself is supplied in the `factory_deps` field of the EIP712 transactions. 
-    If the contract is a factory (i.e. it can deploy other contracts), these contracts' bytecodes should be included in the `factory_deps` as well.
-    Read more on [contract deployment](../contracts/contracts.md).
+要部署合约，用户需调用ContractDeployer的`create`函数，并提供要发布的合约的哈希值以及构造函数参数。合约字节码本身在 EIP712 交易的 factory_deps 字段中提供。如果该合约是一个工厂（即它可以部署其他合约），那么这些合约的字节码也应该包括在 factory_deps 中。
 
-::: tip
-zkSync supports Ethereum's "old" (pre-EIP2718) transaction types, the EIP1559 transaction type, and its EIP712 transactions. Transactions of this type can be used to access zkSync-specific features such as account abstraction. Furthermore, smart contracts can only be deployed with this sort of transaction.
 
-It is not necessary to understand the transaction format to utilize zkSync's SDK, but if you are interested, you can learn more about it [here](../../../api/api.md#eip712).
+- 合约部署交易：zkSync 上的合约部署与以太坊有很大不同。
+  - 以太坊：当用户向零地址`(0x000...000)`发送交易时，交易的 `data` 字段等于连接构造函数参数的合约字节码，就会触发合约部署。
+  - zkSync: 要在 zkSync 上部署一个合约，用户需调用 [ContractDeployer](../contracts/system-contracts.md#contractdeployer) 的 `create` 函数，并提供要发布的合约的哈希值，以及构造函数参数。
+  合约的字节码本身是在 EIP712 交易的 `factory_deps` 字段中提供的。
+  如果该合约是一个工厂（即它可以部署其他合约），那么这些合约的字节码也应该包括在 factory_deps 中。
+  阅读更多关于[合约部署](../contracts/contracts.md)的信息。
+
+
+::: 小提示
+
+zkSync 支持 以太坊的 EIP2718 之前的交易、EIP1559 以及 EIP712 交易。这些类型的交易可用于访问 zkSync 的特定功能，如账户抽象。此外，智能合约只能用这种交易来部署。
+使用 zkSync 的 SDK 不需要了解交易格式，但如果您有兴趣，可以在[此处](../../../api/api.md#eip712)了解更多信息。
 
 :::
 
-### When is a transaction considered final?
+### 什么时候交易被视为最终交易？
 
-**Transaction finality** refers to the promise that transactions cannot be reversed, altered, or mutated in the context of a blockchain network.
+**交易最终性**是指在区块链网络背景下，交易不能被逆转、改变或变异的承诺。
 
-Finality on Ethereum, like in Bitcoin, is probabilistic, which means that the more blocks passed after the transaction was executed, the less likely it is that this transaction will be overturned.
+在以太坊上的最终结果，就像在比特币中一样，是概率性的，这意味着交易执行后通过的区块越多，这个交易被推翻的可能性就越小。
 
-Once a block has been filled and sealed in zk rollups, its state is committed to the main Ethereum chain. The proving stage is then started, and a SNARK validity proof is constructed for each block transaction. Once completed, the SNARK is sent for verification on the L1 smart contract, and the transaction state becomes final following verification.
+一旦一个区块在 zkRollup 中被填写和压缩，其状态就会被提交到以太坊主链上。然后开始证明阶段，为每个区块交易构建一个 SNARK 有效性证明。一旦完成，SNARK 被发送到 L1 智能合约上进行验证，交易状态在验证后成为最终状态。
 
-From the standpoint of zkSync, _finality_ occurs when the transaction (the SNARK verification) is executed by L1. At this point, the guarantees are the same as any other L1 transaction within the same L1 block; the more L1 blocks issued after the initial block is processed, the less likely this transaction will be overturned.
+从 zkSync 的角度来看，当交易（SNARK 验证）被 L1 执行时，_finality_ 被触发。在这一点上，保证与同一 L1 区块内的任何其他 L1 交易相同；在初始区块被处理后，发出的 L1 区块越多，这个交易被推翻的可能性就越小。
 
-When a user transmits a transaction, zkSync currently waits for the entire block to be filled, which means the finality time may be longer depending on the volume of transactions sent via zkSync. The finality time will reduce as the throughput increases.
+当用户发送一个交易时，zkSync 会等待整个区块被填满，这意味着完成时间可能更长，这取决于通过 zkSync 发送的交易的数量。最终时间将随着吞吐量的增加而减少。
 
-## What exactly are operators?
+## 什么是运营者（Operator）？
 
-**Operators** are the actors who carry out essential ZK rollup functions. They are responsible for producing blocks, packaging transactions, conducting calculations, and submitting data to the main Ethereum chain for verification.
+**运营者**是执行 ZKrollup 基本功能的参与者。他们负责生产区块，打包交易，进行计算，并将数据提交给以太坊主链进行验证。

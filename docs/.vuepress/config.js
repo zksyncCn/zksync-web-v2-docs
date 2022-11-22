@@ -33,15 +33,15 @@ module.exports = {
       //   link: "/faq/",
       // },
       {
-        text: "Developer Docs",
+        text: "开发文档",
         link: "/dev/",
       },
       {
-        text: "Tools/SDKs",
+        text: "工具/SDK",
         link: "/api/",
       },
       {
-        text: "Contact",
+        text: "联系我们",
         link: "/contact.html",
       },
       {
@@ -64,12 +64,12 @@ module.exports = {
 
       "/dev": [
         {
-          title: "Introduction",
+          title: "介绍",
           path: "/dev/",
           collapsable: false, // optional, defaults to true
         },
         {
-          title: "Getting started",
+          title: "开始",
           path: "/dev/fundamentals",
           collapsable: false,
           children: [
@@ -79,7 +79,7 @@ module.exports = {
             "/dev/fundamentals/faq.md"],
         },
         {
-          title: "Understanding zkSync",
+          title: "关于zkSync",
           path: "/dev/developer-guides",
           collapsable: false,
           children: [
@@ -96,7 +96,7 @@ module.exports = {
           ],
         },
         {
-          title: "Building on zkSync",
+          title: "在zkSync上构建",
           path: "/dev/developer-guides/building-on-zksync",
           collapsable: false,
           children: [
@@ -109,7 +109,7 @@ module.exports = {
           ],
         },
         {
-          title: "Tutorials",
+          title: "教程",
           path: "/dev/tutorials",
           collapsable: false,
           children: [
@@ -118,7 +118,7 @@ module.exports = {
           "/dev/tutorials/custom-paymaster-tutorial.md"],
         },
         {
-          title: "Troubleshooting",
+          title: "错误排除",
           path: "/dev/troubleshooting",
           collapsable: false,
           children: [
@@ -132,7 +132,7 @@ module.exports = {
       ],
       "/api": [
         {
-          title: "Overview", // required
+          title: "概述", // required
           path: "/api/", // optional, which should be a absolute path.
           collapsable: false, // optional, defaults to true
           sidebarDepth: 0, // optional, defaults to 1
@@ -144,7 +144,7 @@ module.exports = {
           sidebarDepth: 1, // optional, defaults to 1
         },
         {
-          title: "L1 contract interface",
+          title: "L1合约借口",
           path: "/api/contracts.md",
           collapsable: false, // optional, defaults to true
           sidebarDepth: 1, // optional, defaults to 1
@@ -200,7 +200,7 @@ module.exports = {
             "/api/hardhat/compiling-libraries"],
         },
         {
-          title: "Block Explorer", // required
+          title: "区块浏览器", // required
           path: "/api/tools/block-explorer", // optional, which should be a absolute path.
           collapsable: false, // optional, defaults to true
           sidebarDepth: 1, // optional, defaults to 1

@@ -1,53 +1,58 @@
-# Blocks
+# 区块
 
-A block is an ordered list of transactions. Each block (except for the Genesis block) points to the previous block it extends, thus creating a chain of blocks.
+一个区块是一个有序的交易列表。每个块（创世块除外）都指向它扩展的前一个区块，从而创建一个区块链。
 
-## Blocks in zkSync 2.0
+## zkSync 2.0 中的区块
 
-In zkSync there are two notions of "blocks": an L2 block and an L1 rollup block.
+在 zkSync 中有两个“区块”的概念：L2 区块和 L1 rollup 区块。
 
-L2 blocks, or just "blocks", are simply the blocks created on L2, that is on the zkSync network. They are not included on the Ethereum chain. An L1 rollup block, which we call "batch", is a set of 
-consecutive (L2) blocks, it contains all the transactions, and in the same order, from the first block in the batch to the last block in the 
-batch.
+L2 区块，或简称为“区块”，只是在 zkSync 网络上创建的区块。它们不包含在以太坊链中。一个 L1 rollup 区块，我们称之为“批次（batch）”，是一组连续的（L2）区块，它包含了所有的交易，而且顺序相同，从该批次的第一个区块到该批次的最后一个区块。
 
-L1 batches, as the name suggests, are submitted to Ethereum. The main reason to have these different notions is that a block can 
-contain a minimal number of transactions, and thus be processed quickly, while in a batch we would like to include many transactions, to make the cost of interaction with L1 spread among many transactions.
+L1 批次，顾名思义，是被提交到以太坊的交易。有这些不同概念的主要原因是，在一个批次中我们希望包含许多交易并将其打包，以最小的数量提交到以太坊，以使与 L1 交互的成本分摊到许多交易中。
 
-## Block numbers
+## 区块编号
 
-Accessing block numbers within zkSync API is similar to how you would do it on Ethereum. For example, `eth_blockNumber` returns the number 
-of the latest L2 block, and `eth_getBlockByNumber`, given a block number, returns the information about the requested block.
+在 zkSync API 中访问区块编号类似于在以太坊上的做法。例如，`eth_blockNumber` 返回最新的 L2 区块的编号。而 `eth_getBlockByNumber`，会给定一个区块编号，返回所请求的区块的信息。
 
-For L1 batches, to retrieve the latest batch number, use zkSync API method `zks_L1BatchNumber`.
-Additionally, by querying on a block, you can see the batch number for the batch that includes the block. 
-Within transaction receipts, the field `l1BatchNumber` is the batch number that includes the transaction.
-The field `l1BatchTxIndex` returns the transaction position among all of the batch transactions.
+对于 L1 批次，要获取最新的批次号，请使用 `zks_L1BatchNumber` zkSync API method 模块。此外，通过查询一个区块，您可以看到包含该区块的批次的批号。在交易凭证中，`l1BatchNumber` 是包含交易的批次编号。`l1BatchTxIndex` 返回所有批量交易的位置。
 
-## Block processing time
+## 区块处理时间
 
-Transactions are processed immediately by the operator and added to blocks, which are then immediately generated. Once zkSync becomes
-fully decentralised, block time will take a couple of seconds, as the involved entities need to achieve consensus.
+交易由运营商及时处理并添加到区块中，然后立即生成区块。一旦 zkSync 完全去中心化，出块时间将花费几秒钟，因为涉及的对象需要达成共识。
 
-Batch time, in general, depends on the system activity - the more active the system has, the faster we <em>seal</em> a batch.
-There are several criteria for sealing a batch, which we defer from explaining in detail here, as the system is still under testing and 
-these may change. 
-In general, a batch will get sealed when:
 
-1. The batch "capacity" is reached. Capacity includes L1 gas used, L2 ergs consumed and several other parameters. 
-2. The batch timeout has passed.
+一般来说，批处理时间取决于系统的活跃度--系统越活跃，我们 <em>压缩(seal)</em> 批处理交易的速度就越快。
+压缩一个批次有几个标准，我们在此不作详细解释，因为系统仍在测试中，这些标准可能会改变。
+通常，在以下情况下，批次将被压缩：
+1. 批次 "容量 "达到上限了。容量包括所使用的 L1 的 gas、L2 ergs 的消耗和其他一些参数。
+2. 已超时。
 
-After submitting transactions, users can check where in the process their transaction is as explained [here](../../fundamentals/zkSync.md#zksync-overview).
 
-### Hashes
+提交交易后，用户可以按照[这里](../../fundamentals/zkSync.md#zksync-overview)的说明检查他们的交易在进程中的位置。
 
-Block hashes in zkSync are deterministic and are derived from the following formula: "keccak256(l2_block_number)".
-The reason for having a deterministic block hash is that these hashes are not provable (remember that L2 blocks are not submitted to L1). 
-Projects are advised not to use the L2 block hash as a source of randomness.
+### 空的区块
 
-### Block Properties
+::: 警告
 
-- Timestamp: The current block's creation time in seconds that returns the timestamp of the L1 batch.
-- Block number: The unique sequential number for this block.
-- Gas limit: The current block gas limit, always returns `2^32-1`.
-- Coinbase:  The current block miner’s address, returns the [bootloader](../contracts/system-contracts.md#bootloader) address.
-- Difficulty: The current block difficulty, returns `2500000000000000` (zkSync does not have proof of work consensus).
+目前，我们的区块浏览器上显示了空区块，请注意，这不是区块浏览器的问题，而是设计使然。
+尽管这可能是一个短期的现实，但考虑这个设计背后的基本原理是很重要的。
+
+::: 
+
+每个 L1 批次（包括几个 L2 区块）都在一个虚拟机（VM）中执行。虚拟机一个一个地执行交易，然后执行一些与最后一笔交易无关的代码，这些代码与整个批次交易有关。目前，从费用中收取的 $ETH 从 bootloader 的正式地址转移到区块矿工地址。问题是这种转移会触发一个事件（就像其他的转移一样），因此，我们把这个事件包含在一个 L2 区块中，以便通过 API 访问它。
+
+我们可以将它添加到 L1 批次的最新 L2 区块中，但想象一下以下场景：如果某个 L2 区块已关闭，但其 L1 批次未关闭，并且该节点在一段时间内没有收到任何新交易，那么 L1 批次必须在超时前关闭。如果我们将事件添加到最近关闭的区块中，它将修改区块，从而导致某种重组。
+为避免这种情况，我们构建了一个包含唯一事件的虚构区块。
+
+### 哈希值
+zkSync 中的区块哈希值是不可逆的，由以下公式得出："keccak256(l2_block_number)"。
+之所以有一个确定的区块哈希值，是因为这些哈希值是不可证明的（记住，L2 区块没有提交给 L1）。
+我们建议项目不要使用 L2 区块哈希值作为随机性的来源。
+
+### 区块属性
+- Timestamp（时间戳）：当前区块的创建时间，以秒为单位，返回 L1 批次的时间戳。
+- Block number（区块编号）：该区块的唯一序列号。
+- Gas limit（Gas 限制）：当前区块的 gas 限制，返回值为 `2^32-1`。
+- Coinbase：当前区块矿工地址，返回 [bootloader](../contracts/system-contracts.md#bootloader) 地址。
+- Difficulty（区块难度）：当前区块难度，返回值为 `2500000000000000`（zkSync 不使用工作量证明共识）。
+

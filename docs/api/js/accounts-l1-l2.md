@@ -155,6 +155,21 @@ async getBaseCost(params: {
 | params.gasPrice (optional) | 将发送执行调用请求的 L1 交易的 gas 价格 |
 | returns                    | 请求合约调用的 ETH 基本成本         |
 
+## Claim Failed Deposit
+
+The `claimFailedDeposit` method withdraws funds from the initiated deposit, which failed when finalizing on L2.  
+If the deposit L2 transaction has failed, it sends an L1 transaction calling `claimFailedDeposit` method of the L1 bridge, which results in returning L1 tokens back to the depositor, otherwise throws the error.
+
+```ts
+async claimFailedDeposit(depositHash: BytesLike): Promise<ethers.ContractTransaction>
+```
+
+### Input Parameters
+
+| Parameter |       Type          | Description                                                                               |
+| --------- |       ------------  | ----------------------------------------------------------------------------------------- |
+| depositHash       | `bytes32`   |The  L2 transaction hash of the failed deposit.                                            |
+
 ### Requesting transaction execution
 
 ```ts

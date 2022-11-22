@@ -28,11 +28,11 @@
 
 ## 源代码隐私
 
-当您的智能合约部署在 zkSync 上并在区块浏览器上验证后，您可以查看验证后的源代码并与之交互。
+当您的智能合约部署在 zkSync 并在区块浏览器上验证后，您可以查看验证后的源代码并与之交互。
 
 ## 使用 zkSync 区块浏览器验证合约
 
-首先，单击顶部标题中的**Tools**选项卡，将弹出一个下拉菜单并选择**Smart Contract Verification**，之后将显示如下页面:
+首先，单击顶部标题中的 **Tools** 选项卡，将弹出一个下拉菜单并选择 **Smart Contract Verification**，之后将显示如下页面:
 
 ![Smart Contract Verification page!](../../../assets/images/verify-contract.png "verify contract")
 

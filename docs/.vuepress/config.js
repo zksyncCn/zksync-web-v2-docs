@@ -144,7 +144,7 @@ module.exports = {
           sidebarDepth: 1, // optional, defaults to 1
         },
         {
-          title: "L1合约借口",
+          title: "L1合约接口",
           path: "/api/contracts.md",
           collapsable: false, // optional, defaults to true
           sidebarDepth: 1, // optional, defaults to 1

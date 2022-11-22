@@ -1,68 +1,70 @@
-# Contract deployment
+# 合约部署
 
-To maintain the same security as in L1, the zkSync operator must publish on the Ethereum chain the contract code for each contract it deploys. However, if there are multiple contracts deployed with the same code, it will only publish it once.
+为了保持与 L1 相同的安全性，zkSync 运营者必须在以太坊链上发布其部署的每个合约的合约代码。如果有多个使用相同代码部署的合约，那么它只会发布一次。
 
-While deploying contracts for the first time may be relatively expensive, factories, which deploy contracts with the same code multiple times, can have huge savings compared to L1.
+虽然第一次部署合同可能相对昂贵，但多次部署相同代码的合约的工厂(factory，即可以部署其他合约的合约)，与 L1 相比，可以节省大量的费用。
 
-All these specifics make the process of deploying smart contracts on zkEVM comply with the major rule: _The operator should know the code of the contract before it is deployed_. This means that deploying contracts is only possible by the means of `EIP712` transactions with the `factory_deps` field containing the supplied bytecode. More on EIP712 transactions [here](../../../api/api.md#eip712).
+这些特性让通过 zkEVM 部署智能合约的过程遵循一个主要规则：_在部署合约之前，运营者应该知道合约的代码_。这意味着只能通过 `EIP712` 交易的方式部署合约，其中 `factory_deps` 字段中包含所提供的字节码。有关 EIP712 交易的更多信息，请通过[这里](../../../api/api.md#eip712)了解。
 
-Summary:
+概要：
 
-- **How deploying contracts works on Ethereum.**
-  To deploy a contract, a user sends a transaction to the zero address (`0x000...000`) with the `data` field of the transaction equal to the contract bytecode concatenated with the constructor parameters.
+- **如何在以太坊上部署合约**
+- 
+  用户将一个交易发送到零地址(`0x000…000`)用于部署合约，交易的 `data` 字段等于连接到构造函数参数的合约字节码。
 
-- **How deploying contracts works on zkSync.**
-  To deploy a contract, a user calls the `create` function of the [ContractDeployer](./system-contracts.md#contractdeployer) and provides the hash of the contract to be published, as well as the constructor arguments. The contract bytecode itself is supplied in the `factory_deps` field of the EIP712 transactions. If the contract is a factory (i.e. it can deploy other contracts), these contracts' bytecodes should be included in the `factory_deps` as well.
+- **如何在 zkSync 上部署合约**
+- 
+  要部署合约，用户调用 [ContractDeployer](./system-contracts.md#contractdeployer) 的 `create` 函数并提供要发布的合约的哈希值以及构造函数参数。合约字节码在 EIP712 交易的“factory_deps”字段中提供。如果合约是一个工厂（即它可以部署其他合约），这些合约的字节码也应该包含在 `factory_deps` 中。
 
-The [hardhat-zksync-deploy](../../../api/hardhat) plugin takes care of the deployment process. Here's a [guide on how to use it](../../../api/hardhat/getting-started.md).
+[Hardhat-zksync-deploy](../../../api/hardhat) 插件负责合约部署过程。这里有一个[关于如何使用它的指南](../../../api/hardhat/getting-started.md)。
 
-## Solidity/Vyper support
+## Solidity/Vyper 支持
 
-Compiling Solidity to zkEVM bytecode requires a special compiler. For the time being Solidity `>=0.4.10` versions are supported, though we strongly recommended using `^0.8.0` as the most stable one. Vyper `^0.3.3` is also supported.
+将 Solidity 编译成 zkEVM 字节码需要一个特殊的编译器。目前支持 Solidity `>=0.4.10` 版本，尽管我们强烈建议使用`^0.8.0`作为最稳定的版本。Vyper `^0.3.3`也是支持的。
 
-Although, older versions of Solidity are supported, here are some of their limitations in zkSync:
-- Contract-local recursion is not supported.
-- Internal function pointers are not supported. 
+尽管支持旧版本的 Solidity，但在 zkSync 中，它们有一些限制：
+- 不支持 Contract-local 递归。
+- 不支持内部函数指针。
 
-For smart contract compilation using Solidity or Vyper, [check the correspondent Hardhat plugins here](../../../api/hardhat/plugins.md).
+如需使用 Solidity 或 Vyper 编译智能合约，可在这里查找相应的[ Hardhat 插件](../../../api/hardhat/plugins.md)。
 
-Ethereum cryptographic primitives like `ecrecover`, `keccak256` and `sha256` are supported as precompiles. No actions are required from your side as all the calls to the precompiles are done by the compiler under the hood.
+以太坊加密的原语，如 `ecrecover`，`keccak256` 和 `sha256` 支持预编译。您不需要任何操作，因为所有对预编译的调用都是由编译器在底层完成的。
 
-## Differences in `CREATE` behaviour
+## `CREATE` 行为的差异
 
-For the ease of supporting account abstraction, for each account, we split the nonce into two parts: _the deployment nonce_ and _the transaction nonce_. The deployment nonce is the number of contracts the account has deployed with `CREATE` opcode, while the transaction nonce is used for replay attack protection for the transactions.
+为了便于支持账户抽象，对于每个账户，我们将 nonce 分为两个部分: _deployment nonce_ 与 _transaction nonce_。Deployment nonce 是账户使用 `CREATE` 操作码部署的智能合约数量，而 transaction nonce 用于对交易的重放攻击保护。
 
-This means that while for smart contracts the nonce on zkSync behaves the same way as on Ethereum, for EOAs calculating the address of the deployed contract is not as straightforward. On Ethereum, it can be safely calculated as `hash(RLP[address, nonce])`, while on zkSync it is recommended to wait until the contract is deployed and catch the event with the address of the newly deployed contract. All of this is done in the background by the SDK.
-To gain a deterministic address, you should use `create2`. It is available for EOAs as well, but it is not available in the SDK yet.
+这意味着对于智能合约来说，zkSync 上的 nonce 与以太坊上的行为相同，但对于 EOAs 来说，计算部署合约的地址就不那么简单了。在以太坊上，它可以安全地计算为 `hash(RLP[address, nonce])`，而在 zkSync 上，建议等待合约部署完成，并使用新部署的合约地址抓取活动。这些都是由 SDK 在底层完成的。
+要获得一个确定的地址，您应该使用 `create2` 来创建合约。它也可以用于EOAs，但在 SDK 中尚不可用。
 
-## Note on `factory deps`
+## 关于 `factory deps` 的注意事项
 
-Under the hood, zkSync stores not bytecodes of contracts, but [specially formatted](#format-of-bytecode-hash) hashes of their bytecodes. You can see that even the [ContractDeployer](./system-contracts.md#contractdeployer) system contract accepts the bytecode hash of the deployed contract and not its bytecode. However, for contract deployment to succeed, the operator needs to know the bytecode. Exactly for this reason the `factory_deps` (i.e. factory dependencies) field for transactions is used: it contains the bytecodes that should be known to the operator in order for this transaction to succeed. Once the transaction succeeds, these bytecodes will be published on L1 and will be considered as "known" to the operator forever.
+在底层，zkSync 存储的不是合约的字节码，而是其字节码的[特殊格式](#format-of-bytecode-hash)哈希值。您可以看到，甚至 [ContractDeployer](./system-contracts.md#contractdeployer) 系统合约也接受已部署合约的字节码哈希值，而不是它的字节码。然而，要想合约部署成功，运营者需要知道字节码。正是出于这个原因，使用了交易的 `factory_deps`(工厂依赖项)字段：它包含了操作符应该知道的字节码，以便这个交易成功。一旦交易成功，这些字节码将被发布到 L1 上，并被运营者永远视为“known”。
 
-Some examples of usage are:
-The obvious one is when you deploy a contract, you need to provide its code in the `factory_deps` field.
-- On zkSync, factories (i.e. contracts that can deploy other contracts) do not store bytecodes of their dependencies, i.e. contracts that they can deploy. They only store their hashes. That's why you need to include *all* the bytecodes of the dependencies in the `factory_deps` field.
+一些用法的例子:
+最明显的一个例子是，在部署合约时，需要在 `factory deps` 字段中提供它的代码。
+- 在 zkSync 上，工厂不存储它们依赖项的字节码，即它们可以部署的合约。它们只存储哈希值。这就是为什么您需要在 `factory_deps` 字段中包含*所有*依赖的字节码。
 
-Both of these examples are already seamlessly done under the hood by our [hardhat plugin](../../../api/hardhat/getting-started.md).
+这两个例子已经通过我们的 [ Hardhat 插件](../../../api/hardhat/plugins.md)在底层无缝完成。
 
-Note, that the factory deps do not necessarily have to be used by the transaction in any way. These are just markers that these bytecodes should be published on L1 with this transaction. If your contract contains a lot of various factory dependencies and they do not fit inside a single L1 block, you can split the list of factory dependencies between multiple transactions. 
+请注意，factory_deps 不一定必须以某种方式由交易调用。这些只是标记，表明这些字节码应该和这个交易一起发布到 L1 上。如果您的合约包含许多不同的工厂依赖项并且它们不适合单个 L1 区块，您可以在多个交易之间拆分工厂依赖项的列表。
 
-For example, let's say that you want to deploy contract `A` which can also deploy contracts `B` and `C`. This means that you will have three factory dependencies for your deployment transaction: `A`,`B` and `C`. If the pubdata required to publish all of them is too large to fit into one block, you can send a dummy transaction with only factory dependencies `A` and `B` (assuming their combined length is small enough) and do the actual deploy with a second transaction while providing the bytecode of contract `C` as a factory dependency for it. Note, that if some contract *on its own* is larger than the allowed limit per block, this contract has to be split into smaller ones.
+例如，如果您想部署合约 `A`，它也可以部署合约 `B` 和 `C`。这意味着您将有三个工厂依赖项来部署交易：`A`、`B` 和 `C`。如果发布它们所需的 pubdata 太大，无法放入同一个区块中，您可以发送一个只包含工厂依赖项 `A` 和 `B` 的虚拟交易(假设它们的总长度足够小)，并使用第二个交易进行实际部署，同时提供合约 `C` 的字节码作为工厂依赖项。注意，如果某个合约*本身*大于每个区块允许的限制，则必须将该合约拆分为更小的合约。
 
-### L1->L2 communication
+### L1->L2 通信
 
-The [interface](https://github.com/matter-labs/v2-testnet-contracts/blob/d4a2869ab6feadb396f357e55aa41d137adc0ab0/l1/contracts/zksync/interfaces/IMailbox.sol#L76) for submitting L1->L2 transactions accepts the list of all the factory dependencies required for this particular transaction. The logic for working with them is the same as for the L2 transactions. The only difference is that since the user has already published the full preimage for the bytecodes on L1, there is no need to publish these bytecodes again on L1.
+提交 L1->L2 交易的[接口](https://github.com/matter-labs/v2-testnet-contracts/blob/d4a2869ab6feadb396f357e55aa41d137adc0ab0/l1/contracts/zksync/interfaces/IMailbox.sol#L76)接受这个特定交易所需的所有工厂依赖项的列表。处理它们的逻辑与处理 L2 交易的逻辑相同。唯一的区别是，由于用户已经在 L1 上发布了字节码的完整映像，所以不需要在 L1 上再次发布这些字节码。  
 
-### Format of bytecode hash
+### 字节码哈希值的格式
 
-Each zkEVM bytecode must adhere to the following format:
+每个 zkEVM 字节码必须符合以下格式:
 
-- Its length must be divisible by 32.
-- Its length in words (32-byte chunks) should be odd. In other words, `bytecodeLength % 64 == 32`.
-- It can not be longer than `2^16` 32-byte words, i.e. `2^21` bytes.
+- 其长度必须能被 32 整除。
+- 它的长度（32 字节块）应该是奇数。换句话说，`bytecodeLength % 64 == 32`。
+- 它不能长于 `2^16`32 字节的字，也就是 `2^21` 字节。
 
-The 32-byte hash of the bytecode of a zkSync contract is calculated in the following way:
+zkSync 合约字节码的 32 字节哈希值计算方法如下:
 
-- The first 2 bytes denote the version of bytecode hash format and are currently equal to `[1,0]`.
-- The second 2 bytes denote the length of the bytecode in 32-byte words. 
-- The rest of the 28-byte (i.e. 28 low big-endian bytes) are equal to the last 28 bytes of the `sha256` hash of the contract's bytecode.
+- 前两个字节表示字节码哈希值格式的版本，目前等于 `[1,0]`。
+- 第二个 2 字节表示字节码的长度，以 32 字节为单位。
+- 其余 28 字节（即 28 个低位大端序字节）等于 `sha256` 合约字节码哈希值的最后 28 个字节。

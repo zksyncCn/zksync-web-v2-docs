@@ -157,9 +157,11 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 yarn hardhat deploy-zksync
 ```
 
+
 在 output 中，您将会看到部署智能合约的地址。
 
 恭喜！您已经在 zkSync 上成功部署了智能合约。现在您可以访问[zkSync 区块浏览器](https://explorer.zksync.io/)并搜索您的智能合约地址以确认它被成功部署。
+
 
 [本指南](../../api/tools/block-explorer/contract-verification.md)解释了如何使用 zkSync 区块浏览器验证您的智能合约。
 
@@ -394,7 +396,9 @@ async getGreeting() {
 },
 ```
 
+
 连接 Metamask 钱包后，您应该会看到以下页面：
+
 
 ![img](../../assets/images/start-1.png)
 
@@ -513,7 +517,9 @@ async changeGreeting() {
 
 :::
 
+
 当用户决定使用以太币支付时，`getOverrides` method 返回对象为“空”，但当用户选择ERC20选项时，它会返回 Paymaster 合约地址以及所需的全部信息。具体方法如下:
+
 
 1. 通过 zkSync Provider 中获取测试网 Paymaster 的合约地址：
 

@@ -39,7 +39,8 @@
 
 ## 关于 `factory deps` 的注意事项
 
-在底层，zkSync 存储的不是合约的字节码，而是其字节码的[特殊格式](#format-of-bytecode-hash)哈希值。您可以看到，甚至 [ContractDeployer](./system-contracts.md#contractdeployer) 系统合约也接受已部署合约的字节码哈希值，而不是它的字节码。然而，要想合约部署成功，运营者需要知道字节码。正是出于这个原因，使用了交易的 `factory_deps`(工厂依赖项)字段：它包含了操作符应该知道的字节码，以便这个交易成功。一旦交易成功，这些字节码将被发布到 L1 上，并被运营者永远视为“known”。
+
+Under the hood, zkSync stores not bytecodes of contracts, but [specially formatted](#format-of-bytecode-hash) hashes of their bytecodes. You can see that even the [ContractDeployer](./system-contracts.md#contractdeployer) system contract accepts the bytecode hash of the deployed contract and not its bytecode. However, for contract deployment to succeed, the operator needs to know the bytecode. Exactly for this reason the `factory_deps` (i.e. factory dependencies) field for transactions is used: it contains the bytecodes that should be known to the operator for this transaction to succeed. Once the transaction succeeds, these bytecodes will be published on L1 and will be considered "known" to the operator forever.
 
 一些用法的例子:
 最明显的一个例子是，在部署合约时，需要在 `factory deps` 字段中提供它的代码。

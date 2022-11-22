@@ -28,7 +28,21 @@ L1 批次，顾名思义，是被提交到以太坊的交易。有这些不同�
 
 提交交易后，用户可以按照[这里](../../fundamentals/zkSync.md#zksync-overview)的说明检查他们的交易在进程中的位置。
 
-### 哈希值
+
+### Empty Blocks
+
+We currently have empty blocks being shown on our block explorer, please note it's not a block explorer issue, but this happens by design.
+
+Although this might be a short-term reality, it is important to consider the rationale behind this design.
+
+::: 
+
+Each L1 batch (which comprises several L2 blocks) is executed in a single VM instance. The VM executes transactions one by one and then executes some code that has nothing to do with the last transaction but rather with the entire batch. Currently, the ETH collected from fees is transferred from the bootloader formal address to the block miner address. The issue is that this transfer emits an event (like any other transfer), hence, we included this event in an L2 block for it to be accessible via API.
+
+We could add it in the latest L2 block in the L1 batch, but imagine the following scenario: if some L2 block was closed, but its L1 batch was not, and the node hasn't received any new transactions in a while, then the L1 batch must be closed by the timeout. If we add the event to the most recent closed block, it will modify the block, resulting in a sort of re-organization. 
+To avoid this is why we built a purely fictional block containing the only event.
+
+
 
 zkSync 中的区块哈希值是不可逆的，由以下公式得出："keccak256(l2_block_number)"。
 之所以有一个确定的区块哈希值，是因为这些哈希值是不可证明的（记住，L2 区块没有提交给 L1）。

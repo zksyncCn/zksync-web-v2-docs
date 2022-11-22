@@ -35,7 +35,7 @@
 为了便于支持账户抽象，对于每个账户，我们将 nonce 分为两个部分: _deployment nonce_ 与 _transaction nonce_。Deployment nonce 是账户使用 `CREATE` 操作码部署的智能合约数量，而 transaction nonce 用于对交易的重放攻击保护。
 
 这意味着对于智能合约来说，zkSync 上的 nonce 与以太坊上的行为相同，但对于 EOAs 来说，计算部署合约的地址就不那么简单了。在以太坊上，它可以安全地计算为 `hash(RLP[address, nonce])`，而在 zkSync 上，建议等待合约部署完成，并使用新部署的合约地址抓取活动。这些都是由 SDK 在底层完成的。
-要获得一个确定的地址，您应该使用 `create2` 来创建合约。它也可以用于EOAs，但在 SDK 中尚不可用。
+要获得一个确定的地址，您应该使用 `create2` 来创建合约。它也可以用于 EOAs，但在 SDK 中尚不可用。
 
 ## 关于 `factory deps` 的注意事项
 

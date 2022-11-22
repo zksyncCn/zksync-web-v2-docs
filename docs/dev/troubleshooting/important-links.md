@@ -1,18 +1,18 @@
-# Important links
+# 重要链接
 
-### Network info
+### 网络信息
 
-- Network Name: `zkSync alpha testnet`
-- New RPC URL: `https://zksync2-testnet.zksync.dev`
-- Chain ID: `280`
-- Currency Symbol(Optional): `ETH`
-- Block Explorer URL(Optional): `https://zksync2-testnet.zkscan.io/`
+- 网络名称： `zkSync alpha testnet`
+- 新的 RPC 地址： `https://zksync2-testnet.zksync.dev`
+- 链 ID： `280`
+- 货币符号：`ETH`
+- 区块浏览器地址： `https://zksync2-testnet.zkscan.io/`
 
-### WebSocket URL
+### WebSocket 地址
 
-- WebSocket URL: `wss://zksync2-testnet.zksync.dev/ws`
+- WebSocket 地址： `wss://zksync2-testnet.zksync.dev/ws`
 
-### Questions and support
+### 问题与支持
 
 - [Discord](https://discord.gg/px2aR7w)
-- [Community Forum](https://community.zksync.io/)
+- [社区论坛](https://community.zksync.io/)

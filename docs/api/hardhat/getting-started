@@ -1,6 +1,6 @@
 # 入门
 
-[Hardhat](https://hardhat.org) 是一个以太坊开发环境，专为在 Solidity 中轻松开发智能合约而设计。它最突出的特性之一是可扩展性：您可以轻松地将新插件添加到您的 hardhat 项目中。
+[Hardhat](https://hardhat.org) 是一个以太坊开发环境，专为在 Solidity 中轻松开发智能合约而设计。它最突出的特性之一是可扩容性：您可以轻松地将新插件添加到您的 hardhat 项目中。
 
 zkSync 为 Hardhat 提供了三个插件：
 
@@ -8,18 +8,18 @@ zkSync 为 Hardhat 提供了三个插件：
 - [@matterlabs/hardhat-zksync-vyper](./plugins.md#matterlabs-hardhat-zksync-vyper) - 用于编译用 Vyper 编写的合约。
 - [@matterlabs/hardhat-zksync-deploy](./plugins.md#matterlabs-hardhat-zksync-deploy) - 用于部署智能合约。
 
-要了解有关 Hardhat 本身的更多信息，请查看 [its official documentation](https://hardhat.org/getting-started/).
+要了解有关 Hardhat 本身的更多信息，请查看 [its official documentation](https://hardhat.org/getting-started/)。
 
-本教程展示了如何使用 Hardhat 从头开始​​设置 zkSync Solidity 项目。
+教程展示了如何使用 Hardhat 从头开始​​创建 zkSync Solidity 项目。    
 如果您使用的 Vyper，请在 GitHub 查看 [Vyper plugin documentation](./plugins.md#matterlabs-hardhat-zksync-vyper) 或 [this example](https://github.com/matter-labs/hardhat-zksync/tree/main/examples/vyper-example) 。
 
 ## 先决条件
 
 对于本教程，必须安装以下程序：
 
-- `yarn` 包管理器。 `npm` 示例将很快添加。
-- 一个在 L1 上有足够 Göerli `ETH` 的钱包，用于支付 zkSync 的桥接资金以及部署智能合约。 我们建议使用 [我们来自 zkSync 门户的水龙头](https://portal.zksync.io/faucet)。
-1. 要初始化项目并安装依赖项，请在终端中运行以下命令：
+- `yarn` 管理器。 `npm` 示例将很快添加。
+- 一个在 L1 上有足够 Göerli `ETH` 的钱包，用于支付 zkSync 的桥接资金以及部署智能合约。 我们建议使用 [来自 zkSync 门户的水龙头](https://portal.zksync.io/faucet)。
+1. 要初始化项目并安装依赖项，请运行以下命令：
 
 ```
 mkdir greeter-example
@@ -69,13 +69,13 @@ module.exports = {
 
 ::: 提示
 
-要了解有关“hardhat.config.ts”文件中每个特定属性的更多信息，请查看 [插件文档](./plugins.md)
+要了解有关 `hardhat.config.ts` 文件中每个特定属性的更多信息，请查看 [插件文档](./plugins.md)
 
 :::
 
-## 编写和部署合同
+## 编写和部署合约
 
-3. 创建 `contracts` 和 `deploy` 文件夹。 在 contracts 文件夹中，我们将存储所有智能合约文件。 在 deploy 文件夹中，我们将放置与部署合约相关的所有脚本。
+3. 创建 `contracts` 和 `deploy` 文件夹。 在 ` contracts `文件夹中，我们将存储所有智能合约文件。 在 `deploy` 文件夹中，我们将放置与部署合约相关的所有脚本。
 
 4. 创建 `contracts/Greeter.sol` 合约并粘贴以下代码：
 
@@ -168,9 +168,9 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 }
 ```
 
-7. 将 `WALLET-PRIVATE-KEY`文本替换为以太坊钱包的“0x”前缀私钥后，使用以下命令运行脚本：`yarn hardhat deploy-zksync`。 该脚本将：
+7. 将 `WALLET-PRIVATE-KEY`文本替换为以太坊钱包的“0x”前缀私钥后，使用以下命令运行脚本`yarn hardhat deploy-zksync`。 该脚本将：
 - 从 Goerli 转 0.001 ETH 到 zkSync。
-- 部署带有消息 `你好！`的 `Greeting` 合约。
+- 部署带有消息 `您好！`的 `Greeting` 合约。
 - 从调用 `greet()` 方法的合约中检索消息。
 - 使用 `setGreeting`() 方法更新合约中的问候消息。
 - 再次从合约中检索消息。
@@ -186,5 +186,5 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 
 未来发布的插件主要有两点改进：:
 
-- **与现有安全帽插件的可组合性** 。与其他安全帽插件的兼容性计划在未来进行，但尚未成为关注重点。
+- **与现有 hardhat插件 的可组合性** 。与其他 hardhat插件 的兼容性计划在未来进行，但不是现在关注的重点。
 - **改进的跨平台支持。**

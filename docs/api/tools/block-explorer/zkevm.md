@@ -8,7 +8,9 @@
 
 ![zkEVM!](../../../assets/images/zk-evm.png "zkEVM page")
 
+
 ### 调试步骤
+
 
 以下是调试或跟踪交易的步骤：
 
@@ -17,9 +19,11 @@
 3. 成功上传后，调试器状态变为活跃状态。
 4. 要继续调试，请单击 `Start` 按钮。
 
+
 这是调试时要注意的一些 **键盘快捷键**。
 
 - `Cmd + K`：打开搜索栏。
 - `Arrows Left / Right`：下一个或上一个指令。
 - `Arrows Top / Bottom`：该合约中下一个或上一个函数。
 - `Shift + Arrows`：下一个或上一个合约。
+

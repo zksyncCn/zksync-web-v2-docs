@@ -1,16 +1,16 @@
 # Web3 API
 
-zkSync 2.0 fully supports the standard [Ethereum JSON-RPC API](https://ethereum.org/en/developers/docs/apis/json-rpc/) and adds some L2-specific features.
+Web3 API
 
-As long as the code does not involve deploying new smart contracts (they can only be deployed using EIP712 transactions, more on that [below](#eip712)), _no changes to the codebase are needed._
+zkSync 2.0 完全支持标准 [Ethereum JSON-RPC API](https://ethereum.org/en/developers/docs/apis/json-rpc/) ，并添加了一些特定于 L2 的功能。
 
-It is possible to continue using the SDK that is currently in use. Users will continue paying fees in ETH, and the UX will be identical to the one on Ethereum.
+只要代码不涉及部署新的智能合约（它们只能使用 EIP712 交易进行部署，更多关于[下面]（#eip712）），_不需要对代码库进行任何更改。_ 可以继续使用当前正在使用的 SDK。 用户将继续以 ETH 支付费用，用户体验将与以太坊相同。
 
-However, zkSync has its specifics, which this section describes.
+然而，zkSync 有其细节，本节将对此进行描述。
 
 ## EIP712
 
-To specify additional fields, like the custom signature for custom accounts or to choose the paymaster, EIP712 transactions should be used. These transactions have the same fields as standard Ethereum transactions, but they also have fields that contain additional L2-specific data (`paymaster`, etc).
+要指定其他字段，例如自定义帐户的自定义签名或选择付款人，应使用 EIP712 交易。 这些交易具有与标准以太坊交易相同的字段，但它们也有包含额外的 L2 特定数据（`paymaster` 等）的字段。
 
 ```json
 "ergsPerPubdata": "1212",
@@ -22,40 +22,40 @@ To specify additional fields, like the custom signature for custom accounts or t
 "factory_deps": ["0x..."]
 ```
 
-- `ergsPerPubdata`: is a field that describes the maximal amount of ergs the user is willing to pay for a single byte of pubdata. 
-- `customSignature` is a field with a custom signature, in case the signer's account is not EOA. 
-- `paymasterParams` is a field with parameters for configuring the custom paymaster for the transaction. The address of the paymaster and the encoded input to call it are in the paymaster parameters.
-- `factory_deps` is a field that should be a non-empty array of `bytes` for deployment transactions. It should contain the bytecode of the contract being deployed. If the contract being deployed is a factory contract, i.e. it can deploy other contracts, the array should also contain the bytecodes of the contracts which can be deployed by it.
+- `ergsPerPubdata`：是一个描述用户愿意为单个字节的 pubdata 支付的最大 erg 数量的字段。
+- `customSignature` 是带有自定义签名的字段，以防签名者的帐户不是 EOA。
+- `paymasterParams` 是一个带有参数的字段，用于为交易配置自定义 paymaster。 paymaster 的地址和调用它的编码输入在 paymaster 参数中。
+- `factory_deps` 是一个字段，应该是用于部署事务的非空 `bytes` 数组。它应该包含正在部署的合约的字节码。如果部署的合约是工厂合约，即它可以部署其他合约，则该数组还应包含它可以部署的合约的字节码。
 
-To let the server recognize EIP712 transactions, the `transaction_type` field is equal to `113` (unfortunately the number `712` can not be used as the `transaction_type` since the type has to be one byte long).
+为了让服务器识别 EIP712 交易，`transaction_type` 字段等于 `113`（不幸的是，数字 `712` 不能用作 `transaction_type`，因为类型必须是一个字节长）。
 
-Instead of signing the RLP-encoded transaction, the user signs the following typed EIP712 structure:
+用户没有签署 RLP 编码的交易，而是签署了以下类型的 EIP712 结构：
 
-| Field name              | Type      |
-| ----------------------- | --------- |
+| Field name              | Type        |
+| ----------------------- | ----------- |
 | txType                  | `uint256`   |
-| from                  | `uint256`   |
-| to                  | `uint256`   |
-| ergsLimit                  | `uint256`   |
-| ergsPerPubdataByteLimit                  | `uint256`   |
-| maxFeePerErg                      | `uint256 ` |
-| maxPriorityFeePerErg                   | `uint256` |
-| paymaster                    | `uint256`   |
-| nonce                | `uint256` |
-| value               | `uint256` |
-| data                | `bytes` |
-| factoryDeps | `bytes32[]` |
-| paymasterInput               | `bytes` |
+| from                    | `uint256`   |
+| to                      | `uint256`   |
+| ergsLimit               | `uint256`   |
+| ergsPerPubdataByteLimit | `uint256`   |
+| maxFeePerErg            | `uint256 `  |
+| maxPriorityFeePerErg    | `uint256`   |
+| paymaster               | `uint256`   |
+| nonce                   | `uint256`   |
+| value                   | `uint256`   |
+| data                    | `bytes`     |
+| factoryDeps             | `bytes32[]` |
+| paymasterInput          | `bytes`     |
 
-These fields are conveniently handled by our [SDK](./js/features.md).
+我们的 [SDK](./js/features.md) 可以方便地处理这些字段。
 
-## zkSync-specific JSON-RPC methods
+## zkSync 特定的 JSON-RPC 方法
 
-All zkSync-specific methods are located in the `zks_` namespace. The API may also provide methods other than those provided here. These methods are to be used internally by the team and are very unstable.
+所有 zkSync 特定的方法都位于 `zks_` 命名空间中。 API 还可能提供此处以外的方法。 这些方法是给团队内部使用的，非常不稳定。
 
-::: warning
+：：： 警告
 
-Please note that Metamask does not support zks_ namespace's methods, we are working to support it in the future, alternatively, you can use the `Provider` class with the testnet RPC instead of relying on Metamask's injected provider.
+请注意，Metamask 不支持 zks_ 命名空间的方法，我们正在努力在未来支持它，或者，您可以将 `Provider` 类与测试网 RPC 一起使用，而不是依赖 Metamask 的注入提供程序。
 
 :::
 
@@ -83,42 +83,42 @@ Returns the fee for the transaction. The token in which the fee is calculated is
 
 ### `zks_getMainContract`
 
-Returns the address of the zkSync contract.
+返回 zkSync 合约的地址。
 
-### Input parameters
+### 输入参数
 
-None.
+没有。
 
-### Output format
+### 输出的格式
 
 `"0xaBEA9132b05A70803a4E85094fD0e1800777fBEF"`
 
 ### `zks_L1ChainId`
 
-Returns the chain id of the underlying L1.
+返回底层 L1 的链 ID。
 
-### Input parameters
+### 输入的参数
 
-None.
+没有。
 
-### Output format
+### 输出的格式
 
 `12`
 
 ### `zks_getConfirmedTokens`
 
-Given `from` and `limit` return information about the confirmed tokens with IDs in the interval `[from..from+limit-1]`. "Confirmed" is the wrong word here, since a confirmed token has already been bridged through the default zkSync bridge.
+给定 `from` 和 `limit` 返回有关 ID 在区间 `[from..from+limit-1]` 中的已确认令牌的信息。 “确认”在这里是错误的词，因为确认令牌已经通过默认的 zkSync 桥接。
 
-The tokens are returned in alphabetical order by their symbols, so a token's id is just its place in an array of tokens that has been sorted by symbols.
+令牌按其符号的字母顺序返回，因此令牌的 id 只是它在已按符号排序的令牌数组中的位置。
 
-### Input parameters
+### 输入参数
 
-| Parameter | Type     | Description                                                                  |
-| --------- | -------- | ---------------------------------------------------------------------------- |
-| from      | `uint32` | The token id from which to start returning the information about the tokens. |
-| limit     | `uint8`  | The number of tokens to be returned from the API.                            |
+| Parameter | Type     | Description         |
+| --------- | -------- | ------------------- |
+| from      | `uint32` | 从中开始返回有关代币信息的代币 ID。 |
+| limit     | `uint8`  | 从 API 返回的代币数。       |
 
-### Output format
+### 输出格式
 
 ```json
 [
@@ -144,7 +144,16 @@ The tokens are returned in alphabetical order by their symbols, so a token's id 
 ```
 ### `zks_getL2ToL1LogProof`
 
-Given a transaction hash, and an index of the L2 to L1 log produced within the transaction, it returns the proof for the corresponding L2 to L1 log.
+给定一个区块、一个发件人和一个消息，以及包含L1->L2消息的区块中可选的消息日志索引，返回通过L1Messenger系统合同发送的消息的证明。
+
+### Input parameters
+
+| Parameter       | Type      | Description                    |
+| --------------- | --------- | ------------------------------ |
+| block           | `uint32`  | 发出该消息的区块编号。                    |
+| sender          | `address` | 消息的发件人（即调用L1Messenger系统合同的账户）。 |
+| msg             | `uint256` | 发送信息的keccak256哈希值。             |
+| l2_log_position | `uint256` | `null`                         |
 
 The index of the log that can be obtained from the transaction receipt (it includes a list of every log produced by the transaction).
 
@@ -155,11 +164,11 @@ The index of the log that can be obtained from the transaction receipt (it inclu
 | tx_hash   | `bytes32` | Hash of the L2 transaction the L2 to L1 log was produced within.                                   |
 | l2_to_l1_log_index| `undefined` &#124; `number` | The Index of the L2 to L1 log in the transaction. |
 
-### Output format
+### 输出格式
 
-If there was no such message, the returned value is `null`.
+如果没有这样的消息，则返回值为`null`。
 
-Otherwise, the object of the following format is returned:
+否则，返回如下格式的对象：
 
 ```json
 {
@@ -173,11 +182,12 @@ Otherwise, the object of the following format is returned:
   "root": "0x6a420705824f0a3a7e541994bc15e14e6a8991cd4e4b2d35c66f6e7647760d97"
 }
 ```
-The `id` is the position of the leaf in the Merkle tree of L2->L1 messages for the block. The `proof` is the Merkle proof for the message, while the `root ` is the root of the Merkle tree of L2->L1 messages. Please note, that the Merkle tree uses _sha256_ for the trees.
 
-You do not need to care about the intrinsics, since the returned `id` and `proof` can be used right away for interacting with the zkSync smart contract.
+`id` 是该块的 L2->L1 消息的 Merkle 树中叶子的位置。 `proof` 是消息的 Merkle 证明，而 `root` 是 L2->L1 消息的 Merkle 树的根。 请注意，Merkle 树使用 _sha256_ 作为树。
 
-A nice example of using this endpoint via our SDK can be found [here](../dev/developer-guides/bridging/l2-l1.md).
+您无需关心内在函数，因为返回的 `id` 和 `proof` 可以立即用于与 zkSync 智能合约交互。
+
+可以在 [此处](../dev/developer-guides/bridging/l2-l1.md) 找到通过我们的 SDK 使用此端点的一个很好的示例。
 
 
 ::: tip
@@ -212,14 +222,14 @@ The same as in [zks_getL2ToL1LogProof](#output-format-4).
 :::
 
 ### `zks_getBridgeContracts`
- 
-Returns L1/L2 addresses of default bridges.
 
-### Input parameters
+返回默认网桥的 L1/L2 地址。
 
-None.
+### 输入参数
 
-### Output format
+没有。
+
+### 输出格式
 
 ```json
 {
@@ -232,20 +242,20 @@ None.
 
 ### `zks_getTestnetPaymaster`
 
-Returns the address of the [testnet paymaster](../dev/developer-guides/aa.md#testnet-paymaster): the paymaster that is available on testnets and enables paying fees in ERC-20 compatible tokens.
+返回[testnet paymaster](.../dev/developer-guides/aa.md#testnet-paymaster)的地址：在testnets上可用的paymaster，可以用ERC-20兼容代币支付费用。
 
-### Input parameters
+### 输入参数
 
-None.
+没有。
 
-### Output format
+### 输出格式
 
 ```json
 "0x7786255495348c08f82c09c82352019fade3bf29"
 ```
 
-
 <!-- TODO: uncomment once fixed --->
+
 <!-- ### `zks_getTokenPrice`
 
 Given a token address, returns its price in USD. Please note that that this is the price that is used by the zkSync team and can be a bit different from the current market price. On testnets, token prices can be very different from the actual market price.
@@ -324,8 +334,8 @@ Don't want to document (at least for now):
 
 -->
 
-## PubSub API
+## 发布订阅 API
 
-zkSync is fully compatible with [Geth's pubsub API](https://geth.ethereum.org/docs/rpc/pubsub), except for the `syncing` subscription, as it doesn't have meaning for the zkSync network since technically our nodes are always synced.
+zkSync 与 [Geth 的 pubsub API](https://geth.ethereum.org/docs/rpc/pubsub) 完全兼容，除了 `syncing` 订阅，它对 zkSync 网络没有意义，因为从技术上讲我们的 节点始终同步。
 
-The WebSocket URL is `wss://zksync2-testnet.zksync.dev/ws`.
+WebSocket URL 是 `wss://zksync2-testnet.zksync.dev/ws`。

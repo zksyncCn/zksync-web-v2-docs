@@ -1,13 +1,13 @@
-# Front-end integration
+# 前端集成
 
-This section describes how to make the most of zkSync to provide the best UX.
+本节介绍如何充分利用 zkSync 来提供最佳的用户体验。
 
-## Going to production rightaway
+## 立即投入生产
 
-If your front-end code does not deploy new smart contracts, then no changes to the codebase are required! All the existing SDKs/infrastructure will work out-of-box.
+如果您的前端代码没有部署新的智能合约，那么就不需要对代码库进行任何更改！ 所有现有的 SDK/基础设施都可以开箱即用。
 
-## Enabling zkSync features
+## 启用 zkSync 功能
 
-If you want to deploy smart contracts or enable advanced zkSync features, like account abstraction, then you need to use the `zksync-web3` library for that. You can read about the basics [here](./features.md).
+如果您想部署智能合约或启用高级 zkSync 功能，比如帐户抽象，那么你需要为此使用 `zksync-web3` 库。 您可以在 [此处](./features.md) 阅读基础知识。
 
-If you want to see some code, check out our basic [tutorial](../../dev/developer-guides/hello-world.md) for full mini-dApp.
+如果您想查看一些代码，请查看我们的基本 [教程](../../dev/developer-guides/hello-world.md) 以获得完整的迷你 dApp。

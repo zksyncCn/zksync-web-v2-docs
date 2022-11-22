@@ -1,6 +1,7 @@
 # Migration to the testnet paymaster
 
 ## Prerequisite
+
 Before going further into this section, please ensure you have read about
 [paymasters](../developer-guides/aa.md#paymasters).
 

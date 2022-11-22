@@ -1,0 +1,159 @@
+# 入门
+
+## 概念
+
+虽然大多数现有的 SDK可以开箱即用，但部署智能合约或使用独特的 zkSync 功能（如帐户抽象）需要为以太坊交易默认包含的字段提供额外的字段。
+
+为了提供对 zkSync 2.0 所有功能的轻松访问，创建了 `zksync-web3` JavaScript SDK，其制作方式与 [ethers](https://docs.ethers) 的界面非常相似 .io/v5/）。 事实上，`ethers` 是我们库的对等依赖项，大多数由 `zksync-web3` 导出的对象（例如 `Wallet`、`Provider` 等）继承自相应的 `ethers` 对象并仅覆盖字段 需要改变。
+
+该库的创建方式是，在将 ethers 替换为 zksync-web3 后，大多数客户端应用程序将开箱即用。
+
+## 添加依赖项
+
+```bash
+yarn add zksync-web3
+yarn add ethers@5 # ethers is a peer dependency of zksync-web3
+```
+
+然后你可以使用以下语句导入`ethers`库和`zksync-web3`库的所有内容：
+
+```typescript
+import * as zksync from "zksync-web3";
+import * as ethers from "ethers";
+```
+
+## 连接到 zkSync
+
+要与 zkSync 网络交互，用户需要知道运营商节点的端点：
+
+```typescript
+// Currently, only one environment is supported.
+const syncProvider = new zksync.Provider("https://zksync2-testnet.zksync.dev");
+```
+
+**注意**：目前只支持`goerli`网络。
+
+某些操作需要访问以太坊网络。 `ethers` 库应该用于以太坊。
+
+```typescript
+const ethProvider = ethers.getDefaultProvider("goerli");
+```
+
+## 创建钱包
+
+要在 zkSync 中控制您的帐户，请使用 `zksync.Wallet` 对象。 它可以存储在
+`ethers.Wallet` 并使用 `zksync.Provider` 将交易发送到 zkSync 网络。
+
+```typescript
+// Derive zksync.Wallet from ethereum private key.
+// zkSync's wallets support all of the methods of ethers' wallets.
+// Also, both providers are optional and can be connected to later via `connect` and `connectToL1`.
+const syncWallet = new zksync.Wallet(PRIVATE_KEY, syncProvider, ethProvider);
+```
+
+## 存入资金
+
+让我们将 `1.0 ETH` 存入我们的 zkSync 帐户。
+
+```typescript
+const deposit = await syncWallet.deposit({
+  token: zksync.utils.ETH_ADDRESS,
+  amount: ethers.utils.parseEther("1.0"),
+});
+```
+
+**注意：** 
+
+zkSync 中的每个代币都有一个地址。 如果桥接 ERC-20 代币，您应该在“存款”功能中提供代币的 L1 地址，或者如果您想存入 ETH，则应提供零地址
+
+（`0x0000000000000000000000000000000000000000`）。 
+
+请注意，对于 ERC-20 代币，其相应 L2 代币的地址将与以太坊上的地址不同。
+
+交易提交到以太坊节点后，可以使用交易句柄跟踪其状态：
+
+```typescript
+// Await processing of the deposit on L1
+const ethereumTxReceipt = await deposit.waitL1Commit();
+
+// Await processing the deposit on zkSync
+const depositReceipt = await deposit.wait();
+```
+
+## 查看 zkSync 账户余额
+
+```typescript
+// Retreiving the current (committed) balance of an account
+const committedEthBalance = await syncWallet.getBalance(zksync.utils.ETH_ADDRESS);
+
+// Retrieving the balance of an account in the last finalized block zkSync.md#confirmations-and-finality
+const finalizedEthBalance = await syncWallet.getBalance(zksync.utils.ETH_ADDRESS, "finalized");
+```
+
+您可以在 [此处](../../dev/fundamentals/zkSync.md#confirmations-and-finality) 阅读更多关于什么是提交和最终确定的块。
+
+## 进行转移
+
+现在，让我们创建第二个钱包并将一些资金转入其中。 
+
+请注意，您可以将资产发送到任何新的以太坊帐号，无需预先注册！
+
+```typescript
+const syncWallet2 = new zksync.Wallet(PRIVATE_KEY2, syncProvider, ethProvider);
+```
+
+让我们将 `1 ETH` 转移到另一个帐户：
+
+`transfer` 方法是一种辅助方法，可以在单个界面中传输 `ETH` 或任何 ERC20 代币。
+
+```typescript
+const amount = ethers.utils.parseEther("1.0");
+
+const transfer = await syncWallet.transfer({
+  to: syncWallet2.address,
+  token: zksync.utils.ETH_ADDRESS,
+  amount,
+});
+```
+
+跟踪此交易的状态：
+
+```typescript
+// Await commitment
+const transferReceipt = await transfer.wait();
+
+// Await finalization on L1
+const transferReceipt = await transfer.waitFinalize();
+```
+
+## 提取资金
+
+从 zkSync 提款到以太坊有两种方式，通过 L2 或 L1 调用操作。 
+
+如果通过L1调用取款操作，则操作者必须在一定时间内处理，否则 `PriorityMode` 将被打开。 这为了确保操作员无法暂存
+
+```typescript
+const withdrawL2 = await syncWallet.withdraw({
+  token: zksync.utils.ETH_ADDRESS,
+  amount: ethers.utils.parseEther("0.5"),
+});
+```
+
+本次交易的 zkSync 区块 `validity proof` 通过后，资产将被提现至目标钱包
+由主网合约生成并验证。
+
+可以等待 validity proof 验证完成：
+
+```typescript
+await withdrawL2.waitFinalize();
+```
+
+## 部署合约
+
+[此处](../hardhat) 提供了使用我们的 `hardhat` 插件部署智能合约的指南。
+
+## 将代币添加到标准桥
+
+以无需许可的方式将令牌添加到 zkSync 标准桥。 在 zkSync 中添加令牌后，它可以用于所有类型的交易。
+
+可以在 [此处](./accounts-l1-l2.md#adding-native-token-to-zksync) 找到有关向 zkSync 添加代币的文档。

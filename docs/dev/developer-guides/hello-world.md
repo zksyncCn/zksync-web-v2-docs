@@ -1,28 +1,28 @@
-# 快速入门
+# Quickstart
 
-在本快速入门指南中，您将学习如何将智能合约部署到 zkSync，并使用 zkSync 开发工具构建一个 dApp 与之互动。
+In this quickstart guide, you will learn how to deploy a smart contract to zkSync and build a dApp to interact with it using the zkSync development toolbox.
 
-以下是我们需要构建的:
+This is what we're going to build:
 
-- 一个部署在 zkSync 上存储问候语信息(greeting message)的智能合约。
-- 一个用于获取问候信息的 dApp。
-- 这个问候语信息可以被用户修改。
-- 默认情况下，用户需要支付交易费用来改变以太坊的问候语信息。不过，我们也将解释如何[使用测试网 paymaster 合约](#paying-fees-using-testnet-paymaster)(注：Paymaster 即付款人，交易所需 Gas 的实际支付者)，让用户使用 ERC20 代币支付费用。
-- 
-::: 小提示
+- A smart contract that stores a greeting message and is deployed on zkSync.
+- A dApp to retrieve the greeting.
+- Users will be able to change the greeting on the smart contract.
+- By default, users will have to pay transaction fees to change the greeting message in ether. However, we will also explain how to [implement the testnet paymaster](#paying-fees-using-testnet-paymaster) to allow users to pay fees with ERC20 tokens.
 
-测试网 Paymaster 合约仅用于测试。如果您想在主网上构建一个项目，您应该阅读关于 [Paymasters 的文档](./aa.md#paymasters)。
+::: tip
+
+The testnet paymaster is just for testing. If you decide to build a project on mainnet, you should read the documentation about [paymasters](./aa.md#paymasters).
 
 :::
 
-## 前提条件
+## Prerequisites
 
-- `yarn` Package Manager(应用程序安装包管理器)：[安装指南](https://yarnpkg.com/getting-started/install)(`npm` 示例将很快被添加)。
-- 一个在 L1 上有足够 Göerli `ETH` 的钱包，用于支付 zkSync 的桥接资金以及部署智能合约。如果您想执行测试网 Paymaster 合约，则需要 zkSync 上的 ERC20 测试代币。我们建议使用 [zkSync 门户网站的水龙头](https://portal.zksync.io/faucet)功能来获取测试代币。
+- `yarn` package manager. [Here is the installation guide](https://yarnpkg.com/getting-started/install)(`npm` examples will be added soon.)
+- A wallet with sufficient Göerli `ETH` on L1 to pay for bridging funds to zkSync as well as deploying smart contracts. ERC20 tokens on zkSync are required if you want to implement the testnet paymaster. We recommend using [the faucet from the zkSync portal](https://portal.zksync.io/faucet).
 
-## 初始化项目并部署智能合约
+## Initializing the project & deploying a smart contract
 
-1. 初始化项目并安装依赖项。在终端上运行以下命令:
+1. Initialize the project and install the dependencies. Run the following commands in your terminal:
 
 ```
 mkdir greeter-example
@@ -31,9 +31,9 @@ yarn init -y
 yarn add -D typescript ts-node ethers zksync-web3 hardhat @matterlabs/hardhat-zksync-solc @matterlabs/hardhat-zksync-deploy
 ```
 
-请注意：Typescript 语言是 zkSync 插件所必需的。
+Please note that Typescript is required by zkSync plugins.
 
-2. 创建 hardhat.config.ts 文件并在其中粘贴以下代码：
+2. Create the `hardhat.config.ts` file and paste the following code there:
 
 ```typescript
 require("@matterlabs/hardhat-zksync-deploy");
@@ -65,15 +65,15 @@ module.exports = {
 };
 ```
 
-::: 警告
+::: warning Tip
 
-如果合约已经被编译过，您需要删除 `artifacts-zk` 与 `cache-zk` 文件夹，否则，它将不会被重新编译，除非您改变编译器版本。
+If the contract was already compiled, you should delete the `artifacts-zk` and `cache-zk` folders, otherwise, it won't recompile unless you change the compiler version.
 
 :::
 
-1. 创建 `contracts` 和 `deploy` 文件夹。前者是我们将存储所有智能合约的 `*.sol` 文件的地方，后者是我们将放置所有与部署智能合约有关的脚本的地方。
+1. Create the `contracts` and `deploy` folders. The former is the place where we will store all the smart contracts' `*.sol` files, and the latter is the place where we will put all the scripts related to deploying the contracts.
 
-2. 创建 `contracts/Greeter.sol` 合约，并在其中粘贴以下代码：
+2. Create the `contracts/Greeter.sol` contract and paste the following code in it:
 
 ```solidity
 //SPDX-License-Identifier: Unlicense
@@ -96,13 +96,13 @@ contract Greeter {
 }
 ```
 
-5. 使用以下命令编译智能合约：
+5. Compile the contract with the following command:
 
 ```
 yarn hardhat compile
 ```
 
-6. 在 `deploy/deploy.ts` 中创建以下脚本：
+6. Create the following deployment script in `deploy/deploy.ts`:
 
 ```typescript
 import { Wallet, Provider, utils } from "zksync-web3";
@@ -151,31 +151,31 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 }
 ```
 
-7. 将 `WALLET-PRIVATE-KEY` 替换为您用于开发的以太坊钱包的 `0x` 前缀的私钥，并使用以下命令运行脚本：
+7. Replacing the `WALLET-PRIVATE-KEY` with the `0x`-prefixed private key of the Ethereum wallet you're using for development, and run the script using the following command to run the deployment script:
 
 ```
 yarn hardhat deploy-zksync
 ```
 
-在 output 中，您将会看到部署智能合约的地址。
+In the output, you should see the address the contract was deployed to.
 
-恭喜！您已经在 zkSync 上成功部署了智能合约。现在您可以访问[zkSync 区块浏览器](https://explorer.zksync.io/)并搜索您的智能合约地址以确认它被成功部署。
+Congratulations! You have deployed a smart contract to zkSync! Now you can visit the [zkSync block explorer](https://explorer.zksync.io/) and search you contract address to confirm it was successfully deployed.
 
-[本指南](../../api/tools/block-explorer/contract-verification.md)解释了如何使用 zkSync 区块浏览器验证您的智能合约。
+[This guide](../../api/tools/block-explorer/contract-verification.md) explains how to verify your smart contract using the zkSync block explorer.
 
-## 前端集成指南
+## Front-end integration
 
-### 创建项目
+### Setting up the project
 
-在本教程中，`Vue` 将被用作首选的Web框架，但无论使用哪种框架，其过程都很相似。为了将注意力集中在 `zksync-web3` SDK 的使用上，我们提供了一个已完成所有前端工作的模板。最后一步则是与 zkSync 智能合约进行交互。
+In this tutorial, `Vue` will be used as the web framework of choice, but the process will be quite similar regardless of the framework used. To focus on the specifics of using the `zksync-web3` SDK, we're providing a template with all the front-end work done. The final step is to interact with zkSync smart contract.
 
-1. 复制此代码：
+1. Clone it:
 
 ```
 git clone https://github.com/matter-labs/greeter-tutorial-starter
 ```
 
-2. 启动项目:
+2. Spin up the project:
 
 ```
 cd greeter-tutorial-starter
@@ -183,19 +183,19 @@ yarn
 yarn serve
 ```
 
-默认情况下，该页面应该在 `http://localhost:8080` 上运行。在浏览器中打开这个 URL 就可以看到该页面。
+By default, the page should be running at `http://localhost:8080`. Open this URL in the browser to see the page.
 
-### 连接 Metamask 并将代币桥接到 zkSync
+### Connecting to Metamask & bridging tokens to zkSync
 
-为了与构建在 zkSync 上的 dApps 互动，请将 Metamask 钱包连接到 zkSync alpha testnet 网络，并将一些资金桥接到 L2。
+In order to interact with dApps built on zkSync, connect the Metamask wallet to the zkSync alpha testnet network and bridge some funds to L2.
 
-- 按照[本指南](../fundamentals/testnet.md#connecting-metamask)将 Metamask 连接到 zkSync。
+- Follow [this guide](../fundamentals/testnet.md#connecting-metamask) to connect Metamask to zkSync.
 
-- 使用 [zkSync 门户](https://portal.zksync.io)将代币桥接到 zkSync。
+- Use our [portal](https://portal.zksync.io) to bridge funds to zkSync.
 
-### 项目架构
+### Project structure
 
-我们将在`./src/App.vue` 中编写所有代码。几乎所有的前端代码都可以直接使用，唯一剩下的任务就是填写 TODO-s 来与我们刚刚部署在 zkSync 上的合约进行交互：
+We will write all the code in the `./src/App.vue`. Almost all the front-end code is provided out of the box, the only task left is to fill out the TODO-s to interact with the contract we just deployed on zkSync:
 
 ```javascript
 initializeProviderAndSigner() {
@@ -246,7 +246,7 @@ async changeGreeting() {
 },
 ```
 
-在 `<script>` 标签的顶部，您可以看到应该填写部署的 `Greeter` 的智能合约地址和其 ABI 的路径的部分。我们将在下面的章节中填写这些字段：
+At the top of the `<script>` tag, you may see the parts that should be filled with the address of the deployed `Greeter` contract and the path to its ABI. We will fill these fields in the following sections.
 
 ```javascript
 // eslint-disable-next-line
@@ -255,15 +255,15 @@ const GREETER_CONTRACT_ADDRESS = ""; // TODO: insert the Greeter contract addres
 const GREETER_CONTRACT_ABI = []; // TODO: insert the path to the Greeter contract ABI here
 ```
 
-### 安装 `zksync-web3`
+### Installing `zksync-web3`
 
-在 greeter-tutorial-starter 根目录中运行以下命令以安装 `zksync-web3` 和 `ethers`：
+Run the following command on the greeter-tutorial-starter root folder to install `zksync-web3` and `ethers`:
 
 ```
 yarn add ethers zksync-web3
 ```
 
-之后，在 `App.vue` 文件的 `script` 部分导入这两个库（就在合约常量之前）。它应该是这样的：
+After that, import both libraries in the `script` part of the `App.vue` file (right before the contract constant). It should look like this:
 
 ```javascript
 import {} from "zksync-web3";
@@ -275,14 +275,14 @@ const GREETER_CONTRACT_ADDRESS = ""; // TODO: insert the Greeter contract addres
 const GREETER_CONTRACT_ABI = []; // TODO: insert the path to the Greeter contract ABI here
 ```
 
-### 获取 ABI 及合约地址
+### Getting the ABI and contract address
 
-打开 `./src/App.vue` 并设置 `GREETER_CONTRACT_ADDRESS` 常量等于部署问候合约(greeter contract)的地址。
+Open `./src/App.vue` and set the `GREETER_CONTRACT_ADDRESS` constant equal to the address where the greeter contract was deployed.
 
-要与我们刚刚部署到 zkSync 的智能合约进行交互，我们还需要它的 ABI。ABI 代表应用程序二进制接口，简而言之，它是一个文件，描述了与之交互的智能合约方法的所有可用名称和类型。
+To interact with the smart contract we just deployed to zkSync, we also need its ABI. ABI stands for Application Binary Interface and, in short, it's a file that describes all available names and types of the smart contract methods to interact with it.
 
-- 创建 `./src/abi.json` 文件。
-- 您可以在 hardhat 项目文件夹中的 `./artifacts-zk/contracts/Greeter.sol/Greeter.json` 文件里获取合约的 ABI。您应该复制 `abi` 数组并将其粘贴到在上一步中创建的 `abi.json` 文件中。该文件应该如下所示:
+- Create the `./src/abi.json` file.
+- You can get the contract's ABI in the hardhat project folder from the previous section in the `./artifacts-zk/contracts/Greeter.sol/Greeter.json` file. You should copy the `abi` array and paste it into the `abi.json` file created in the previous step. The file should look roughly the following way:
 
 ```json
 [
@@ -326,7 +326,7 @@ const GREETER_CONTRACT_ABI = []; // TODO: insert the path to the Greeter contrac
 ]
 ```
 
-设置 `GREETER_CONTRACT_ABI` 以引用 ABI 文件。
+Set the `GREETER_CONTRACT_ABI` to require the ABI file.
 
 ```js
 // eslint-disable-next-line
@@ -335,22 +335,22 @@ const GREETER_CONTRACT_ADDRESS = "0x...";
 const GREETER_CONTRACT_ABI = require("./abi.json");
 ```
 
-### Provider 的使用
+### Working with provider
 
-1. 转到 `./src/App.vue` 中的 `initializeProviderAndSigner` method 模块。这个 method 模块会在与 Metamask 的连接后被调用。
+1. Go to the `initializeProviderAndSigner` method in `./src/App.vue`. This method is called after the connection to Metamask is successful.
 
-在这个 method 模块中，我们需要：
+In this method we should:
 
-- 初始化 `Web3Provider` 和 `Signer` 来与 zkSync 互动。
-- 初始化 `Contract` 对象来与我们刚刚部署的 `Greeter` 合约进行交互。
+- Initialize a `Web3Provider` and a `Signer` to interact with zkSync.
+- Initialize the `Contract` object to interact with the `Greeter` contract we just deployed.
 
-2. 导入必要的依赖项：
+2. Import the necessary dependencies:
 
 ```javascript
 import { Contract, Web3Provider, Provider } from "zksync-web3";
 ```
 
-3. 初始化 Provider、Signer、合约实例，方法如下:
+3. Initialise the provider, signer, and contract instances like this:
 
 ```javascript
 initializeProviderAndSigner() {
@@ -365,9 +365,9 @@ initializeProviderAndSigner() {
 },
 ```
 
-### 获取问候信息
+### Retrieving the greeting
 
-1. 写入从智能合约中获取问候信息的方法：
+1. Fill in the method to retrieve the greeting from the smart contract:
 
 ```javascript
 async getGreeting() {
@@ -376,7 +376,7 @@ async getGreeting() {
 }
 ```
 
-完整的 method 模块现在看起来是这样的:
+The full methods now look the following way:
 
 ```javascript
 initializeProviderAndSigner() {
@@ -394,25 +394,24 @@ async getGreeting() {
 },
 ```
 
-连接 Metamask 钱包后，您应该会看到以下页面：
+After connecting the Metamask wallet, you should see following page:
 
 ![img](../../assets/images/start-1.png)
 
-现在可以选择用于支付费用的代币，但是余额还没有被更新。
+The chosen token to pay the fee can now be selected. However, no balances are updated, _yet_.
 
+### Retrieving token balance and transaction fee
 
-### 获取代币余额和交易费用
+The easiest way to retrieve the user's balance is to use the `Signer.getBalance` method.
 
-获取用户账户余额的最简单方法是使用 `Signer.getBalance` method 模块。
-
-1. 添加必要的依赖项：
+1. Add the necessary dependencies:
 
 ```javascript
 // `ethers` is only used in this tutorial for its utility functions
 import { ethers } from "ethers";
 ```
 
-2. Method 模块的自我调用：
+2. Implement the method itself:
 
 ```javascript
 async getBalance() {
@@ -424,7 +423,7 @@ async getBalance() {
 },
 ```
 
-3. 费用估算：
+3. Estimate the fee:
 
 ```javascript
 async getFee() {
@@ -439,23 +438,24 @@ async getFee() {
 },
 ```
 
-::: 使用 ERC20 代币支付费用
+::: tip Paying fees in ERC20
 
-zkSync v2 本身不支持使用 ERC20 代币支付费用，但账户抽象功能为其提供了便利。我们将在下面向您展示如何实现测试网的 Paymaster 模块。但是，当需要在主网上工作时，您应该[自己提供 Paymaster 合约](../tutorials/custom-paymaster-tutorial.md) 或使用第三方 Paymaster 合约。
+zkSync v2 does not natively support paying fees in ERC20 tokens, but the account abstraction feature facilitates that. We will show you how to implement the testnet paymaster below, however, when working on mainnet, you should either provide the paymaster services [yourself](../tutorials/custom-paymaster-tutorial.md) or use a
+3rd party paymaster.
 
 :::
 
-当打开页面并选择支付费用的代币时，将可以看到交易的余额和预期费用。
+When opening the page and selecting the token to pay the fee, the balance and the expected fee for the transaction will be available.
 
-应使用 `Refresh` 按钮来重新计算费用，因为费用可能取决于我们想存储为问候语信息的长度。
+The `Refresh` button should be used to recalculate the fee, as the fee may depend on the length of the message we want to store as the greeting.
 
-也可以点击 `Change greeting` 按钮，但因为合约还没有被调用，所以不会有任何更改。
+It is possible to also click on the `Change greeting` button, but nothing will be changed as the contract has not been called yet.
 
 ![img](../../assets/images/start-2.png)
 
-### 更新问候语信息
+### Updating the greeting
 
-1. 与智能合约交互的方式与在`以太坊`中完全是相同的，但是，如果您想使用 zkSync 的某些特定功能，您可能需要在 overrides 变量中添加一些额外的参数：
+1. Interacting with a smart contract works absolutely the same way as in `ethers`, however, if you want to use zkSync-specific features you may need to provide some additional parameters in the overrides:
 
 ```javascript
 // The example of paying fees using a paymaster will be shown in the
@@ -463,13 +463,13 @@ zkSync v2 本身不支持使用 ERC20 代币支付费用，但账户抽象功能
 const txHandle = await this.contract.setGreeting(this.newGreeting, await this.getOverrides());
 ```
 
-2. 等待交易被提交：
+2. Wait until the transaction is committed:
 
 ```javascript
 await txHandle.wait();
 ```
 
-完整的 method 模块看起来应该是这样的：
+The full method looks the following way:
 
 ```javascript
 async changeGreeting() {
@@ -501,21 +501,21 @@ async changeGreeting() {
 },
 ```
 
-你现在有了一个功能齐全的 Greeter-dApp! 然而，它并没有利用任何 zkSync 的特定功能。
+You now have a fully functional Greeter-dApp! However, it does not leverage any zkSync-specific features.
 
-### 使用测试网 Paymaster 合约支付费用
+### Paying fees using testnet paymaster
 
-尽管以太币是您可以用来支付费用的唯一代币，但账户抽象功能允许您集成 [Paymasters](./aa.md#paymasters)，它可以完全为您支付费用或即时交换为您的代币。在本教程中，我们将使用在所有 zkSync 测试网上都提供的 [测试网 Paymaster 合约](./aa.md#testnet-paymaster)。它允许用户使用 ERC20 代币支付费用，ETH 的兑换率为 1:1。
+Even though ether is the only token you can pay fees with, the account abstraction feature allows you to integrate [paymasters](./aa.md#paymasters) that can either pay the fees entirely for you or swap your tokens on the fly. In this tutorial, we will use the [testnet paymaster](./aa.md#testnet-paymaster) that is provided on all zkSync testnets. It allows users to pay fees in an ERC20 token with the exchange rate of ETH of 1:1, i.e. one unit of the token for one wei of ETH.
 
-::: 主网集成小提示
+::: tip Mainnet integration
 
-测试网的 Paymaster 合约纯粹是为了演示该功能，并不会在主网上提供。在主网上集成您的协议时，您应该遵循您将使用的 Paymaster 合约文档。
+Testnet paymaster is purely for demonstration of the feature and won't be available on mainnet. When integrating your protocol on mainnet, you should follow the documentation of the paymaster you will use.
 
 :::
 
-当用户决定使用以太币支付时，`getOverrides` method 返回对象为“空”，但当用户选择ERC20选项时，它会返回 Paymaster 合约地址以及所需的全部信息。具体方法如下:
+The `getOverrides` method returns an empty object when users decide to pay with ether but, when users selects the ERC20 option, it should return the paymaster address and all the information required by it. This is how to do it:
 
-1. 通过 zkSync Provider 中获取测试网 Paymaster 的合约地址：
+1. Retrieve the address of the testnet paymaster from the zkSync provider:
 
 ```javascript
 async getOverrides() {
@@ -529,15 +529,15 @@ async getOverrides() {
 }
 ```
 
-注意，建议每次在任何交互之前都获取一次测试网 Paymaster 的合约地址，因为它可能会发生变化。
+Note, that it is recommended to retrieve the testnet paymaster's address each time before any interactions as it may change.
 
-2. 在从 `zksync-web3` SDK 导入的文件中加入 `utils`：
+2. Add `utils` to the imports from `zksync-web3` SDK:
 
 ```javascript
 import { Contract, Web3Provider, Provider, utils } from "zksync-web3";
 ```
 
-2. 我们需要计算处理交易需要多少代币。由于测试网 Paymaster 合约以 1:1 的比例将任何 ERC20 代币兑换成相同数量的$ETH：
+2. We need to calculate how many tokens are required to process the transaction. Since the testnet paymaster exchanges any ERC20 token to ETH at a 1:1 rate, the amount is the same as the ETH amount:
 
 ```javascript
 async getOverrides() {
@@ -555,7 +555,7 @@ async getOverrides() {
 }
 ```
 
-3. 现在，剩下的就是按照[协议要求](./aa.md#testnet-paymaster)对 paymasterInput 进行编译，并返回所需的 overrides:
+3. Now, what is left is to encode the paymasterInput following the [protocol requirements](./aa.md#testnet-paymaster) and return the needed overrides:
 
 ```javascript
 async getOverrides() {
@@ -589,37 +589,37 @@ async getOverrides() {
 }
 ```
 
-4. 要使用 ERC20 代币列表，请将下面这行代码:
+4. To use a list of ERC20 tokens, change the following line:
 
 ```javascript
 const allowedTokens = require("./eth.json");
 ```
 
-改为:
+to the following one:
 
 ```javascript
 const allowedTokens = require("./erc20.json");
 ```
 
-### 完整的应用程序
+### Complete app
 
-现在您应该能够更新问候语信息了。
+Now you should be able to update the greeting message.
 
-1. 在输入框中输入新的问候语信息，然后点击 `Change greeting` 按钮：
+1. Type the new greeting in the input box and click on the `Change greeting` button:
 
 ![img](../../assets/images/start-3.png)
 
-1. 由于提供了 `paymasterParams`，交易将符合 `EIP712` 标准。（[更多关于 EIP712 的信息](https://eips.ethereum.org/EIPS/eip-712)）：
+1. Since the `paymasterParams` were supplied, the transaction will be an `EIP712` ([more on EIP712 here](https://eips.ethereum.org/EIPS/eip-712)):
 
 ![img](../../assets/images/start-4.png)
 
-1. 点击“Sign”：
+1. Click "Sign".
 
-交易处理完成后，页面余额更新，即可以查看新的问候语信息：
+After the transaction is processed, the page updates the balances and the new greeting can be viewed:
 
 ![img](../../assets/images/start-5.png)
 
-### 了解更多
+### Learn more
 
-- 要了解更多关于 `zksync-web3`SDK 的信息，请查看其[文档](.../.../api/js)。
-- 要了解有关 zkSync hardhat 插件的更多信息，请查看其[文档](../../api/hardhat)。
+- To learn more about `zksync-web3` SDK, check out its [documentation](../../api/js).
+- To learn more about the zkSync hardhat plugins, check out their [documentation](../../api/hardhat).

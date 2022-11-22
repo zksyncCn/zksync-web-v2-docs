@@ -1,10 +1,10 @@
-# 区块浏览器
+# Block Explorer
 
-使用 zkSync [区块浏览器](https://explorer.zksync.io/)，您可以获得全面的深入分析或搜索 zkSync 网络上的交易、区块、钱包或合约地址等特定信息，验证您的智能合约。
+With zkSync [block explorer](https://explorer.zksync.io/), you can retrieve comprehensive insights or search for a particular piece of information like transactions, blocks, wallet or contract address on the zkSync network, verify your smart contracts.
 
-## 目录
+## Table of contents
 
-- [概述](./intro.md)
-- [浏览区块](./block-view.md)
-- [搜索栏](./search.md)
-- [合约验证](./contract-verification.md)
+- [Overview](./intro.md)
+- [Browse blocks](./block-view.md)
+- [Search bar](./search.md)
+- [Contract verification](./contract-verification.md)

@@ -29,18 +29,18 @@ L1 批次，顾名思义，是被提交到以太坊的交易。有这些不同�
 提交交易后，用户可以按照[这里](../../fundamentals/zkSync.md#zksync-overview)的说明检查他们的交易在进程中的位置。
 
 
-### Empty Blocks
+### 空的区块
 
-We currently have empty blocks being shown on our block explorer, please note it's not a block explorer issue, but this happens by design.
+目前，我们的区块浏览器上显示了空区块，请注意，这不是区块浏览器的问题，而是设计使然。
 
-Although this might be a short-term reality, it is important to consider the rationale behind this design.
+尽管这可能是一个短期的现实，但考虑这个设计背后的基本原理是很重要的。
 
 ::: 
 
-Each L1 batch (which comprises several L2 blocks) is executed in a single VM instance. The VM executes transactions one by one and then executes some code that has nothing to do with the last transaction but rather with the entire batch. Currently, the ETH collected from fees is transferred from the bootloader formal address to the block miner address. The issue is that this transfer emits an event (like any other transfer), hence, we included this event in an L2 block for it to be accessible via API.
+每个 L1 批次（包括几个 L2 区块）都在一个虚拟机（VM）中执行。虚拟机一个一个地执行交易，然后执行一些与最后一笔交易无关的代码，这些代码与整个批次交易有关。目前，从费用中收取的 $ETH 从 bootloader 的正式地址转移到区块矿工地址。问题是这种转移会触发一个事件（就像其他的转移一样），因此，我们把这个事件包含在一个 L2 区块中，以便通过 API 访问它。
 
-We could add it in the latest L2 block in the L1 batch, but imagine the following scenario: if some L2 block was closed, but its L1 batch was not, and the node hasn't received any new transactions in a while, then the L1 batch must be closed by the timeout. If we add the event to the most recent closed block, it will modify the block, resulting in a sort of re-organization. 
-To avoid this is why we built a purely fictional block containing the only event.
+我们可以将它添加到 L1 批次的最新 L2 区块中，但想象一下以下场景：如果某个 L2 区块已关闭，但其 L1 批次未关闭，并且该节点在一段时间内没有收到任何新交易，那么 L1 批次必须在超时前关闭。如果我们将事件添加到最近关闭的区块中，它将修改区块，从而导致某种重组。
+为避免这种情况，我们构建了一个包含唯一事件的虚构区块。
 
 
 

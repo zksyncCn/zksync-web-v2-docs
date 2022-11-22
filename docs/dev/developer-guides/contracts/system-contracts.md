@@ -28,7 +28,7 @@
 
 [代码界面](https://github.com/matter-labs/v2-testnet-contracts/blob/8de367778f3b7ed7e47ee8233c46c7fe046a75a3/l2/system-contracts/interfaces/INonceHolder.sol#L5)
 
-该合约存储账户随机数。账户 nonce 存储在一个地方以提高效率([tx nonce 和部署 nonce ](./contracts.md#differences-in-create-behaviour)存储在同一个地方)并且也为了运营者的方便。
+该合约存储账户随机数。账户 nonce 存储在一个地方以提高效率([tx nonce 和 deployment nonce](./contracts.md#differences-in-create-behaviour) 存储在同一个地方)并且也为了运营者的方便。
 
 ## Bootloader
 

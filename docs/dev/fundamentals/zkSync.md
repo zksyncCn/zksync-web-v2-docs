@@ -1,90 +1,82 @@
-# zkSync basics
+# zkSync 基础知识
 
-## Prerequisites
+## 前提条件
 
-If you are unfamiliar with rollups, you should cover the [rollups basics](./rollups.md) and read about ZK rollups and Optimistic rollups, before learning about zkSync.
+如果您不熟悉 rollups，那么在学习 zkSync 之前，您应该学习 [rollups 基础知识](./rollups.md)并阅读关于 ZK rollups 和 Optimistic rollups 的相关内容。 
 
-## Introduction
+## 简介
 
-**zkSync** is a [ZK rollup](./rollups.md#what-are-zk-rollups), a trustless protocol that uses cryptographic validity proofs to provide 
-scalable and low-cost transactions on Ethereum.
-In zkSync, computation is performed off-chain and most data is stored off-chain as well. As all transactions are proven on the Ethereum 
-mainchain, users enjoy the same security level as in Ethereum.
+**zkSync** 是一个 [ZK rollup](./rollups.md#what-are-zk-rollups)，一种使用加密有效性证明的无信任协议，在以太坊上提供可扩容和低成本交易。
+在 zkSync 中，计算是在链下执行的，大多数数据也存储在链下。由于所有交易都在以太坊主链上进行证明，因此用户享有与以太坊相同的安全级别。
 
-zkSync 2.0 is made to look and feel like Ethereum, but with lower fees. Just like on Ethereum, smart contracts are written in Solidity/Vyper and can be called using the same clients as the other EVM-compatible chains.
+zkSync 2.0 看起来和感觉上都像以太坊，但费用更低。就像在以太坊上一样，智能合约是用 Solidity/Vyper 编写的，并且可以使用与其他 EVM 兼容链相同的客户端进行调用。
 
-You don't need to register a separate private key before usage; zkSync supports existing Ethereum wallets out of the box.
-At this time, zkSync is solely run and operated by the zkSync team's servers and is therefore centralized. However, this will be transitioned to a decentralized system shortly.
+您无需在使用前单独注册一个私钥；zkSync 支持现有的以太坊钱包。
+目前，zkSync 仅由 zkSync 团队的服务器运营，因此是中心化的。但是，它很快将过渡到一个去中心化的系统。
 
-## zkSync overview
+## zkSync 概述
 
 <!---
-Both parts will be able to work with each other and be put together. This means that contracts and accounts on the zkRollup side will be 
-able to work with accounts on the zkPorter side without any problems, and vice versa.
+这两个部分将能够相互配合并组合在一起。这意味着 zkRollup 的智能合约和账户将能够完美地与 zkPorter 的账户一起工作，反之亦然。
 -->
 
-The general rollup workflow is as follows:
-- Users can receive, deposit, and transfer assets to each other.
-- Users can withdraw assets under their control to an L1 address.
+一般的 rollup 工作流程如下：
+- 用户可以相互接收、存入和转移资产。
+- 用户可以将自己控制的资产提取到 L1 地址。
 
-Rollup operation requires the assistance of an operator, who rolls transactions together, computes a zero-knowledge proof of the correct state transition, and affects the state transition by interacting with the rollup contract.
-To understand the design, we need to look into how zkSync rollup transactions work.
+Rollup 操作需要运营者的协助，运营者将交易打包到一起，计算正确状态转换的零知识证明，并通过与 rollup 合约交互来影响状态转换。
+要理解这种设计，我们需要研究 zkSync rollup 的交易是如何工作的。
 
-zkSync operations are divided into rollup transactions (initiated inside rollup by a rollup account) and priority operations (initiated on the mainchain by an Ethereum account).
+zkSync 操作分为 rollup 交易（由 rollup 账户在 rollup 内部发起）和优先级操作（由以太坊账户在主链上发起）。
 
-The zkSync rollup operation lifecycles are as follows:
-- A user creates a transaction or a priority operation.
-- After processing this request, the operator creates a rollup operation and adds it to the block.
-- Once the block is complete, the operator submits it to the zkSync smart contract as a block commitment. Part of the logic of some rollup operations is checked by the smart contract.
-- The proof for the block is submitted to the zkSync smart contract as block verification. If the verification succeeds, the new state is considered final.
+zkSync rollup 生命周期如下：
+- 用户创建交易或优先级操作。
+- 处理完这个请求后，运营者创建一个打包操作并将其添加到区块中。
+- 一旦区块结束，运营者会将其作为区块承诺提交给 zkSync 智能合约。智能合约会检查一些打包操作的部分逻辑。
+- 区块证明提交给 zkSync 智能合约作为区块验证。如果验证成功，则新状态被视为最终状态。
 
-Furthermore, on zkSync, each L2 block will progress through the following four stages until it is final.
+此外，在 zkSync 上，每个 L2 区块都将经过以下四个阶段，直到最终完成。
 
-- `Pending`: The transaction was received by the operator, but it has not been processed yet.
-- `Processed`: The transaction is processed by the operator and is confirmed to be included in the next block.
-- `Committed`: This indicates that the transaction data of this block has been posted on Ethereum. It does not prove that it has been executed in a valid way, but it ensures the 
-  availability of the block data.
-- `Finalized`: This indicates that the SNARK validity proof for the transaction has been submitted and verified by the smart contract. After this step, the transaction is considered to be final.
+- `Pending`: 该交易已被运营者接收，但尚未被处理。
+- `Processed`: 该交易由运营者处理，并被确认包含在下一个区块中。
+- `Committed`: 表示该区块的交易数据已经发布到以太坊上。它并不能证明它已经以有效的方式执行，但它确保了区块数据的可用性。
+- `Finalized`: 这表明交易的 SNARK 有效性证明已被提交并由智能合约验证。在这一步之后，该交易被认为是最终交易。
 
-The typical time for a transaction to go from `Processed` to `Finalized` is a couple of hours at the current stage.
+目前，交易从 `Processed` 到 `Finalized` 的典型时间是几个小时。
+请注意，为了方便开发者，我们通常将 `Processed` 和 `Committed` 状态作为一个单独的阶段，统称为 `Committed`，因为从 UX/DexEx 的角度来看，它们没有任何区别。
 
-Please note that for developer convenience, we usually treat the `Processed` and `Committed` states as a single stage called `Committed` since they have no difference from the UX/DexEx standpoints.
+### zkSync 的状态
+zkSync 2.0 的当前版本解决了以太坊上大多数应用程序的需求，并且计划很快发布更多的功能，zkSync 2.0 将为开发人员提供一个设计空间，来试验以太坊上目前不可能实现的应用程序。在这个版本中，我们支持以下特性:
 
-### The State of zkSync
-The current version of zkSync 2.0 solves the needs of most applications on Ethereum, and with more features planned for release soon, zkSync 2.0 will provide developers with a design space to experiment with applications not possible on Ethereum today. With this release, we are supporting the following features:
+- 原生支持 ECDSA 签名：与第一版 zkSync 和大部分 ZK rollup 不同，注册用户私钥不需要特殊操作。任何账户都可以在 L2 中使用与 L1 相同的私钥进行管理。
+- 支持 Solidity 0.8.x：几乎不需要任何更改即可部署您现有的代码库。
+- 除了少数例外，我们的 Web3 API 与以太坊完全兼容。这将允许与现有索引器、浏览器等进行无缝集成。
+- 支持以太坊密码学原语: zkSync 通过预编译原生支持 `keccak256`、`sha256` 以及 `ecrecover`。
+- Hardhat 插件：可以在 zkSync 上轻松测试和开发智能合约。
+- L1 → L2 智能合约消息传递：允许开发者将数据从以太坊传递给 zkSync 的智能合约，提供运行各种智能合约所需的信息。
 
-- Native support of ECDSA signatures: Unlike the first version of zkSync and most of the ZK rollups, no special operation is required to register the user’s private key. Any account can be managed in L2 with the same private key that is used for L1.
-- Solidity 0.8.x support: Deploy your existing codebase with little to no changes required.
-- With small exceptions, our Web3 API is fully compatible with Ethereum. This allows seamless integration with existing indexers, explorers, etc.
-- Support for Ethereum cryptographic primitives: zkSync natively supports `keccak256`, `sha256`, and `ecrecover` via precompiles.
-- Hardhat plugin: Enables easy testing and development of smart contracts on zkSync.
-- L1 → L2 smart contract messaging: Allows developers to pass data from Ethereum to smart contracts on zkSync, providing the required information to run various smart contracts.
+我们希望在未来的升级中发布的当前测试网中没有包括一些功能:
+- zkPorter: 作为最大和最重要的功能之一，zkPorter 将允许用户选择 zkRollup 或者 zkPorter 账户。zkRollup 特点是最高的安全性和与以太坊相比减少 20 倍的费用， zkPorter 特点是在不同的安全模式（比侧链高得多）下，交易费用稳定，只有几分钱。zkPorter 和 zkRollup 账户都可以在内部无缝交互。
 
-Some features are not included in our current testnet that we’re looking to ship in future upgrades, this includes:
-- zkPorter: One of the largest and most important features, zkPorter will allow users to choose between a zkRollup account featuring the highest security and a 20x fee reduction compared to Ethereum, or a zkPorter account featuring stable transaction fees of just a few cents in a different security model (much higher than that of a sidechain). Both zkPorter and zkRollup accounts will be able to interact seamlessly together under the hood.
+## zkSync 与其他 L2 相比
 
-## zkSync in comparison
+在现有的 L2 扩容解决方案中，zkSync 在安全性和可用性方面[脱颖而出](https://blog.matter-labs.io/evaluating-ethereum-l2-scaling-solutions-a-comparison-framework-b6b2f410f955) 。由于结合了尖端密码学和链上数据可用性，ZK rollups（zkSync 的核心网络）是唯一不需要任何操作活动来保证资金安全的 L2 扩容解决方案。例如，用户可以脱机后重连，在没有 ZK rollup 验证者的情况下仍然能够安全地提取资产。
 
-zkSync [stands out remarkably](https://blog.matter-labs.io/evaluating-ethereum-l2-scaling-solutions-a-comparison-framework-b6b2f410f955) in security and usability among existing L2 scaling solutions.
-Thanks to the combination of cutting-edge cryptography and on-chain data availability, ZK rollups (the core network of zkSync) are the only L2 scaling solution that doesn't 
-require any operational activity to keep the funds safe.
-For example, users can go offline and still be able to withdraw their assets safely when they come back, even if the ZK rollup validators are no longer around.
+## zkSync 的特点
 
-## zkSync characteristics
+- ETH 和 ERC20 的代币转移，即时确认，并在 L1 上快速完成。
+- 交易费用对于 ERC20 代币和 ETH 转账的主网成本来说是极低的。
+- 可以方便地用正在转移的代币向现有以太坊地址(包括智能合约)支付。
 
-- ETH and ERC20 token transfers with instant confirmations and fast finality on L1.
-- Transaction fees are extremely low for the mainnet cost for ERC20 tokens and ETH transfers.
-- Payments to existing Ethereum addresses (including smart contracts) can be conveniently paid with the token being transferred.
+## zkSync 2.0 的亮点
 
-## Highlights of zkSync 2.0
+- 类似于主网的安全性，对第三方没有任何依赖。
+- 无需许可的 EVM 兼容智能合约。
+- 标准 Web3 API。
+- 保留关键的 EVM 特性，例如智能合约可组合性。
+- 引入新的特性，例如账户抽象。
 
-- Mainnet-like security with zero reliance on 3rd parties.
-- Permissionless EVM-compatible smart contracts.
-- Standard Web3 API.
-- Preserving key EVM features, such as smart contract composability.
-- Introducing new features, such as account abstraction.
+## 如何开始？
 
-## How to get started?
-
-- Begin by building a dApp in the [quickstart section](../developer-guides/hello-world.md).
-- See the info on RPC nodes, wallet, and block explorer on the [important links](../troubleshooting/important-links.md) page.
+- 首先在[快速入门](../developer-guides/hello-world.md)构建一个 dApp。
+- 在[重要链接](../troubleshooting/important-links.md)页面上查看有关 RPC 节点、钱包和区块浏览器的信息。

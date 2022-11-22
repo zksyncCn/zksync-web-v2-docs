@@ -25,7 +25,7 @@ Frontend team chosen `yarn@berry` for packager, so don't forget to install `node
 $ yarn set version berry
 
 # ...then assure no1deLinker is configured for node_modules
-$ yarn config set nodeLinker "node_modules"
+$ yarn config set nodeLinker "node-modules"
 # you should see:
 # ➤ YN0000: Successfully set nodeLinker to 'node_modules'
 

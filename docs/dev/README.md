@@ -1,43 +1,43 @@
-# zkSync Documentation
+# zkSync 开发者手册
 
-This documentation is intended to assist you in developing on zkSync. 
-It introduces the concepts of zkSync, describes the zkSync network stack, and some advanced topics for complex applications and use cases.
+本文档旨在帮助您在 zkSync 上进行开发。 
+本文档中对 zkSync 的概念、网络堆栈以及针对一些复杂应用程序和用例的开发进行了说明。
 
-Given this documentation is open-sourced, feel free to suggest new topics, add new content, and provide examples wherever you believe they will be useful. If you're unsure how to proceed, [follow these instructions](./troubleshooting/docs-contribution/docs.md).
+鉴于此文档是开源的，您可以随意提出新主题、添加新内容，并提供您认为有用的示例。如果您不知道从何入手，[请按照这些说明](./troubleshooting/docs-contribution/docs.md)进行操作。
 
-## Fundamental topics
+## 基础内容
 
-If this is your first time using zkSync, we recommend that you kick off at the beginning and work your way through the documentation like you would with a book.
+如果这是您第一次使用 zkSync，我们建议您仔细阅读本文档。
 
-- [Intro to rollups](./fundamentals/rollups.md) - A brief overview of rollups.
-- [zkSync overview](./fundamentals/zkSync.md) - A quick overview of zkSync technologies.
-- [zkSync testnet](./fundamentals/testnet.md) - A brief intro into zkSync testnest.
+- [rollups 介绍](./fundamentals/rollups.md) - rollups 的简要概述。
+- [zkSync 概述](./fundamentals/zkSync.md) - zkSync 技术的简要概述。
+- [zkSync 测试网](./fundamentals/testnet.md) - zkSync 测试网的简介。
 
-### Developer guides
+### 开发者指南
 
-- [Quickstart](./developer-guides/hello-world.md) - Learn how to build a full dApp using the zkSync development toolbox.
-- [Contract deployment](./developer-guides/contracts/contracts.md) - A guide on how to deploy smart contracts on zkSync.
-  - [Contract verification](../api/tools/block-explorer/contract-verification.md) - A guide on how to verify smart contracts with zkSync block explorer.
-- [System contracts](./developer-guides/contracts/system-contracts.md) - A brief overview of zkSync system contracts.
-- [Transactions](./developer-guides/transactions/transactions.md) - A guide on how zkSync handles transactions.
-  - [Blocks](./developer-guides/transactions/blocks.md) - Learn how blocks work on zkSync.
-  - [Fee mechanism](./developer-guides/transactions/fee-model.md) - A quick overview of the zkSync fee structure.
-- [Account abstraction](./developer-guides/aa.md) - Learn about account abstraction.
-- [Bridging of funds](./developer-guides/bridging/bridging-asset.md) - A brief intro on token bridging.
-  - [L1 / L2 Interoperability](./developer-guides/bridging/l1-l2-interop.md) - A quick brief on data communication between L1 and L2.
-    - [L1 / L2 communication](./developer-guides/bridging/l1-l2.md) - Learn how to send data from Ethereum to zkSync.
-    - [L2 / L1 communication](./developer-guides/bridging/l2-l1.md) - Learn how to send data from zkSync to Ethereum.
-- [Important links](./troubleshooting/important-links.md) - Get a quick reference to important links.
-- [Status](./troubleshooting/status.md) - Get updates on things we are currently working on.
-- [Known Issues](./troubleshooting/known-issues.md) - Get answers to common issues you may find.
+- [快速入门](./developer-guides/hello-world.md) - 学习如何使用 zkSync 开发工具构建一个完整的 dApp。
+- [合约部署](./developer-guides/contracts/contracts.md) - 关于如何在 zkSync 上部署智能合约的指南。
+  - [智能合约验证](../api/tools/block-explorer/contract-verification.md) - 关于如何使用 zkSync 区块浏览器验证智能合约的指南。
+- [系统合约](./developer-guides/contracts/system-contracts.md) - zkSync 系统合约的简介。
+- [交易](./developer-guides/transactions/transactions.md) -关于 zkSync 如何处理交易的说明。
+  - [区块](./developer-guides/transactions/blocks.md) - 了解区块如何在 zkSync 上工作的说明。
+  - [费用机制](./developer-guides/transactions/fee-model.md) - zkSync 费用结构的简介。
+- [账户抽象](./developer-guides/aa.md) - 了解账户抽象。
+- [桥接资产](./developer-guides/bridging/bridging-asset.md) - 关于代币桥接的简介。
+  - [L1 / L2 互操作性](./developer-guides/bridging/l1-l2-interop.md) - L1 和 L2 之间数据通信的简要介绍。
+    - [L1 向 L2 发送](./developer-guides/bridging/l1-l2.md) - 了解如何从以太坊发送数据到 zkSync。
+    - [L2 向 L1 发送](./developer-guides/bridging/l2-l1.md) - 了解如何从 zkSync 发送数据到以太坊。
+- [重要链接](./troubleshooting/important-links.md) - 通过这里快速找到重要的链接。
+- [状态信息](./troubleshooting/status.md) - 获取我们正在进行的工作的最新信息。
+- [常见问题解答](./troubleshooting/known-issues.md) - 获取您可能发现的常见问题的答案。
 
-### Developer Tools
+### 开发者工具
 
-- [zkSync 2.0 Portal](https://portal.zksync.io) - Explore Wallet, Bridge and Faucet features.
-- [Block explorer](../api/tools/block-explorer/) - Search for real-time and historical information about blocks, transactions, addresses, and more on zkSync block explorer.
+- [zkSync 2.0 门户网站](https://portal.zksync.io) - 通过这里获取钱包、跨链桥以及水龙头。
+- [区块浏览器](../api/tools/block-explorer/) - 在 zkSync 区块浏览器上搜索关于区块、交易、地址等实时和历史信息。
 
-### Examples and tutorials
+### 示例和教程
 
-- [Cross-chain governance](./tutorials/cross-chain-tutorial.md) - Learn how to use L1 to L2 contract interaction.
-- [Account abstraction](./tutorials/custom-aa-tutorial.md) - Learn how to deploy your custom accounts and interact zkSync system contracts.
-- [Building custom paymasters](./tutorials/custom-paymaster-tutorial.md) - Learn how to build a custom paymaster to allow users to pay fees in your token.
+- [跨链治理](./tutorials/cross-chain-tutorial.md) - 了解如何使用 L1 与 L2 间的合约交互。
+- [账户抽象](./tutorials/custom-aa-tutorial.md) - 了解如何部署您的自定义账户并与 zkSync 系统合约进行交互。
+- [构建自定义的支付系统](./tutorials/custom-paymaster-tutorial.md) - 了解如何构建一个自定义的支付系统，让用户在使用您发行的代币进行支付。

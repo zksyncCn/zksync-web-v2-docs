@@ -2,20 +2,20 @@
 
 在指南中，我们将演示如何:
 
-1. 连接到 zkSync 网络。
-2. 将资产从以太坊存入zkSync。
+1. 连接到 zkSync网络。
+2. 将资产从以太坊存入 zkSync网络。
 3. 转移和提取资金。
 4. 部署一个智能合约。
 5. 与智能合约进行互动。
 
 ## 先决条件
 
-此指南假定你熟悉 [Go](https://go.dev/doc/) 编程语言。
-Go的版本应该>=1.17, 并且需要 Go 模块。
+此指南假定你熟悉  [Go](https://go.dev/doc/)  编程语言。
+Go 的版本应该>=1.17, 并且需要 Go 模块。
 
 ## 安装
 
-使用   `go get` 命令来安装SDK，并运行以下命令:
+使用   `go get` 命令来安装 SDK，并运行以下命令:
 
 ```go
 go get github.com/zksync-sdk/zksync2-go
@@ -25,11 +25,11 @@ go get github.com/zksync-sdk/zksync2-go
 
 要开始使用 SDK，您只需上传一个提供的配置。
 
-使用  `ZkSync Provider`, `EthereumProvider` 和 `Wallet`,您可以通过  zkSync网络执行所有基本操作。
+使用  `ZkSync Provider`, `EthereumProvider` 和 `Wallet`,可以通过 zkSync网络 执行所有基本操作。
 
 ::: 警告
 
-⚠️ 切勿将私钥提交给文件追踪历史记录，否则你的账户可能会被泄露。
+⚠️ 切勿将私钥提交给文件追踪历史记录，否则您的账户可能会被泄露。
 
 :::
 
@@ -174,7 +174,7 @@ func main() {
 
 ## 与智能合约交互
 
-SDK 需要知道合约地址及其 ABI，才能完成与智能合约的交互。因此，您需要使用 ABI.Pack() [使用方法](https://github.com/ethereum/go-ethereum/accounts/abi) 加载合约的 ABI，或对数据进行调用编码以执行函数和它的参数。
+SDK 需要知道合约地址及其 ABI，才能完成与智能合约的交互。因此，您需要使用 ABI.Pack() [使用方法](https://github.com/ethereum/go-ethereum/accounts/abi) 加载合约的 ABI，或对数据进行调用编码以执行函数和 它的参数。
 
 调用编码数据的示例：:
 

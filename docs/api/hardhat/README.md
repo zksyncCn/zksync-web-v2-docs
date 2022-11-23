@@ -1,10 +1,10 @@
-# Hardhat plugins for zkSync 2.0
+# zkSync 2.0的Hardhat插件
 
-[Hardhat](https://hardhat.org) is an Ethereum development environment designed for easy smart contract development in Solidity. One of its most prominent features is extendability, making it simple to add new plugins to a hardhat project.
+[Hardhat](https://hardhat.org) 是一个以太坊开发环境，旨在方便 Solidity 中的智能合约开发。它最突出的特点之一是可扩容性，可使向 hardhat 项目添加新插件变得简单。
 
-## Table of contents
+## 目录
 
-- [Getting started](./getting-started.md)
-- [Plugins & configuration](./plugins.md)
-- [Local testing](./testing.md)
-- [Compiling non-inlinable libraries](./compiling-libraries.md)
+- [入门](./getting-started.md)
+- [插件和配置](./plugins.md)
+- [本地测试](./testing.md)
+- [编译非内联数据库](./compiling-libraries.md)

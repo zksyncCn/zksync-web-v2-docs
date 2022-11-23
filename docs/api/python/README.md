@@ -1,5 +1,5 @@
-# Python SDK
+# Python开发工具包
 
-While most of the existing SDKs should work out of the box, deploying smart contracts or using unique zkSync features, like paying fees in other tokens, requires providing additional fields to those that Ethereum transactions have by default.
+虽然大多数现有的 SDK 可以开箱即用，但部署智能合约或使用独特的 zkSync 功能（例如以其他代币支付费用）需要在以太坊交易默认包含字段的基础上，提供额外的字段。
 
-To provide easy access to all of the features of zkSync 2.0, the `zksync2` Python SDK was created.
+为了提供对 zkSync 2.0 的所有功能的轻松访问，创建了 `zksync2` Python SDK。

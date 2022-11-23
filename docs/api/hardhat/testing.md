@@ -1,77 +1,75 @@
-# Local testing
+# 本地测试
 
-Sometimes there is a need to test contracts in a local environment for network latency or fee reasons.
+有时出于网络延迟或费用原因，需要在本地环境中测试合约。
 
-zkSync team provides a dockerized local setup for this purpose.
+zkSync 团队为此提供了一个 dockerized 本地设置。
 
-## Prerequisites
+## 先决条件
 
-It is required that you have `Docker` and `docker-compose` installed on your computer. Find the [installation guide here](https://docs.docker.com/get-docker/)
+您需要在计算机上安装 `Docker` 和 `docker-compose`。 在此处找到 [安装指南](https://docs.docker.com/get-docker/)
 
-This guide assumes that you're familiar with the zkSync Hardhat plugins. If you are new developing on zkSync with Hardhat, please check the [getting started section here](./getting-started.md).
+本指南假定您熟悉 `zkSync Hardhat` 插件。 如果您是使用 `Hardhat` 在 zkSync 上进行新开发，请查看[入门部分](./getting-started.md)。
 
-## Installing the testing environment
+## 安装测试环境
 
-Download the dockerized project with the following command:
+使用以下命令下载 dockerized 项目：
 
 ```
 git clone https://github.com/matter-labs/local-setup.git
 ```
 
-## Start the local nodes
+## 启动本地节点
 
-To run zkSync locally, run the `start.sh` script:
+要在本地运行 zkSync，请运行 `start.sh` 脚本：
 
 ```
 cd local-setup
 ./start.sh
 ```
 
-This command will start three docker containers:
+此命令将启动三个 docker 容器：
 
-- Postgres (used as the database for zkSync).
-- Local Geth node (used as L1 for zkSync).
-- zkSync node itself.
+- Postgres（用作 zkSync 的数据库）。
+- 本地 Geth 节点（用作 zkSync 的 L1）。
+- zkSync 节点本身。
 
-By default, the HTTP JSON-RPC API will run on port `3050`, while WS API will run on port `3051`.
+默认情况下，HTTP JSON-RPC API 将在端口 `3050`上运行，而 WS API 将在端口`3051`上运行。
 
-::: warning
+： 警告
 
-Note, that it is important that the first `start.sh` script invocation goes uninterrupted. If you face any issues after the bootstrapping process unexpectedly stopped, you should [reset](#resetting-the-zksync-state) the local zkSync state and try again.
+请注意，第一个`start.sh`脚本调用不间断很重要。 如果您在引导过程意外停止后遇到任何问题，您应该[重置](#resetting-the-zksync-state) 本地 zkSync 状态并重试。
 
 :::
 
-## Reset the zkSync state
+## 重置 zkSync 状态
 
-To reset the zkSync state, run the `./clear.sh` script:
+要重置 zkSync 状态， 请运行`./clear.sh` 脚本:
 
 ```
 ./clear.sh
 ```
 
-Note, that you may receive a "permission denied" error when running this command. In this case, you should run it with the root privileges:
+请注意，您在运行此命令时可能会收到"权限被拒绝 " 的错误提示。 在这种情况下，您应该以 root 权限运行它：
 
 ```
 sudo ./clear.sh
 ```
 
-## Rich wallets
+## 富有的钱包
 
-The local zkSync setup comes with some "rich" wallets with large amounts of ETH on both L1 and L2.
+本地 zkSync 设置带有一些 “富有“的钱包，在 L1 和 L2 上都有大量的 ETH。
 
-The full list of the addresses of these accounts with the corresponding private keys can be found [here](https://github.com/matter-labs/local-setup/blob/main/rich-wallets.json).
+ [此处](https://github.com/matter-labs/local-setup/blob/main/rich-wallets.json) 可以找到具有相应私钥的这些帐户地址的完整列表
 
-::: warning ERC20 tokens
+::: 警告  富有的钱包只有ETH，**如果你需要用 ERC20代币 进行测试，你应该自己部署**。
 
-Rich wallets only have ETH. **If you need to test with ERC20 tokens, you should deploy them yourself.**
-
-If you'd like the local node to come with pre-deployed tokens again, please let us know on our [discord](https://discord.gg/px2aR7w), so we can prioritize accordingly.
+如果你希望本地节点再次附带预部署的代币，请在我们的[discord](https://discord.gg/px2aR7w)上告诉我们，这样我们就可以相应地安排优先级。
 
 :::
 
-## Using custom database or Ethereum node
+## 使用自定义数据库或以太坊节点
 
-To use a custom Postgres database or Layer 1 node, you should change the environment parameters in the docker-compose file:
+要使用自定义的 Postgres 数据库或第1层节点，你应该改变 docker-compose 文件中的环境参数：
 
 ```yml
 environment:
@@ -79,24 +77,24 @@ environment:
   - ETH_CLIENT_WEB3_URL=http://geth:8545
 ```
 
-- `DATABASE_URL` is the URL to the Postgres database.
-- `ETH_CLIENT_WEB3_URL` is the URL to the HTTP JSON-RPC interface of the L1 node.
+- `DATABASE_URL` 是指向Postgres数据库的URL。
+- `ETH_CLIENT_WEB3_URL` 是 L1 节点的 HTTP JSON-RPC 接口的 URL。
 
-## Testing with `mocha` + `chai`
+## 使用 `mocha` + `chai`进行测试
 
-Since the zkSync node URL is provided in the `hardhat.config.ts`, the best way to use different URLs for deployment and local testing is to use environment variables. The standard way is to set the `NODE_ENV=test` environment variable before invoking the tests.
+由于在 `hardhat.config.ts` 中提供了 zkSync 节点 URL，因此使用不同 URL 进行部署和本地测试的最佳方式是使用环境变量。 标准方法是在调用测试之前设置 `NODE_ENV=test` 环境变量。
 
-### Project setup
+### 项目设置
 
-1. Create a new Hardhat project following the [getting started guide](./getting-started.md) as a reference.
+1. 按照 [入门指南](./getting-started.md) 作为参考，创建一个新的Hardhat项目。
 
-2. To install the test libraries, run the following command:
+2. 要安装测试库，请运行以下命令：
 
 ```
 yarn add -D mocha chai @types/mocha @types/chai
 ```
 
-3. Add the following lines to your `package.json` in the root folder:
+3. 将一下内容添加到您的根目录下 `package.json`中：
 
 ```json
 "scripts": {
@@ -104,11 +102,11 @@ yarn add -D mocha chai @types/mocha @types/chai
 }
 ```
 
-This will enable running tests in a Hardhat environment with the `NODE_ENV` env variable set as a `test`.
+这将在 `Hardhat` 环境中启动运行测试，并将`NODE_ENV`环境变量设置为`test`
 
-### Configuration
+### 配置
 
-4. Modify `hardhat.config.ts` to use the local node for testing:
+4. 修改 `hardhat.config.ts` ，以使用本地节点进行测试:
 
 ```typescript
 require("@matterlabs/hardhat-zksync-deploy");
@@ -150,11 +148,11 @@ module.exports = {
 };
 ```
 
-Create a `test` folder, where the tests will reside.
+创建一个 `test` 文件夹，测试将保存在其中。
 
-### Writing test files
+### 编写测试文件
 
-5. Now you can write your first test! Create a `test/main.test.ts` file with the following code:
+5. 现在你可以编写你的第一个测试了！ 使用以下代码创建一个 `test/main.test.ts` 文件：
 
 ```ts
 import { expect } from "chai";
@@ -189,16 +187,16 @@ describe("Greeter", function () {
 });
 ```
 
-This script deploys the `Greeter` contract created in the [getting started guide](./getting-started.md#write-and-deploy-a-contract) and test that it returns a correct message when calling the `greet()` method, and that the message can be updated with the `setGreeting()` method.
+此脚本部署在 [入门指南](./getting-started.md#write-and-deploy-a-contract) 中创建的 `Greeter` 合约，并测试它在调用 `greet`() 时返回正确的消息方法，并且可以使用 `setGreeting`()方法更新消息。
 
-You can now run the test file with the following command:
+您现在可以使用以下命令运行测试文件：
 
 ```
 yarn test
 ```
 
-**Congratulations! You've ran your first tests locally with zkSync 🎉**
+**恭喜！ 您已经使用 zkSync 在本地运行了你的第一个测试 🎉**
 
-## Full example
+## 完整的示例
 
-The full example with tests can be found [here](https://github.com/matter-labs/tutorial-examples/tree/main/local-setup-testing)
+完整的示例和测试可以在[这里](https://github.com/matter-labs/tutorial-examples/tree/main/local-setup-testing)找到 。

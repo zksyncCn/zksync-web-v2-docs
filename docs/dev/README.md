@@ -1,4 +1,4 @@
-# zkSync 开发者手册
+# zkSync 开发者目录
 
 本文档旨在帮助您在 zkSync 上进行开发。 
 本文档中对 zkSync 的概念、网络堆栈以及针对一些复杂应用程序和用例的开发进行了说明。
@@ -23,11 +23,13 @@
   - [区块](./developer-guides/transactions/blocks.md) - 了解区块如何在 zkSync 上工作的说明。
   - [费用机制](./developer-guides/transactions/fee-model.md) - zkSync 费用结构的简介。
 - [账户抽象](./developer-guides/aa.md) - 了解账户抽象。
-- [桥接资产](./developer-guides/bridging/bridging-asset.md) - 关于代币桥接的简介。
+- [资金的跨链](./developer-guides/bridging/bridging-asset.md) - 关于代币跨链的简介。
   - [L1 / L2 互操作性](./developer-guides/bridging/l1-l2-interop.md) - L1 和 L2 之间数据通信的简要介绍。
+
     - [L1 -> L2 通信](./developer-guides/bridging/l1-l2.md) - 了解如何从以太坊发送数据到 zkSync。
     - [L2 -> L1 通信](./developer-guides/bridging/l2-l1.md) - 了解如何从 zkSync 发送数据到以太坊。
 - [重要链接](./troubleshooting/important-links.md) - 通过这里快速找到重要的链接。
+
 - [状态信息](./troubleshooting/status.md) - 获取我们正在进行的工作的最新信息。
 - [已知问题](./troubleshooting/known-issues.md) - 获取您可能发现的已知问题的答案。
 

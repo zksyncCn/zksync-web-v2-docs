@@ -3,8 +3,8 @@
 在本指南中，我们将演示如何:
 
 1. 连接到 zkSync 网络。
-2. 将资产从以太坊存入 zkSync。
-3. 转移和提取资金（本地和ERC20代币）。
+2. 将资产从以太坊存入 zkSync 。
+3. 转移和提取资金（本地和 ERC20 代币）。
 4. 部署智能合约。
 5. 与智能合约交互。
 
@@ -39,9 +39,9 @@ dependencies {
 }
 ```
 
-## 运行 SDK 示例
+## 运行 SDK 实例
 
-要开始使用这个SDK，您只需要上传一个提供的配置。
+要开始使用这个 SDK ，你只需要传入一个提供的配置。
 
 ```java
 import io.zksync.protocol.zksync;
@@ -58,12 +58,12 @@ public class Main {
 
 ::: 警告
 
-⚠️ 切勿将私钥提交给文件追踪历史记录，否则你的账户可能会被盗用。
+⚠️ 切勿将私钥提交给文件追踪历史记录，否则你的账户可能会被泄露。
 
 :::
 
 以太坊签名是发送 L1 和 L2 交易所必需的，因为 L2 交易需要以太坊签名作为双重身份验证方案的一部分。
-以太坊签名者由`zksync.crypto.signer`的`PrivateKeyEthSigner` 抽象类来表示。
+以太坊签名者由`zksync.crypto.signer`的`PrivateKeyEthSigner` 抽象来表示。
 
 ```java
 import io.zksync.crypto.signer.EthSigner;
@@ -83,7 +83,7 @@ public class Main {
 
 ## 创建钱包
 
-要在 zksync 中控制您的帐户，请使用 `zksync.crypto.signer.EthSigner`。 它可以使用密钥签署交易并将交易发送到 zksync 网络。
+要在 zkSync 中控制您的帐户，请使用 `zksync.crypto.signer.EthSigner`。 它可以使用密钥签署交易并将交易发送到 zkSync 网络。
 
 ```java
 import io.zksync.crypto.signer.EthSigner;
@@ -402,7 +402,7 @@ public class Main {
 }
 ```
 
-### 转账
+### 转移资金
 
 ```java
 import io.zksync.abi.TransactionEncoder;
@@ -470,7 +470,7 @@ public class Main {
 }
 ```
 
-### 转账 (ERC20 tokens)
+### 转移资金(ERC20 tokens)
 
 ```java
 import io.zksync.abi.TransactionEncoder;
@@ -545,7 +545,7 @@ public class Main {
 }
 ```
 
-### 通过 ZkSyncWallet 转账
+### 通过 ZkSyncWallet 转移资金
 
 ```java
 import io.zksync.protocol.core.Token;

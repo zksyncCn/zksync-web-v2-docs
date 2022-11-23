@@ -1,11 +1,11 @@
-## 入门
+# 入门
 
 在本指南中，我们将演示如何：
 
 1. 连接到 zkSync 网络。
-2. 将来自以太坊的资产存入 zkSync。
+2. 将资产从以太坊存入 zkSync。
 3. 检查余额。
-4. 转账和提取资金（原生代币和ERC20代币）。
+4. 转移和提取资金（原生和 ERC20 代币）。
 5. 部署智能合约。
 6. 使用 create2 部署智能合约。
 
@@ -13,17 +13,17 @@
 
 本指南假定您熟悉 [Python](https://docs.python.org/3/) 编程语言。
 
-# 安装
+## 安装
 
-要使用 `pip install` 命令安装 SDK，请运行以下命令：
+要使用 `pip install`命令安装 SDK，请运行以下命令：
 
 ```py
 pip install zksync2
 ```
 
-## 运行 SDK 示例
+## 实例化 SDK
 
-要开始使用这个SDK，您只需要上传一个提供的配置。
+要开始使用此 SDK，您只需传入提供程序配置。
 
 ```py
 from web3 import Web3
@@ -38,13 +38,13 @@ zkSync_web3 = zkSyncBuilder.build(ZKSYNC_NETWORK_URL)
 
 ## 以太坊签名
 
-::: 警告
+:::警告
 
-⚠️ 切勿将私钥提交到文件跟踪历史记录中，否则您的帐户可能会被盗用。
+⚠️ 切勿将私钥提交给文件跟踪历史记录，否则您的帐户可能会受到威胁。
 
 :::
 
-以太坊签名者由来自“zkSync2.signer.eth_signer”的“PrivateKeyEthSigner”抽象类表示。
+以太坊签名者由来自 `zkSync2.signer.eth_signer` 的 `PrivateKeyEthSigner` 抽象类表示。
 
 ```py
 from eth_account import Account
@@ -96,9 +96,9 @@ if __name__ == "__main__":
     deposit()
 ```
 
-## 查看余额
+## 检查余额
 
-这个例子展示了如何在 zkSync 网络上查看你的余额。
+这个例子展示了如何检查你在 zkSync 网络上的余额。
 
 ```py
 from eth_account import Account
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     get_account_balance()
 ```
 
-## 转账
+## 执行传输
 
 这个例子展示了如何在 zkSync 网络上执行从一个账户到另一个账户的转账。
 
@@ -176,9 +176,9 @@ if __name__ == "__main__":
     transfer_to_self()
 ```
 
-## 转账（ERC20 代币）
+## 转移资金（ERC20代币）
 
-这个例子展示了如何将 ERC20 代币转移到你在 zkSync 网络上的账户。
+这个例子展示了如何将 ERC20 代币转移到您在 zkSync 网络上的账户中。
 
 ```py
 from zkSync2.module.request_types import create_function_call_transaction
@@ -308,9 +308,9 @@ if __name__ == "__main__":
 
 ## 部署智能合约
 
-使用 zkSync，您可以使用 `create` 方法部署合约，只需将合约构建为二进制格式并将其部署到 zkSync 网络。
+使用 zkSync，您可以使用 `create` 方法部署合约，只需将合约构建为二进制格式并将其部署到 zkSync 网络即可。
 
-在接下来的步骤中，我们将指导您了解它的工作原理。
+在接下来的步骤中，我们将指导您了解其工作原理。
 
 ### 第一步：创建合约
 
@@ -332,20 +332,20 @@ contract Counter {
 }
 ```
 
-> 只能通过 zkSync 编译器编译！
+> It must be compiled by zkSync compiler only!
 
-编译后必须有2个文件：
+编译后必须有 2 个文件：
 
 - contract binary representation
 - contract ABI in JSON format
 
-### 步骤 2：部署合约
+### 第二步：部署合约
 
-要部署合约，需要合约 ABI 以标准的 `web3` 方式调用其方法。
+要部署合约，需要合约 ABI 以标准的“web3”方式调用。
 
 在某些情况下，您需要在部署之前获取合约地址。
 
-这是您将如何做的一个例子。
+这是您将如何做的示例。
 
 ```py
 import json
@@ -453,9 +453,9 @@ if __name__ == "__main__":
 
 ## 使用 Create2 部署智能合约
 
-使用 [CREATE2](https://eips.ethereum.org/EIPS/eip-1014) 操作码使您能够预测将部署合约的地址，而无需这样做，从而改善用户引导。
+使用 [CREATE2](https://eips.ethereum.org/EIPS/eip-1014) 操作码让您能够预测将部署合约的地址，但无需这样做，从而方便用户的加入。
 
-与上面的 `create` 方法类似，这里是如何使用 zkSync 上的 `create2` 方法部署合约的实现。
+类似上面的 `create` 方法，这里是关于如何使用 `create2` 在 zkSync 上部署合约的实现。
 
 ```py
 import os
@@ -562,7 +562,7 @@ if __name__ == "__main__":
     deploy_contract_create2()
 ```
 
-::: 注意
+::: 提示
 
 ⚠️ 这一部分文档仍在更新中，不久将会更新更详细的信息。
 

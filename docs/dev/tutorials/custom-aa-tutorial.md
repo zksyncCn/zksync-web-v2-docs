@@ -63,7 +63,7 @@ contract TwoUserMultisig is IAccount, IERC1271 {
 
     function executeTransaction(bytes32, bytes32, Transaction calldata _transaction) external payable override onlyBootloader {
         _executeTransaction(_transaction);
-	  }
+      }
 
     function _executeTransaction(Transaction calldata _transaction) internal {
 
@@ -74,7 +74,7 @@ contract TwoUserMultisig is IAccount, IERC1271 {
         _executeTransaction(_transaction);
     }
 
-	  bytes4 constant EIP1271_SUCCESS_RETURN_VALUE = 0x1626ba7e;
+      bytes4 constant EIP1271_SUCCESS_RETURN_VALUE = 0x1626ba7e;
 
     function isValidSignature(bytes32 _hash, bytes calldata _signature) public override view returns (bytes4) {
         return EIP1271_SUCCESS_RETURN_VALUE;
@@ -88,7 +88,7 @@ contract TwoUserMultisig is IAccount, IERC1271 {
 
     }
 
-	  receive() external payable {
+      receive() external payable {
         // If the bootloader called the `receive` function, it likely means
         // that something went wrong and the transaction should be aborted. The bootloader should
         // only interact through the `validateTransaction`/`executeTransaction` methods.
@@ -201,8 +201,8 @@ We should now implement the `payForTransaction` method. The `TransactionHelper` 
 
 ```solidity
 function payForTransaction(bytes32, bytes32, Transaction calldata _transaction) external payable override onlyBootloader {
-		bool success = _transaction.payToTheBootloader();
-		require(success, "Failed to pay the fee to the operator");
+        bool success = _transaction.payToTheBootloader();
+        require(success, "Failed to pay the fee to the operator");
 }
 ```
 
@@ -439,8 +439,6 @@ contract TwoUserMultisig is IAccount, IERC1271 {
         assert(msg.sender != BOOTLOADER_FORMAL_ADDRESS);
     }
 }
-
-
 ```
 
 ## The factory

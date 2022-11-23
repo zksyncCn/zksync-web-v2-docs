@@ -22,6 +22,7 @@
 
 将 Solidity 编译成 zkEVM 字节码需要一个特殊的编译器。目前支持 Solidity `>=0.4.10` 版本，尽管我们强烈建议使用`^0.8.0`作为最稳定的版本。Vyper `^0.3.3`也是支持的。
 
+
 尽管支持旧版本的 Solidity，但在 zkSync 中，它们有一些限制：
 - 不支持 Contract-local 递归。
 - 不支持内部函数指针。
@@ -40,11 +41,11 @@
 ## 关于 `factory deps` 的注意事项
 
 
-Under the hood, zkSync stores not bytecodes of contracts, but [specially formatted](#format-of-bytecode-hash) hashes of their bytecodes. You can see that even the [ContractDeployer](./system-contracts.md#contractdeployer) system contract accepts the bytecode hash of the deployed contract and not its bytecode. However, for contract deployment to succeed, the operator needs to know the bytecode. Exactly for this reason the `factory_deps` (i.e. factory dependencies) field for transactions is used: it contains the bytecodes that should be known to the operator for this transaction to succeed. Once the transaction succeeds, these bytecodes will be published on L1 and will be considered "known" to the operator forever.
-
 一些用法的例子:
 最明显的一个例子是，在部署合约时，需要在 `factory deps` 字段中提供它的代码。
 - 在 zkSync 上，工厂不存储它们依赖项的字节码，即它们可以部署的合约。它们只存储哈希值。这就是为什么您需要在 `factory_deps` 字段中包含*所有*依赖的字节码。
+
+在底层逻辑中，zkSync存储的不是合同的字节码，而是其字节码的[特殊格式化](#format-of-bytecode-hash)哈希值。你可以看到，即使是[ContractDeployer](./system-contracts.md#contractdeployer)系统合同也接受部署合同的字节码哈希值，而不是它的字节码。然而，为了使合约部署成功，运营商需要知道字节码。正是由于这个原因，交易的`factory_deps`（即工厂依赖）字段被使用：它包含了操作员应该知道的字节码，以便这个交易成功。一旦交易成功，这些字节码将被公布在L1上，并被视为永远被操作者 "知道"。
 
 这两个例子已经通过我们的 [ Hardhat 插件](../../../api/hardhat/plugins.md)在底层无缝完成。
 

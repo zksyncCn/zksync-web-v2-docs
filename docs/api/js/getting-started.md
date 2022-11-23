@@ -1,153 +1,99 @@
-# Getting started
+# zkSync 功能
 
-## Concept
+虽然 zkSync 主要与 Web3 兼容，但与以太坊相比有一些差异。 其中主要有：
 
-While most of the existing SDKs should work out of the box, deploying smart contracts or using unique zkSync features, like account abstraction, requires providing additional fields to those that Ethereum transactions have by default.
+- 帐户抽象支持（帐户可能具有近乎任意的验证逻辑，并且还启用了 paymaster 支持）。
+- 部署交易需要在单独的字段中传递合约的字节码。
+- 收费系统有些不同。
 
-To provide easy access to all of the features of zkSync 2.0, the `zksync-web3` JavaScript SDK was created, which is made in a way that has an interface very similar to those of [ethers](https://docs.ethers.io/v5/). In fact, `ethers` is a peer dependency of our library and most of the objects exported by `zksync-web3` (e.g. `Wallet`, `Provider` etc.) inherit from the corresponding `ethers` objects and override only the fields that need to be changed.
+这些要求我们使用新的自定义字段扩展标准以太坊交易。 此类扩展交易称为 EIP712 交易，因为 [EIP712](https://eips.ethereum.org/EIPS/eip-712) 用于对它们进行签名。 您可以在 [此处](../api.md#eip712) 查看 EIP712 交易的内部结构。
 
-The library is made in such a way that after replacing `ethers` with `zksync-web3` most client apps will work out of box.
+本文档将专注于如何将这些参数传递给 SDK。
 
-## Adding dependencies
+## 覆盖
 
-```bash
-yarn add zksync-web3
-yarn add ethers@5 # ethers is a peer dependency of zksync-web3
-```
+`ethers` 有一个覆盖的概念。 对于任何链上交易，`ethers` 会在后台找到最佳的`gasPrice`、`gasLimit`、`nonce`和其他重要字段。 但有时，您可能需要明确提供这些值（例如，您想要设置较小的 `gasPrice`，或使用未来的 `nonce` 签署交易）。
 
-Then you can import all the content of the `ethers` library and the `zksync-web3` library with the following statement:
+在这种情况下，您可以提供一个`Overrides` 对象作为最后一个参数。 在那里，您可以提供诸如 `gasPrice`、`gasLimit`、`nonce` 等字段。
 
-```typescript
-import * as zksync from "zksync-web3";
-import * as ethers from "ethers";
-```
-
-## Connecting to zkSync
-
-To interact with the zkSync network users need to know the endpoint of the operator node.
+为了使 SDK 尽可能灵活，库使用覆盖来提供 zkSync 特定的字段。 要提供 zkSync 特定的字段，您需要传递以下覆盖：
 
 ```typescript
-// Currently, only one environment is supported.
-const syncProvider = new zksync.Provider("https://zksync2-testnet.zksync.dev");
+{
+    customData: {
+        ergsPerPubdata?: BigNumberish;
+        factoryDeps?: BytesLike[];
+        customSignature?: BytesLike;
+        paymasterParams?: {
+            paymaster: Address;
+            paymasterInput: BytesLike;
+        };
+    }
+}
 ```
 
-**Note:** Currently, only `goerli` network is supported.
+例子：
 
-Some operations require access to the Ethereum network. `ethers` library should be used to interact with
-Ethereum.
+重写以部署带有字节码`0xcde...12`的合约，并强制运营商不会对第 1 层上的每个已发布字节收取超过`100`ergs 的费用：
 
 ```typescript
-const ethProvider = ethers.getDefaultProvider("goerli");
+{
+    customData: {
+        ergsPerPubdata: "100",
+        factoryDeps: ["0xcde...12"],
+    }
+}
 ```
 
-## Creating a wallet
-
-To control your account in zkSync, use the `zksync.Wallet` object. It can sign transactions with keys stored in
-`ethers.Wallet` and send transaction to the zkSync network using `zksync.Provider`.
+为帐户使用自定义签名“0x123456”，同时使用地址为`0x8e1DC7E4Bb15927E76a854a92Bf8053761501fdC`的paymaster和paymaster，输入`0x8c5a3445`：
 
 ```typescript
-// Derive zksync.Wallet from ethereum private key.
-// zkSync's wallets support all of the methods of ethers' wallets.
-// Also, both providers are optional and can be connected to later via `connect` and `connectToL1`.
-const syncWallet = new zksync.Wallet(PRIVATE_KEY, syncProvider, ethProvider);
+{
+    customData: {
+        customSignature: "0x123456",
+        paymasterParams: {
+            paymaster: "0x8e1DC7E4Bb15927E76a854a92Bf8053761501fdC",
+            paymasterInput: "0x8c5a3445"
+        }
+    }
+}
 ```
 
-## Depositing funds
+## 编码 paymaster 参数
 
-Let's deposit `1.0 ETH` to our zkSync account.
+虽然 paymaster 功能本身不会对 paymasterInput 的值施加任何限制，但 Matter Labs 团队认可某些类型的 [paymaster flows](../../dev/developer-guides/aa.md#built- in-paymaster-flows) 可由 EOA 处理。
 
-```typescript
-const deposit = await syncWallet.deposit({
-  token: zksync.utils.ETH_ADDRESS,
-  amount: ethers.utils.parseEther("1.0"),
+zkSync SDK 提供了一个实用方法，可用于获取正确格式的 `paymasterParams` 对象：[getPaymasterParams](./utils.md#encoding-paymaster-params)。
+
+## 实际操作
+
+如果你想调用名为 greeter 的 ethers `Contract` 对象的 `setGreeting` ，你可以使用下面的方法，同时使用 [testnet paymaster](../../dev/developer-guides /aa.md#testnet-paymaster):
+
+```javascript
+// The `setGreeting` method has a single parameter -- new greeting
+// We will set its value as `a new greeting`.
+const greeting = "a new greeting";
+const tx = await greeter.populateTransaction.setGreeting(greeting);
+const gasPrice = await sender.provider.getGasPrice();
+const gasLimit = await greeter.estimateGas.setGreeting(greeting);
+const fee = gasPrice.mul(gasLimit);
+
+const paymasterParams = utils.getPaymasterParams(testnetPaymaster, {
+    type: 'ApprovalBased',
+    token,
+    minimalAllowance: fee,
+    innerInput: new Uint8Array()
+});
+const sentTx = await sender.sendTransaction({
+    ...tx,
+    maxFeePerGas: gasPrice,
+    maxPriorityFeePerGas: BigNumber.from(0),
+    gasLimit,
+    customData: {
+        ergsPerPubdata: utils.DEFAULT_ERGS_PER_PUBDATA_LIMIT,
+        paymasterParams
+    }
 });
 ```
 
-**NOTE:** Each token inside zkSync has an address. If ERC-20 tokens are being bridged, you should supply the token's L1 address in the `deposit` function, or zero address (`0x0000000000000000000000000000000000000000`) if you want to deposit ETH. Note, that for the ERC-20 tokens the address of their corresponding L2 token will be different from the one on Ethereum.
-
-After the transaction is submitted to the Ethereum node, its status can be tracked using the transaction handle:
-
-```typescript
-// Await processing of the deposit on L1
-const ethereumTxReceipt = await deposit.waitL1Commit();
-
-// Await processing the deposit on zkSync
-const depositReceipt = await deposit.wait();
-```
-
-## Checking zkSync account balance
-
-```typescript
-// Retreiving the current (committed) balance of an account
-const committedEthBalance = await syncWallet.getBalance(zksync.utils.ETH_ADDRESS);
-
-// Retrieving the balance of an account in the last finalized block zkSync.md#confirmations-and-finality
-const finalizedEthBalance = await syncWallet.getBalance(zksync.utils.ETH_ADDRESS, "finalized");
-```
-You can read more about what committed and finalized blocks are [here](../../dev/fundamentals/zkSync.md#confirmations-and-finality).
-
-## Performing a transfer
-
-Now, let's create a second wallet and transfer some funds into it. Note that it is possible to send assets to any fresh Ethereum
-account, without preliminary registration!
-
-```typescript
-const syncWallet2 = new zksync.Wallet(PRIVATE_KEY2, syncProvider, ethProvider);
-```
-
-Let's transfer `1 ETH` to another account:
-
-The `transfer` method is a helper method that enables transferring `ETH` or any ERC20 token within a single interface.
-
-```typescript
-const amount = ethers.utils.parseEther("1.0");
-
-const transfer = await syncWallet.transfer({
-  to: syncWallet2.address,
-  token: zksync.utils.ETH_ADDRESS,
-  amount,
-});
-```
-
-To track the status of this transaction:
-
-```typescript
-// Await commitment
-const transferReceipt = await transfer.wait();
-
-// Await finalization on L1
-const transferReceipt = await transfer.waitFinalize();
-```
-
-## Withdrawing funds
-
-There are two ways to withdraw funds from zkSync to Ethereum, calling the operation through L2 or L1. If the
-withdrawal operation is called through L1, then the operator has a period of time during which he must process
-the transaction, otherwise `PriorityMode` will be turned on. This ensures that the operator cannot stage the
-transaction. But in most cases, a call via L2 is sufficient.
-
-```typescript
-const withdrawL2 = await syncWallet.withdraw({
-  token: zksync.utils.ETH_ADDRESS,
-  amount: ethers.utils.parseEther("0.5"),
-});
-```
-
-Assets will be withdrawn to the target wallet after the validity proof of the zkSync block with this transaction is
-generated and verified by the mainnet contract.
-
-It is possible to wait until the validity proof verification is complete:
-
-```typescript
-await withdrawL2.waitFinalize();
-```
-
-## Deploying a contract
-
-A guide on deploying smart contracts using our hardhat plugin is available [here](../hardhat).
-
-## Adding tokens to the standard bridge
-
-Adding tokens to the zkSync standard bridge can be done in a permissionless way. After adding a token to zkSync, it can be used in all types of transactions.
-
-The documentation on adding tokens to zkSync can be found [here](./accounts-l1-l2.md#adding-native-token-to-zksync).
+您还可以在成熟的迷你 dApp 上查看我们的[教程](../../dev/developer-guides/hello-world.md)，用户可以选择代币来支付费用。

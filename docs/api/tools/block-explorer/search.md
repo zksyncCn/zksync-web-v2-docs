@@ -1,17 +1,21 @@
-# The search bar
+# 搜索栏
 
-## Overview
-Our user-friendly search tool gives you easy access to data from multiple search points and provides a more intuitive understanding of what you are searching for.
+
+## 概述
+
+我们友好的搜索工具可让您轻松访问多种搜索数据，并对您的搜索内容提供更直观地理解。
+
 
 ![Search Bar!](../../../assets/images/search-bar.png "search bar")
 
-The main search bar is where you can look up something specific right away. You can search by:
+主搜索栏是您可以立即查找特定内容的地方。 您可以通过以下方式搜索：
 ‍
-1. Block number: The number of the desired block for inspection. For example, enter `0` to see the contents of the chain’s genesis block. 
-2. Transaction hash/ID: The ID of a specific transaction. A transaction implies that byte code has been executed by the EVM. These include deployments of smart contracts and subsequent invocations.
-3. Wallet address: The wallet address of a sender or a receiver of a token.
-4. Contract address: The callable address of an Ethereum smart contract deployed on zkSync.
 
-One common use case that you can try on the block explorer is checking on the status of a transaction. This can be done by copying and pasting the transaction ID into the search bar. Users can also confirm whether the cryptocurrency they are waiting on has arrived yet by pasting their wallet address into the search bar, other use cases include searching for a contract address that has been deployed on zkSync.
+1. 区块编号：需要查看的区块编号。比如，输入 `0` 以查看链的创世区块的内容。
+2. 交易哈希/ID：特定交易的 ID。交易表明字节码已由 EVM 执行。其中包括智能合约的部署和后续调用。
+3. 钱包地址：代币发送者或接收者的钱包地址。
+4. 合约地址：部署在 zkSync 上的以太坊智能合约的可调用地址。
 
-In terms of transactions, the block explorer will display the address and its most recent transactions, as well as all transactions that have been carried out to and from that address. Within a block, there can be thousands of approved transactions. However, if you are interested in the exact order of a transaction in comparison to another (in the same block), you can utilize other indicators such as the transaction amount, and the payment’s timestamp to point you to the correct transactions.
+您可以在区块浏览器上尝试的一个常见用法是检查交易状态。这可以通过将交易 ID 复制并粘贴到搜索栏中来完成。用户还可以通过将钱包地址粘贴到搜索栏中来确认他们正在等待的加密货币是否已经送达，其他用例包括搜索已部署在 zkSync 上的合约地址。
+
+在交易方面，区块浏览器将显示地址及其最近的交易，以及进出该地址的所有交易。 在一个区块内，可以有数千个已批准的交易。 但是，如果您对一笔交易相比另一笔交易（在同一个区块中）的确切顺序感兴趣，您可以利用其他指标，例如交易金额和支付时间戳来为您指出正确的交易。

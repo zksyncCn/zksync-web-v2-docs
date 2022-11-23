@@ -33,7 +33,7 @@
 
 ### 开发者工具
 
-- [zkSync 2.0 门户网站](https://portal.zksync.io) - 通过这里获取钱包、跨链桥以及水龙头。
+- [zkSync 2.0 门户](https://portal.zksync.io) - 通过这里获取钱包、跨链桥以及水龙头。
 - [区块浏览器](../api/tools/block-explorer/) - 在 zkSync 区块浏览器上搜索关于区块、交易、地址等实时和历史信息。
 
 ### 示例和教程

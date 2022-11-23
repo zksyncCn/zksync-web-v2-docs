@@ -29,7 +29,7 @@
     - [L2 向 L1 发送](./developer-guides/bridging/l2-l1.md) - 了解如何从 zkSync 发送数据到以太坊。
 - [重要链接](./troubleshooting/important-links.md) - 通过这里快速找到重要的链接。
 - [状态信息](./troubleshooting/status.md) - 获取我们正在进行的工作的最新信息。
-- [已知问题解答](./troubleshooting/known-issues.md) - 获取您可能发现的已知问题的答案。
+- [已知问题](./troubleshooting/known-issues.md) - 获取您可能发现的已知问题的答案。
 
 ### 开发者工具
 

@@ -25,8 +25,8 @@
 - [账户抽象](./developer-guides/aa.md) - 了解账户抽象。
 - [桥接资产](./developer-guides/bridging/bridging-asset.md) - 关于代币桥接的简介。
   - [L1 / L2 互操作性](./developer-guides/bridging/l1-l2-interop.md) - L1 和 L2 之间数据通信的简要介绍。
-    - [L1 向 L2 发送](./developer-guides/bridging/l1-l2.md) - 了解如何从以太坊发送数据到 zkSync。
-    - [L2 向 L1 发送](./developer-guides/bridging/l2-l1.md) - 了解如何从 zkSync 发送数据到以太坊。
+    - [L1->L2 通信](./developer-guides/bridging/l1-l2.md) - 了解如何从以太坊发送数据到 zkSync。
+    - [L2->L1 通信](./developer-guides/bridging/l2-l1.md) - 了解如何从 zkSync 发送数据到以太坊。
 - [重要链接](./troubleshooting/important-links.md) - 通过这里快速找到重要的链接。
 - [状态信息](./troubleshooting/status.md) - 获取我们正在进行的工作的最新信息。
 - [已知问题](./troubleshooting/known-issues.md) - 获取您可能发现的已知问题的答案。

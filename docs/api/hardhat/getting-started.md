@@ -1,6 +1,6 @@
 # 入门
 
-[Hardhat](https://hardhat.org) 是一个以太坊开发环境，专为在 Solidity 中轻松开发智能合约而设计。它最突出的特性之一是可扩展性：您可以轻松地将新插件添加到您的 hardhat 项目中。
+[Hardhat](https://hardhat.org) 是一个以太坊开发环境，专为在 Solidity 中轻松开发智能合约而设计。它最突出的特性之一是可扩容性：您可以轻松地将新插件添加到您的 hardhat 项目中。
 
 zkSync 为 Hardhat 提供了三个插件：
 
@@ -67,11 +67,9 @@ module.exports = {
 };
 ```
 
-::: 提示
+提示：
 
 要了解有关“hardhat.config.ts”文件中每个特定属性的更多信息，请查看 [插件文档](./plugins.md)
-
-:::
 
 ## 编写和部署合同
 
@@ -102,11 +100,9 @@ contract Greeter {
 
 5. 运行 `yarn hardhat compile`，它使用 `hardhat-zksync-solc`插件来编译合约。 `artifacts-zk` 和 `cache-zk` 文件夹将在根目录中创建（而不是常规 Hardhat 的 `artifacts` 和 `cache`）。
 
-::: 提示
+提示：
 
 请注意，`artifacts-zk` 和 `cache-zk` 文件夹包含编译工件和缓存，不应添加到版本控制中，因此最好将它们包含在项目的 `.gitignore` 文件中。
-
-:::
 
 6. 使用以下代码在 `deploy/deploy.ts` 中创建部署脚本：
 
@@ -170,7 +166,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 
 7. 将 `WALLET-PRIVATE-KEY`文本替换为以太坊钱包的“0x”前缀私钥后，使用以下命令运行脚本：`yarn hardhat deploy-zksync`。 该脚本将：
 - 从 Goerli 转 0.001 ETH 到 zkSync。
-- 部署带有消息 `你好！`的 `Greeting` 合约。
+- 部署带有消息 `Hello！`的 `Greeting` 合约。
 - 从调用 `greet()` 方法的合约中检索消息。
 - 使用 `setGreeting`() 方法更新合约中的问候消息。
 - 再次从合约中检索消息。

@@ -113,10 +113,10 @@ Returns the fee for the transaction. The token in which the fee is calculated is
 
 ### 输入参数
 
-| Parameter | Type     | Description         |
-| --------- | -------- | ------------------- |
-| from      | `uint32` | 从中开始返回有关代币信息的代币 ID。 |
-| limit     | `uint8`  | 从 API 返回的代币数。       |
+| 名称    | Type     | 说明                  |
+| ----- | -------- | ------------------- |
+| from  | `uint32` | 从中开始返回有关代币信息的代币 ID。 |
+| limit | `uint8`  | 从 API 返回的代币数。       |
 
 ### 输出格式
 
@@ -142,6 +142,7 @@ Returns the fee for the transaction. The token in which the fee is calculated is
   }
 ]
 ```
+
 ### `zks_getL2ToL1LogProof`
 
 给定一个区块、一个发件人和一个消息，以及包含L1->L2消息的区块中可选的消息日志索引，返回通过L1Messenger系统合同发送的消息的证明。
@@ -155,14 +156,14 @@ Returns the fee for the transaction. The token in which the fee is calculated is
 | msg             | `uint256` | 发送信息的keccak256哈希值。             |
 | l2_log_position | `uint256` | `null`                         |
 
-The index of the log that can be obtained from the transaction receipt (it includes a list of every log produced by the transaction).
+可以从交易收据中获得的日志索引（它包括交易产生的每条日志的列表）。
 
-### Input parameters
+### 输入参数
 
-| Parameter | Type      | Description                                                                               |
-| --------- | --------- | ----------------------------------------------------------------------------------------- |
-| tx_hash   | `bytes32` | Hash of the L2 transaction the L2 to L1 log was produced within.                                   |
-| l2_to_l1_log_index| `undefined` &#124; `number` | The Index of the L2 to L1 log in the transaction. |
+| 范围                 | Type                        | 说明                      |
+| ------------------ | --------------------------- | ----------------------- |
+| tx_hash            | `bytes32`                   | 生成 L2 到 L1 日志的 L2 交易哈希。 |
+| l2_to_l1_log_index | `undefined` &#124; `number` | 交易中 L2 到 L1 日志的索引。      |
 
 ### 输出格式
 
@@ -189,35 +190,34 @@ The index of the log that can be obtained from the transaction receipt (it inclu
 
 可以在 [此处](../dev/developer-guides/bridging/l2-l1.md) 找到通过我们的 SDK 使用此端点的一个很好的示例。
 
+:::  实力
 
-::: tip
+交易产生的 L2 到 L1 日志列表，包含在收据中，是 L1Messenger 合约或其他系统合约/bootloader 产生的日志的组合。
 
-The list of L2 to L1 logs produced by the transaction, which is included in the receipts, is a combination of logs produced by L1Messenger contract or other system contracts/bootloader. 
-
-There is a log produced by the bootloader for every L1 originated transaction that shows if the transaction has succeeded. 
+引导加载程序为每个 L1 发起的事务生成一个日志，显示事务是否成功。
 
 :::
 
 ### `zks_getL2ToL1MsgProof`
 
-Given a block, a sender, a message, and an optional message log index in the block containing the L1->L2 message, it returns the proof for the message sent via the L1Messenger system contract.
+给定一个块、一个发送者、一条消息和包含 L1->L2 消息的块中的可选消息日志索引，它返回通过 L1Messenger 系统合约发送的消息的证明。
 
 ### Input parameters
 
-| Parameter | Type      | Description                                                                               |
-| --------- | --------- | ----------------------------------------------------------------------------------------- |
-| block     | `uint32`  | The number of the block where the message was emitted.                                    |
-| sender    | `address` | The sender of the message (i.e. the account that called the L1Messenger system contract). |
-| msg       | `bytes32` | The keccak256 hash of the sent message.                                          |
-| l2_log_position       | `uint256` &#124; `null` | The index in the block of the event that was emitted by the [L1Messenger](../dev/developer-guides/contracts/system-contracts.md#il1messenger) when submitting this message. If it is ommitted, the proof for the first message with such content will be returned.                                          |
+| Parameter       | Type                    | 说明                                                                                                                            |
+| --------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| block           | `uint32`                | 发出消息的块的编号。                                                                                                                    |
+| sender          | `address`               | 消息的发送者（即调用 L1Messenger 系统合约的账户）。                                                                                              |
+| msg             | `bytes32`               | 已发送消息的 keccak256 哈希。                                                                                                          |
+| l2_log_position | `uint256` &#124; `null` | 提交此消息时由 [L1Messenger](../dev/developer-guides/contracts/system-contracts.md#il1messenger) 发出的事件块中的索引。 如果省略，则返回具有该内容的第一条消息的证明。 |
 
 ### Output format
 
-The same as in [zks_getL2ToL1LogProof](#output-format-4).
+与  [zks_getL2ToL1LogProof](#output-format-4) 中的相同
 
-::: warning
+::: 警告
 
-`zks_getL2ToL1MsgProof` endpoint will be deprecated because proofs for L2 to L1 messages can also be fetched from `zks_getL2ToL1LogProof`.
+`zks_getL2ToL1MsgProof` 端点将被弃用，因为 L2 到 L1 消息的证明也可以从`zks_getL2ToL1LogProof` 中获取。
 
 :::
 

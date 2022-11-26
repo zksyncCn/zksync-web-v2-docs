@@ -159,13 +159,9 @@ yarn hardhat deploy-zksync
 
 在 output 中，您将会看到部署智能合约的地址。
 
-
 Congratulations! You have deployed a smart contract to zkSync! Now you can visit the [zkSync block explorer](https://explorer.zksync.io/) and search you contract address to confirm it was successfully deployed.
 
-
-
 [本指南](../../api/tools/block-explorer/contract-verification.md)解释了如何使用 zkSync 区块浏览器验证您的智能合约。
-
 
 ## Front-end integration
 
@@ -346,8 +342,8 @@ const GREETER_CONTRACT_ABI = require("./abi.json");
 In this method we should:
 
 - Initialize a `Web3Provider` and a `Signer` to interact with zkSync.
-- Initialize the `Contract` object to interact with the `Greeter` contract we just deployed.
 
+- Initialize the `Contract` object to interact with the `Greeter` contract we just deployed.
 2. Import the necessary dependencies:
 
 ```javascript
@@ -398,9 +394,7 @@ async getGreeting() {
 },
 ```
 
-
 连接 Metamask 钱包后，您应该会看到以下页面：
-
 
 ![img](../../assets/images/start-1.png)
 
@@ -519,9 +513,7 @@ Testnet paymaster is purely for demonstration of the feature and won't be availa
 
 :::
 
-
 当用户决定使用以太币支付时，`getOverrides` method 返回对象为“空”，但当用户选择ERC20选项时，它会返回 Paymaster 合约地址以及所需的全部信息。具体方法如下:
-
 
 1. 通过 zkSync Provider 中获取测试网 Paymaster 的合约地址：
 

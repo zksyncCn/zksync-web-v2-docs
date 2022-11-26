@@ -1,19 +1,19 @@
-# Handling events
+# 处理事件
 
-## Overview
+## 概述
 
-Events are a mechanism to publish information to listeners outside the blockchain, given that smart contracts themselves can't read them.
+鉴于智能合约本身无法读取事件，事件是一种向区块链外的听众发布信息的机制。
 
-Blockchains are public by design, and therefore make all information available to the public, and any actions can be discovered by carefully looking into the transactions. Events are a shortcut for making specific information easily available for external systems; they let dApps keep track of, and respond to what's happening to a smart contract. They can also be searched for because they are indexable. Therefore, you should emit an event anytime something occurs in your smart contract that some system outside the blockchain should be aware of so that the outside system may listen for such occurrences. 
-Events are included in the transaction logs of the same block containing the original transaction.
+区块链在设计上是公开的，因此向公众提供所有信息，任何行为都可以通过仔细查看交易来发现。事件是让外部系统轻松获取特定信息的捷径；他们让 dApps 跟踪并响应智能合约发生的事情。它们也可以被搜索，因为它们是可索引的。因此，您应该在任何时候在您的智能合约中发生一些区块链之外的系统应该知道的事件时发出事件，以便外部系统可以侦听此类事件。
+事件包含在包含原始交易的同一块的交易日志中。
 
-At zkSync, events behave the same way as in Ethereum.
+在 zkSync 中，事件的行为方式与以太坊中的相同。
 
-## Events filtering
+## 事件过滤
 
-Filtering is used to query indexed data and provide lower-cost data storage when the data is not required to be accessed on-chain.
+过滤用于查询索引数据并在不需要在链上访问数据时提供成本较低的数据存储。
 
-These can be used in conjunction with the [Provider Events API](https://docs.ethers.io/v5/api/providers/provider/#Provider--event-methods) and with the [Contract Events API](https://docs.ethers.io/v5/api/contract/contract/#Contract--events).
+这些可以与 [Provider Events API](https://docs.ethers.io/v5/api/providers/provider/#Provider--event-methods) 和 [Contract Events API](https ://docs.ethers.io/v5/api/contract/contract/#Contract--events）。
 
 ```solidity
     abi = [
@@ -36,4 +36,4 @@ contract.filters.Transfer(null, myAddress)
 //}
 ```
 
-zkSync has a 10K log limit per response.
+zkSync 每个响应有 10K 的日志限制。

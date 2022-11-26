@@ -1,4 +1,3 @@
-# Understanding zkSync 2.0
+# 了解 zkSync 2.0
 
-zkSync 2.0 is made to look and feel like Ethereum, but with higher throughput and lower fees. However, since it is optimized for zero-knowledge proofs, some differences are inevitable. This section focuses on the specifics of zkSync 2.0.
-
+zkSync 2.0 的外观和感觉都像以太坊，但吞吐量更高，费用更低。 但是，由于它针对零知识证明进行了优化，因此存在一些差异是不可避免的。 本节重点介绍 zkSync 2.0 的细节。

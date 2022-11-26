@@ -1,10 +1,8 @@
 # 搜索栏
 
-
 ## 概述
 
 我们友好的搜索工具可让您轻松访问多种搜索数据，并对您的搜索内容提供更直观地理解。
-
 
 ![Search Bar!](../../../assets/images/search-bar.png "search bar")
 

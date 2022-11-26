@@ -16,21 +16,31 @@
 ### 开发者指南
 
 - [快速入门](./developer-guides/hello-world.md) - 学习如何使用 zkSync 开发工具构建一个完整的 dApp。
+
 - [合约部署](./developer-guides/contracts/contracts.md) - 关于如何在 zkSync 上部署智能合约的指南。
+  
   - [智能合约验证](../api/tools/block-explorer/contract-verification.md) - 关于如何使用 zkSync 区块浏览器验证智能合约的指南。
+
 - [系统合约](./developer-guides/contracts/system-contracts.md) - zkSync 系统合约的简介。
+
 - [交易](./developer-guides/transactions/transactions.md) -关于 zkSync 如何处理交易的说明。
+  
   - [区块](./developer-guides/transactions/blocks.md) - 了解区块如何在 zkSync 上工作的说明。
   - [费用机制](./developer-guides/transactions/fee-model.md) - zkSync 费用结构的简介。
-- [账户抽象](./developer-guides/aa.md) - 了解账户抽象。
-- [资金的跨链](./developer-guides/bridging/bridging-asset.md) - 关于代币跨链的简介。
-  - [L1 / L2 互操作性](./developer-guides/bridging/l1-l2-interop.md) - L1 和 L2 之间数据通信的简要介绍。
 
+- [账户抽象](./developer-guides/aa.md) - 了解账户抽象。
+
+- [资金的跨链](./developer-guides/bridging/bridging-asset.md) - 关于代币跨链的简介。
+  
+  - [L1 / L2 互操作性](./developer-guides/bridging/l1-l2-interop.md) - L1 和 L2 之间数据通信的简要介绍。
+    
     - [L1 -> L2 通信](./developer-guides/bridging/l1-l2.md) - 了解如何从以太坊发送数据到 zkSync。
     - [L2 -> L1 通信](./developer-guides/bridging/l2-l1.md) - 了解如何从 zkSync 发送数据到以太坊。
+
 - [重要链接](./troubleshooting/important-links.md) - 通过这里快速找到重要的链接。
 
 - [状态信息](./troubleshooting/status.md) - 获取我们正在进行的工作的最新信息。
+
 - [已知问题](./troubleshooting/known-issues.md) - 获取您可能发现的已知问题的答案。
 
 ### 开发者工具

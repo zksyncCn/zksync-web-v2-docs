@@ -129,11 +129,11 @@ networks: {
 
 该插件提供实用程序，用于在 zkSync 上部署智能合约，并使用 `@matterlabs/hardhat-zksync-solc` 或 `@matterlabs/hardhat-zksync-vyper` 插件构建的工件。
 
-::: 注意
+注意
 
 合约必须使用官方的 `@matterlabs/hardhat-zksync-solc` 或 `@matterlabs/hardhat-zksync-vyper` 插件进行编译。 使用其他插件编译器编译的合约将无法部署到 zkSync。
 
-:::
+
 
 ### Npm
 

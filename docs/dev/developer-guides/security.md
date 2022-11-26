@@ -1,60 +1,60 @@
-# Security model
+# 安全模型
 
-Given that zkSync is still in its early stages of development, there is a chance that our codebase contains undiscovered bugs that could lead to the loss of users' assets. As a result, we are constantly working to strengthen our security protocols to ensure that users and developers have a seamless onboarding experience when building on zkSync.
-zkSync smart contract codebase is currently being audited, but audits are not a guarantee of quality, and they are not a guarantee that a codebase has been thoroughly vetted for vulnerabilities. It's crucial to realize that zkSync usage exposes you to the possibility of defects in the zkSync codebase.
+鉴于 zkSync 仍处于开发的早期阶段，我们的代码库有可能包含未发现的错误，这些错误可能导致用户资产的损失。 因此，我们一直在努力加强我们的安全协议，以确保用户和开发人员在构建 zkSync 时获得更好的入职体验。
+zkSync 智能合约代码库目前正在审核中，但审核并不能保证质量，也不能保证代码库已经通过彻底的漏洞审查。 请注意，您依旧可能在 zkSync 代码库中遇到存在问题的可能性。
 
-## Bug Bounty Program
+## 漏洞赏金计划
 
-zkSync takes security seriously and as such, we have a massive [bug bounty program](https://immunefi.com/bounty/zksync/). 
+zkSync 非常重视安全性，因此，我们有一个庞大的 [bug 赏金计划](https://immunefi.com/bounty/zksync/)。
 
-## Scope
+## 问题范围
 
-Issues that can lead to substantial loss of money, critical bugs like a broken live-ness condition, blocking upgrade system, irreversible loss of funds, or enforced exodus mode.
+可能导致大量资金损失的问题、严重的错误，例如损坏的活动条件、网络升级系统、不可逆转的资金损失或强制外流模式。
 
-## Assumptions
+## 设想
 
-To be eligible for the bug bounty, a bug should adhere to the security assumptions of zkSync.
+如果您设想获得漏洞赏金，漏洞应该遵守 zkSync 的安全假设。
 
-### Cryptography assumptions:
+### 密码学假设：
 
 - DLP is unbroken.
+- 构建中使用的 ZKP 方案是安全的（需要单独的正式证明）.
 - Rescue hash and sha256 are collision-resistant.
-- ZKP scheme used in the construction is secure (subject to a separate formal proof).
 
-### L1 blockchain assumptions:
+### L1 区块链假设：
 
-- L1 protocol is secure.
-- L1 is eventually censorship-resistant: a sufficiently highly priced L1 tx will be mined in a block within finite time.
-- Owners have access to the full L1 archive (can at any time retrieve all block bodies of the L1 chain).
+- L1 协议是安全的。
+- L1 最终是抗审查的：价格足够高的 L1 tx 将在有限时间内在一个块中被开采。
+- 所有者可以访问完整的 L1 档案（可以随时检索 L1 链的所有块体）。
 
-### Operational assumptions:
+### 操作假设：
 
-- Rollup key is controlled by the owner and not compromised at all times.
+- 汇总密钥由所有者控制，并且在任何时候都不会受到损害。
 
-## Disclosure Policy
+## 披露政策
 
-Let us know as soon as possible upon discovery of a potential security issue.
-Provide us with a reasonable amount of time to resolve the issue before any disclosure to the public or a third party.
+一旦发现潜在的安全问题，请尽快通知我们。
+在向公众或第三方披露任何信息之前，为我们提供合理的时间来解决问题。
 
-### The wrong way to disclose
+### 错误的披露方式
 
-The following actions will make you ineligible for the bug bounty program:
+以下行为将使您没有资格参与漏洞赏金计划：
 
-- Filing a public issue about the vulnerability
-- Testing the vulnerability on mainnet or testnet
+- 公开提交有关漏洞的问题
+- 在主网或测试网上测试漏洞
 
-## The right way to disclose
+## 正确的披露方式
 
-Please email us at security@zksync.io. We appreciate detailed information about confirming or fixing the vulnerability. If possible, please use the PGP key below to encrypt the message.
+请发送电子邮件至 security@zksync.io。 我们感谢有关确认或修复漏洞的详细信息。 如果可能，请使用下面的 PGP 密钥对消息进行加密。
 
-## Exclusions
+## 排除项
 
-- Already known vulnerabilities.
-- Vulnerabilities in code not leading to funds lost or frozen.
-- Vulnerabilities not related to smart contracts or cryptography used by the protocol.
+- 已知漏洞。
+- 代码中的漏洞不会导致资金丢失或冻结。
+- 与协议使用的智能合约或密码学无关的漏洞
 
-## Eligibility
+## 资格
 
-- You must be the first reporter of the vulnerability
-- You must be able to verify a signature from the same address
-- Provide enough information about the vulnerability
+- 你必须是漏洞的第一个报告者
+- 您必须能够验证来自同一地址的签名
+- 提供有关漏洞的详细信息

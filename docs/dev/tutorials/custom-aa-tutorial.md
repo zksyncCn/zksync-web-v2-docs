@@ -1,19 +1,19 @@
-# Account abstraction
+# 账户抽象
 
-Now, let's learn how to deploy your custom accounts and interact directly with the [ContractDeployer](../developer-guides/contracts/system-contracts.md#contractdeployer) system contract.
-In this tutorial, we build a factory that deploys 2-of-2 multisig accounts.
+现在，让我们学习如何部署自定义账户并直接与 [ContractDeployer](../developer-guides/contracts/system-contracts.md#contractdeployer) 系统合约交互。
+在本教程中，我们构建了一个部署 2-of-2 多重签名帐户的工厂。
 
-## Prerequisite
+## 先决条件
 
-It is highly recommended to read about the [design](../developer-guides/aa.md) of the account abstraction protocol before diving into this tutorial.
+强烈建议在深入学习本教程之前阅读账户抽象协议的[设计](../developer-guides/aa.md)。
 
-It is assumed that you are already familiar with deploying smart contracts on zkSync.
-If not, please refer to the first section of the [quickstart tutorial](../developer-guides/hello-world.md).
-It is also recommended to read the [introduction](../developer-guides/contracts/system-contracts.md) to the system contracts.
+假设您已经熟悉在 zkSync 上部署智能合约。
+如果没有，请参考[快速入门](../developer-guides/hello-world.md)。
+还建议阅读系统合约的[介绍](../developer-guides/contracts/system-contracts.md)。
 
-## Installing dependencies
+## 安装依赖项
 
-We will use the zkSync hardhat plugin for developing this contract. Firstly, we should install all the dependencies for it:
+我们将使用 zkSync hardhat 插件来开发这个合约。 首先，我们应该为它安装所有依赖项：
 
 ```
 mkdir custom-aa-tutorial
@@ -22,19 +22,19 @@ yarn init -y
 yarn add -D typescript ts-node ethers zksync-web3 hardhat @matterlabs/hardhat-zksync-solc @matterlabs/hardhat-zksync-deploy
 ```
 
-Since we are working with zkSync contracts, we also need to install the package with the contracts and its peer dependencies:
+由于我们正在使用 zkSync 合约，我们还需要安装包含合约和对等依赖项的包：
 
 ```
 yarn add @matterlabs/zksync-contracts @openzeppelin/contracts @openzeppelin/contracts-upgradeable
 ```
 
-Also, create the `hardhat.config.ts` config file, `contracts` and `deploy` folders, like in the [quickstart tutorial](../developer-guides/hello-world.md).
+此外，需要创建 `hardhat.config.ts` 配置文件、`contracts` 和 `deploy` 文件夹，就像在 [快速入门教程](../developer-guides/hello-world.md) 中一样。
 
-## Account abstraction
+## 账户抽象
 
-Each account needs to implement the [IAccount](../developer-guides/aa.md#iaccount-interface) interface. Since we are building an account with signers, we should also have [EIP1271](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/83277ff916ac4f58fec072b8f28a252c1245c2f1/contracts/interfaces/IERC1271.sol#L12) implemented.
+每个账号都需要实现[IAccount](../developer-guides/aa.md#iaccount-interface)接口。 由于我们正在与签名者建立一个帐户，因此我们还应该实施 [EIP1271](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/83277ff916ac4f58fec072b8f28a252c1245c2f1/contracts/interfaces/IERC1271.sol#L12)。
 
-The skeleton for the contract will look the following way:
+合同的框架将如下所示：
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -97,22 +97,21 @@ contract TwoUserMultisig is IAccount, IERC1271 {
 }
 ```
 
-Note, that only the [bootloader](../developer-guides/contracts/system-contracts.md#bootloader) should be allowed to call the `validateTransaction`/`executeTransaction`/`payForTransaction`/`prePaymaster` methods.
-That's why the `onlyBootloader` modifier is used for them.
+请注意，只有 [bootloader](../developer-guides/contracts/system-contracts.md#bootloader) 被允许调用 `validateTransaction`/`executeTransaction`/`payForTransaction`/`prePaymaster` 。这是使用 `onlyBootloader` 修饰符的原因。
 
-The `executeTransactionFromOutside` is needed to allow external users to initiate transactions from this account. The easiest way to implement it is to do the same as `validateTransaction` + `executeTransaction` would do.
+需要 `executeTransactionFromOutside` 允许外部用户从此帐户发起交易。 实现它的最简单方法是执行与 validateTransaction + executeTransaction 相同的操作。
 
-### Signature validation
+### 签名验证
 
-Firstly, we need to implement the signature validation process. Since we are building a two-account multisig, let's pass its owners' addresses in the constructor. In this tutorial, we use OpenZeppelin's `ECDSA` library for signature validation.
+首先，我们需要实现签名验证过程。 由于我们正在构建一个双账户多重签名，因此让我们在构造函数中传递其所有者的地址。 在本教程中，我们使用 OpenZeppelin 的“ECDSA”库进行签名验证。
 
-Add the following import:
+添加以下导入：
 
 ```solidity
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 ```
 
-Also, add the constructor to the contract:
+另外，将构造函数添加到合约中：
 
 ```solidity
 address public owner1;
@@ -124,7 +123,7 @@ constructor(address _owner1, address _owner2) {
 }
 ```
 
-And then we can implement the `isValidSignature` method in the following way:
+然后我们可以通过以下方式实现 isValidSignature 方法：
 
 ```solidity
 function isValidSignature(bytes32 _hash, bytes calldata _signature) public override view returns (bytes4) {
@@ -142,33 +141,33 @@ function isValidSignature(bytes32 _hash, bytes calldata _signature) public overr
 }
 ```
 
-### Transaction validation
+### 交易验证
 
-Let's implement the validation process. It is responsible for validating the signature of the transaction and incrementing the nonce. Note, that there are some limitations on what this method is allowed to do. You can read more about them [here](../developer-guides/aa.md#limitations-of-the-verification-step).
+接下来让我们实现验证过程。它负责验证交易的签名并增加随机数。 请注意，此方法允许执行的操作有一些限制。 您可以 [此处](../developer-guides/aa.md#limitations-of-the-verification-step) 阅读更多相关信息。
 
-To increment the nonce, you should use the `incrementNonceIfEquals` method of the `NONCE_HOLDER_SYSTEM_CONTRACT` system contract. It takes the nonce of the transaction and checks whether the nonce is the same as the provided one. If not, the transaction reverts. Otherwise, the nonce is increased.
+要增加随机数，您应该使` NONCE_HOLDER_SYSTEM_CONTRACT` 系统合约的` incrementNonceIfEquals` 方法。 它获取交易随机数并检查随机数是否与提供的随机数相同。 如果不是，则交易恢复。 否则，随机数增加。
 
-Even though the requirements above allows the accounts to touch only their storage slots, accessing your nonce in the `NONCE_HOLDER_SYSTEM_CONTRACT` is a [whitelisted](../developer-guides/aa.md#extending-the-set-of-slots-that-belong-to-a-user) case, since it behaves in the same way as your storage, it just happened to be in another contract. To call the `NONCE_HOLDER_SYSTEM_CONTRACT`, you should add the following import:
+尽管上述要求只允许帐户访问其存储槽，但在`NONCE_HOLDER_SYSTEM_CONTRACT`中访问您的随机数是 [白名单](../developer-guides/aa.md#extending-the-set-of-slots- that-belong-to-a-user) 案例，因为它的行为方式与您的存储相同，所以它恰好在另一个合同中。 要调用 `NONCE_HOLDER_SYSTEM_CONTRACT`，您应该添加以下导入：
 
 ```solidity
 import '@matterlabs/zksync-contracts/l2/system-contracts/Constants.sol';
 ```
 
-The `TransactionHelper` library (already imported in the example above) can be used to get the hash of the transaction that should be signed. You can also implement your own signature scheme and use a different commitment for the transaction to sign, but in this example we use the hash provided by this library.
+`TransactionHelper` 库（已在上面的示例中导入）可用于获取应签署的交易的哈希值。 您也可以实现自己的签名方案并使用不同的承诺对交易进行签名，但在本例中我们使用该库提供的哈希。
 
-Using the `TransactionHelper` library:
+使用 `TransactionHelper` 库：
 
 ```solidity
 using TransactionHelper for Transaction;
 ```
 
-Also, note that since the non-view methods of the `NONCE_HOLDER_SYSTEM_CONTRACT` are required to be called with the `isSystem` flag on, the [systemCall](https://github.com/matter-labs/v2-testnet-contracts/blob/a3cd3c557208f2cd18e12c41840c5d3728d7f71b/l2/system-contracts/SystemContractsCaller.sol#L55) method of the `SystemContractsCaller` library should be used, so this library needs to be imported as well:
+另外，请注意，由于需要在打开 isSystem 标志的情况下调用 `NONCE_HOLDER_SYSTEM_CONTRACT` 非视图方法，因此 [systemCall](https://github.com/matter-labs/v2-testnet-contracts /blob/a3cd3c557208f2cd18e12c41840c5d3728d7f71b/l2/system-contracts/SystemContractsCaller.sol#L55) 应该使用`SystemContractsCaller` 库方法，所以这个库也需要导入：
 
 ```solidity
 import '@matterlabs/zksync-contracts/l2/system-contracts/SystemContractsCaller.sol';
 ```
 
-Now we can implement the `_validateTransaction` method:
+现在我们可以实现 _validateTransaction 方法：
 
 ```solidity
 function _validateTransaction(bytes32 _suggestedSignedHash, Transaction calldata _transaction) internal {
@@ -195,9 +194,9 @@ function _validateTransaction(bytes32 _suggestedSignedHash, Transaction calldata
 }
 ```
 
-### Paying fees for the transaction
+### 支付交易费用
 
-We should now implement the `payForTransaction` method. The `TransactionHelper` library already provides us with the `payToTheBootloader` method, that sends `_transaction.maxFeePerErg * _transaction.ergsLimit` ETH to the bootloader. So the implementation is rather straightforward:
+我们现在应该实现 `payForTransaction` 方法。 `TransactionHelper` 库已经为我们提供了`payToTheBootloader` 方法，该方法将`_transaction.maxFeePerErg * _transaction.ergsLimit` ETH 发送到引导加载程序。 所以实现相当简单：
 
 ```solidity
 function payForTransaction(bytes32, bytes32, Transaction calldata _transaction) external payable override onlyBootloader {
@@ -206,10 +205,10 @@ function payForTransaction(bytes32, bytes32, Transaction calldata _transaction) 
 }
 ```
 
-### Implementing `prePaymaster`
+### 实施`prePaymaster`
 
-While generally the account abstraction protocol enables performing arbitrary actions when interacting with the paymasters, there are some [common patterns](../developer-guides/aa.md#built-in-paymaster-flows) with the built-in support from EOAs.
-Unless you want to implement or restrict some specific paymaster use cases from your account, it is better to keep it consistent with EOAs. The `TransactionHelper` library provides the `processPaymasterInput` which does exactly that: processed the `prePaymaster` step the same as EOA does.
+虽然通常账户抽象协议允许与付款人交互时执行任意操作，但有一些是来自[常见模式](../developer-guides/aa.md#built-in-paymaster-flows) 的内置支持 EOA。
+除非您想从您的帐户中实施或限制某些特定的付款人用例，否则最好使其与 EOA 保持一致。 `TransactionHelper` 库提供了 `processPaymasterInput`，它正是这样做的：像 EOA 一样处理 `prePaymaster` 步骤。
 
 ```solidity
 function prePaymaster(bytes32, bytes32, Transaction calldata _transaction) external payable override onlyBootloader {
@@ -217,9 +216,9 @@ function prePaymaster(bytes32, bytes32, Transaction calldata _transaction) exter
 }
 ```
 
-### Transaction execution
+### 交易执行
 
-The most basic implementation of the transaction execution is quite straightforward:
+交易执行的最基本实现非常简单：
 
 ```solidity
 function _executeTransaction(Transaction calldata _transaction) internal {
@@ -238,7 +237,7 @@ function _executeTransaction(Transaction calldata _transaction) internal {
 }
 ```
 
-However, note that calling ContractDeployer is only possible with the `isSystem` call flag. In order to permit your users to deploy contracts, you should do so explicitly:
+但是，请注意，调用 ContractDeployer 只能使用 isSystem 调用标志。 为了允许您的用户部署合约，您应该明确地这样做：
 
 ```solidity
 function _executeTransaction(Transaction calldata _transaction) internal {
@@ -264,9 +263,9 @@ function _executeTransaction(Transaction calldata _transaction) internal {
 }
 ```
 
-Note, that whether the operator will consider the transaction successful will depend only on whether the call to `executeTransactions` was successful. Therefore, it is highly recommended to put `require(success)` for the transaction, so that users get the best UX.
+请注意，操作员是否会认为交易成功将仅取决于对 executeTransactions 的调用是否成功。 因此，强烈建议为交易加上`require(success)`，让用户得到最好的UX。
 
-### Full code of the account
+### 账户的完整代码
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -441,11 +440,11 @@ contract TwoUserMultisig is IAccount, IERC1271 {
 }
 ```
 
-## The factory
+## 代理
 
-Now, let's build a factory that can deploy these accounts. Note, that if we want to deploy AA, we need to interact directly with the `DEPLOYER_SYSTEM_CONTRACT`. For deterministic addresses, we will use `create2Account` method.
+现在，让我们构建一个可以部署的账户代理。 请注意，如果我们要部署 AA，我们需要直接与`DEPLOYER_SYSTEM_CONTRACT`进行交互。 对于确定性地址，我们将使用 create2Account 方法。
 
-The code will look the following way:
+代码将如下所示：
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -481,16 +480,16 @@ contract AAFactory {
 }
 ```
 
-Note, that on zkSync, the deployment is not done via bytecode, but via bytecode hash. The bytecode itself is passed to the operator via `factoryDeps` field. Note, that the `_aaBytecodeHash` must be formed specially:
+请注意，在 zkSync 上，部署不是通过字节码完成的，而是通过字节码哈希完成的。 字节码本身通过`factoryDeps`字段传递给操作员。 请注意，`_aaBytecodeHash` 必须专门形成：
 
-- Firstly, it is hashed with sha256.
-- Then, the first two bytes are replaced with the length of the bytecode in 32-byte words.
+- 首先，它用 sha256 散列。
+- 然后，前两个字节被字节码的长度替换为 32 字节字。
 
-You don't need to worry about it, since our SDK provides a built-in method to do it, explained below.
+您无需担心，因为我们的 SDK 提供了一个内置方法来执行此操作，如下所述。
 
-## Deploying the factory
+## 部署代理
 
-To deploy a factory, we need to create a deployment script. Create the `deploy` folder and create one file there: `deploy-factory.ts`. Put the following deployment script there:
+首先，我们需要创建一个部署脚本。 创建 在`deploy` 文件夹在创建一个文件：`deploy-factory.ts`。 将以下部署脚本放在那里：
 
 ```ts
 import { utils, Wallet } from "zksync-web3";
@@ -527,29 +526,29 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 }
 ```
 
-In order to deploy the factory, you should compile the contracts and run the script:
+为了部署工厂，您应该编译合约并运行脚本：
 
 ```
 yarn hardhat compile
 yarn hardhat deploy-zksync --script deploy-factory.ts
 ```
 
-The output should be roughly the following:
+输出如下：
 
 ```
 AA factory address: 0x9db333Cb68Fb6D317E3E415269a5b9bE7c72627Ds
 ```
 
-Note that the address will be different for each run.
+请注意，每次运行的地址都会不同。
 
-## Working with accounts
+## 使用账户
 
-### Deploying an account
+### 部署账户
 
-Now, let's deploy an account and initiate a new transaction with it. In this section, we assume that you already have an EOA account with enough funds on zkSync.
-In the `deploy`, folder creates a file `deploy-multisig.ts`, where we will put the script.
+现在，让我们部署一个账户并使用它启动一个新交易。 在本节中，我们假设您已经在 zkSync 上拥有一个足够资金的 EOA 账户。
+在 `deploy` 文件夹中创建一个文件 `deploy-multisig.ts`，我们将在其中放置脚本。
 
-Firstly, let's deploy the AA. This will be a call to the `deployAccount` function:
+首先，让我们部署 AA。 这将是对 `deployAccount` 函数的调用：
 
 ```ts
 import { utils, Wallet, Provider, EIP712Signer, types } from "zksync-web3";
@@ -589,11 +588,11 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 }
 ```
 
-_Note, that zkSync has different address derivation rules from Ethereum_. You should always use the `createAddress` and `create2Address` utility methods of the `zksync-web3` SDK.
+_注意，zkSync 与 Ethereum_ 有不同的地址规则。 您应该始终使用 `zksync-web3` SDK 的 `createAddress` 和 `create2Address` 的实用方法。
 
-### Starting a transaction from this account
+### 从此账户开始交易
 
-Before the deployed account can do any transactions, we need to top it up:
+在部署的账户可以进行交易之前，我们需要对其进行充值：
 
 ```ts
 await(
@@ -605,13 +604,13 @@ await(
 ).wait();
 ```
 
-Now, as an example, let's try to deploy a new multisig, but the initiator of the transaction will be our deployed account from the previous part:
+现在，作为示例，让我们尝试部署一个新的多重签名，但交易的发起者将是我们在上一部分中部署的帐户：
 
 ```ts
 let aaTx = await aaFactory.populateTransaction.deployAccount(salt, Wallet.createRandom().address, Wallet.createRandom().address);
 ```
 
-Then, we need to fill all the transaction fields:
+然后，我们需要填写所有交易字段：
 
 ```ts
 const gasLimit = await provider.estimateGas(aaTx);
@@ -633,13 +632,13 @@ aaTx = {
 };
 ```
 
-::: tip Note on gasLimit
+::: 关于 gasLimit 的注意事项
 
-Currently, we expect the `gasLimit` to cover both the verification and the execution steps. Currently, the number of ergs that is returned by the `estimateGas` is `execution_ergs + 20000`, where `20000` is roughly equal to the overhead needed for the defaultAA to have both fee charged and the signature verified. In case your AA has a very expensive verification step, you should add some constant to the `gasLimit`.
+目前，我们希望 `gasLimit` 涵盖验证和执行步骤。 目前，`estimateGas` 返回的 erg 数量是 `execution_ergs + 20000`，其中 `20000` 大致等于 defaultAA 收取费用和验证签名所需的开销。 如果你的 AA 有一个非常昂贵的验证步骤，你应该在 `gasLimit` 中添加一些常量。
 
 :::
 
-Then, we need to sign the transaction and provide the `aaParamas` in the customData of the transaction:
+然后，我们需要对交易进行签名，并在交易的 customData 中提供 `aaParamas`：
 
 ```ts
 const signedTxHash = EIP712Signer.getSignedDigest(aaTx);
@@ -657,7 +656,7 @@ aaTx.customData = {
 };
 ```
 
-Now, we are ready to send the transaction:
+现在，我们准备发送交易：
 
 ```ts
 console.log(`The multisig's nonce before the first tx is ${await provider.getTransactionCount(multisigAddress)}`);
@@ -668,7 +667,7 @@ await sentTx.wait();
 console.log(`The multisig's nonce after the first tx is ${await provider.getTransactionCount(multisigAddress)}`);
 ```
 
-### Full example
+### 完整示例
 
 ```ts
 import { utils, Wallet, Provider, EIP712Signer, types } from "zksync-web3";
@@ -754,13 +753,13 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 }
 ```
 
-To run the script, use the following command:
+要运行脚本，请使用以下命令：
 
 ```
 yarn hardhat deploy-zksync --script deploy-multisig.ts
 ```
 
-The output should be roughly the following:
+输出应该大致如下：
 
 ```
 Multisig deployed on address 0xCEBc59558938bccb43A6C94769F87bBdb770E956
@@ -768,18 +767,18 @@ The multisig's nonce before the first tx is 0
 The multisig's nonce after the first tx is 1
 ```
 
-::: tip
+::: 提示
 
-If you get an error `Not enough balance to cover the fee.`, try increasing the amount of ETH sent to the multisig wallet so it has enough funds to pay for the transaction fees.
+如果您收到错误提示`Not enough balance to cover the fee。`，请尝试增加发送到多重签名钱包的 ETH 数量，以便它有足够的资金来支付交易费用。
 
 :::
 
-## Complete project
+## 完成项目
 
-You can download the complete project [here](https://github.com/matter-labs/custom-aa-tutorial).
+您可以在 [这里](https://github.com/matter-labs/custom-aa-tutorial) 下载完整的项目。
 
 ## Learn more
 
-- To learn more about L1->L2 interaction on zkSync, check out the [documentation](../developer-guides/bridging/l1-l2.md).
-- To learn more about the `zksync-web3` SDK, check out its [documentation](../../api/js).
-- To learn more about the zkSync hardhat plugins, check out their [documentation](../../api/hardhat).
+- 要了解有关 zkSync 上的 L1->L2 交互的更多信息，请查看 [文档](../developer-guides/bridging/l1-l2.md)。
+- 要了解有关 `zksync-web3` SDK 的更多信息，请查看 [文档。
+- 要了解有关 zkSync 安全帽插件的更多信息，请查看他们的 [文档](../../api/hardhat)。

@@ -29,7 +29,7 @@ constructor(
 | providerL1 (optional) | 以太坊节点提供商。 需要与 L1 交互         |
 | returns               | 新`Wallet` 对象                |
 
-> Example
+> 例子
 
 ```typescript
 import * as zksync from "zksync-web3";
@@ -415,7 +415,7 @@ async transfer(tx: {
 | overrides (optional) | 交易覆盖，例如 `nonce`、`gasLimit` 等    |
 | returns              | `ethers.ContractTransaction` 对象 |
 
-> Example
+> 例子
 
 ```typescript
 import { Wallet, Web3Provider } from "zksync-web3";
@@ -459,7 +459,7 @@ async getMainContract(): Promise<Contract>
 | ------- | ------------------------------------------------ |
 | returns | `Contract` wrapper of the zkSync smart contract. |
 
-> Example
+> 例子
 
 ```typescript
 import { Web3Provider, Provider, L1Signer } from "zksync-web3";
@@ -481,13 +481,13 @@ async getBalanceL1(token?: Address, blockTag?: ethers.providers.BlockTag): Promi
 
 #### 输入和输出
 
-| Name                | Description                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------------- |
-| token (optional)    | The address of the token. ETH by default.                                                   |
-| blockTag (optional) | The block the balance should be checked on. The latest processed one is the default option. |
-| returns             | The amount of the token the `L1Signer` has on Ethereum.                                     |
+| 名称                  | 说明                     |
+| ------------------- | ---------------------- |
+| token (optional)    | 代币的地址。 默认为 ETH。        |
+| blockTag (optional) | 应检查的块。一个 最新处理的默认选项     |
+| returns             | `L1Signer` 在以太坊上的代币数量。 |
 
-> Example
+> 例子
 
 ```typescript
 import { Web3Provider, Provider, L1Signer } from "zksync-web3";

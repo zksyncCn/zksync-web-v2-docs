@@ -9,12 +9,12 @@
 概要：
 
 - **如何在以太坊上部署合约**
-- 
-  用户将一个交易发送到零地址(`0x000…000`)用于部署合约，交易的 `data` 字段等于连接到构造函数参数的合约字节码。
+
+- 用户将一个交易发送到零地址(`0x000…000`)用于部署合约，交易的 `data` 字段等于连接到构造函数参数的合约字节码。
 
 - **如何在 zkSync 上部署合约**
-- 
-  要部署合约，用户调用 [ContractDeployer](./system-contracts.md#contractdeployer) 的 `create` 函数并提供要发布的合约的哈希值以及构造函数参数。合约字节码在 EIP712 交易的“factory_deps”字段中提供。如果合约是一个工厂（即它可以部署其他合约），这些合约的字节码也应该包含在 `factory_deps` 中。
+
+- 要部署合约，用户调用 [ContractDeployer](./system-contracts.md#contractdeployer) 的 `create` 函数并提供要发布的合约的哈希值以及构造函数参数。合约字节码在 EIP712 交易的“factory_deps”字段中提供。如果合约是一个工厂（即它可以部署其他合约），这些合约的字节码也应该包含在 `factory_deps` 中。
 
 [Hardhat-zksync-deploy](../../../api/hardhat) 插件负责合约部署过程。这里有一个[关于如何使用它的指南](../../../api/hardhat/getting-started.md)。
 
@@ -22,8 +22,8 @@
 
 将 Solidity 编译成 zkEVM 字节码需要一个特殊的编译器。目前支持 Solidity `>=0.4.10` 版本，尽管我们强烈建议使用`^0.8.0`作为最稳定的版本。Vyper `^0.3.3`也是支持的。
 
-
 尽管支持旧版本的 Solidity，但在 zkSync 中，它们有一些限制：
+
 - 不支持 Contract-local 递归。
 - 不支持内部函数指针。
 
@@ -40,9 +40,9 @@
 
 ## 关于 `factory deps` 的注意事项
 
-
 一些用法的例子:
 最明显的一个例子是，在部署合约时，需要在 `factory deps` 字段中提供它的代码。
+
 - 在 zkSync 上，工厂不存储它们依赖项的字节码，即它们可以部署的合约。它们只存储哈希值。这就是为什么您需要在 `factory_deps` 字段中包含*所有*依赖的字节码。
 
 在底层逻辑中，zkSync存储的不是合同的字节码，而是其字节码的[特殊格式化](#format-of-bytecode-hash)哈希值。你可以看到，即使是[ContractDeployer](./system-contracts.md#contractdeployer)系统合同也接受部署合同的字节码哈希值，而不是它的字节码。然而，为了使合约部署成功，运营商需要知道字节码。正是由于这个原因，交易的`factory_deps`（即工厂依赖）字段被使用：它包含了操作员应该知道的字节码，以便这个交易成功。一旦交易成功，这些字节码将被公布在L1上，并被视为永远被操作者 "知道"。

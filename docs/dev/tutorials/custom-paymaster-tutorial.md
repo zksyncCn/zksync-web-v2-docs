@@ -6,7 +6,7 @@
 - 创建 ERC20 代币合约并将一些代币发送到一个全新的钱包。
 - 最后，我们将通过 paymaster 从新创建的钱包中发送 `Mint`交易。 即使交易通常需要一些 ETH 来支付 gas 费，我们的 paymaster 也会执行交易以换取 1 个 ERC20 代币。
 
-## 先决条件
+## 准备工作
 
 为了更好地理解这部分内容，我们建议您在深入学习本教程之前先阅读 [账户抽象设计](../developer-guides/aa.md) 。
 
@@ -85,11 +85,11 @@ contract MyPaymaster is IPaymaster {
 
 注意，只有 [bootloader](../developer-guides/contracts/system-contracts.md#bootloader) 应该被允许调用 `validateAndPayForPaymasterTransaction`/`postOp` 。 这就是为它们使用 `onlyBootloader` 修饰符的原因。
 
-### 解析付款人输入
+### 解析 paymasterInput
 
 在本教程中，我们希望向用户收取一个单位的 `allowedToken`，用来换取通过合约支付的费用。
 
-paymaster 应该接收的输入被编码在 `paymasterInput` 中。 如 [在 paymaster 文档中](../developer-guides/aa.md#built-in-paymaster-flows) 所述，有一些标准化的方法可以对用户与 paymasterInput 的交互进行编码。 为了向用户收费，我们将要求为 paymaster合同提供足够的补贴。 这就是 `approvalBased` 流程可以帮助我们解决的问题。
+paymaster 应该接收的输入被编码在 `paymasterInput` 中。 如 [在 paymaster 文档中](../developer-guides/aa.md#built-in-paymaster-flows) 所述，有一些标准化的方法可以对用户与 paymasterInput 的交互进行编码。 为了向用户收费，我们将要求为 paymaster 合约提供足够的补贴。 这就是 `approvalBased` 流程可以帮助我们解决的问题。
 
 首先，我们需要检查 `paymasterInput` 是否被编码为 `approvalBased` 的流程：
 
@@ -135,15 +135,15 @@ IERC20(token).transferFrom(userAddress, thisAddress, 1);
 require(success, "Failed to transfer funds to the bootloader");
 ```
 
-::: 提示   您应该首先验证是否完成所有要求
+::: tip   您应该首先验证是否完成所有要求
 
 如果paymaster 节流的 [rules](../developer-guides/aa.md#paymaster-validation-rules) 第一个存储读取的值与执行时的值不同，paymaster 将不会被节流 API是属于用户的存储槽。
 
-这就是为什么在执行任何逻辑之前验证用户是否为交易提供了所有允许的先决条件很重要。 这就是我们 _first_ 检查用户是否提供了足够的补贴的原因，然后我们才做 `transferFrom`.
+这就是为什么在执行任何逻辑之前，验证用户是否为交易提供了所有应做的准备工作。 以及我们 _first_ 检查用户是否提供了足够的补贴的原因，在这之后才会开始`transferFrom`。
 
 :::
 
-### Full code of the paymaster
+### paymaster 的完整代码
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -304,7 +304,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 
 除了部署 paymaster 之外，它还创建了一个空钱包并向其提供了一些 `MyERC20` 代币，以便它可以使用 paymaster。
 
-要部署 ERC20 代币和付款人，您应该编译合约并运行脚本：
+要部署 ERC20 代币和 paymaster，您应该编译合约并运行脚本：
 
 ```
 yarn hardhat compile

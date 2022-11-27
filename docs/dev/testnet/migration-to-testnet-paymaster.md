@@ -1,19 +1,18 @@
-# Migration to the testnet paymaster
+# 迁移到测试网 paymaster
 
-## Prerequisite
+## 准备工作
 
-Before going further into this section, please ensure you have read about
-[paymasters](../developer-guides/aa.md#paymasters).
+在进一步进入本节之前，请确保您已阅读[paymasters](../developer-guides/aa.md#paymasters)。
 
-While the previous iterations of zkSync 2.0 testnet natively supported paying fees in different tokens, it caused several compatibility issues with the Ethereum ecosystem. With the advent of the [paymasters](../developer-guides/aa.md#paymasters), this feature has become redundant as now anybody can deploy their paymaster smart contract that will swap ERC-20 tokens to ETH on the fly. You can read the tutorial on deploying custom paymasters [here](../tutorials/custom-paymaster-tutorial.md).
+虽然之前的 zkSync 2.0 测试网迭代原生支持以不同的代币支付费用，但它导致了与以太坊生态系统的几个兼容性问题。随着 [paymasters](../developer-guides/aa.md#paymasters) 的出现，此功能已变得多余，因为现在任何人都可以部署他们的 paymaster 智能合约，将 ERC-20 代币即时交换为 ETH。您可以在 [此处](../tutorials/custom-paymaster-tutorial.md) 阅读有关部署自定义 paymaster 的教程。
 
-For the sake of supporting the ecosystem, zkSync does not plan to deploy any paymaster on mainnet. However, with better DevEx in mind, we have deployed one on the testnet. The testnet paymaster enables paying fees in an ERC-20 compatible token at a 1:1 exchange rate. You can read the documentation [here](../developer-guides/aa.md#testnet-paymaster). In this section, we show a brief example on migration from the old way of paying fees with ERC20 tokens to the new ones.
+为了支持生态系统，zkSync 不打算在主网上部署任何 paymaster。但是，考虑到更好的 DevEx，我们在测试网上部署了一个。 testnet paymaster 能够以 1:1 的汇率使用兼容 ERC-20 的代币支付费用。您可以阅读文档 [此处](../developer-guides/aa.md#testnet-paymaster)。在本节中，我们将展示一个关于从使用 ERC20 代币支付费用的旧方式迁移到新方式的简短示例。
 
-This document is about the testnet paymaster *only*. When deploying your project on mainnet, you will need to either deploy your paymaster or find a 3rd party's one and read its documentation.
+本文档是关于 testnet paymaster *only*。在主网上部署您的项目时，您将需要部署您的 paymaster 或找到第 3 方的付款人并阅读其文档。
 
-## Previous interface
+## 过去的版本
 
-In the previous testnet versions, you provided `feeToken` in the overrides of the transaction, so a smart contract call that paid fees in USDC, for example, looked roughly like this:
+在之前的测试网版本中，您在交易的覆盖中提供了 `feeToken `，因此以 USDC 支付费用的智能合约调用大致如下所示：
 
 ```js
 const tx = await contract.callMethod({
@@ -23,19 +22,19 @@ const tx = await contract.callMethod({
 }) 
 ```
 
-## Using testnet paymaster
+## 使用测试网paymaster
 
-Working with the testnet paymaster consists of three steps:
+使用 testnet paymaster 包括三个步骤：
 
-1. Retrieving the address of the testnet paymaster.
+1. 获取测试网 paymaster 的地址。
 
 ```js
 const testnetPaymaster = await provider.getTestnetPaymasterAddress();
 ```
 
-Note: Caching the paymaster's address is not recommended, since it may change without a warning.
+注意：不建议缓存paymaster的地址，因为它可能会在没有警告的情况下更改。
 
-2. Encoding the paymaster parameters to be used in the transaction. For this you can the `utils.getPaymasterParams` method:
+2. 编码要在交易中使用paymaster参数， 为此，您可以使用`utils.getPaymasterParams `方法：
 
 ```js
 import { utils } from 'zksync-web3'
@@ -51,7 +50,7 @@ const paymasterParams = utils.getPaymasterParams(testnetPaymaster, {
 });
 ```
 
-3. Sending the transaction with the provided paymaster params:
+3. 使用提供的 paymaster 参数发送交易：
 
 ```js
 const tx = await contract.callMethod({

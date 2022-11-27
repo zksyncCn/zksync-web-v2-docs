@@ -1,9 +1,9 @@
-# Foundational topics
+# 基础知识
 
-Learn the basics of zkSync and its ecosystem.
+了解 zkSync 及其生态系统的基础知识。
 
-## Table of contents
+## 目录
 
-- [Intro to rollups](./rollups.md)
-- [zkSync overview](./zkSync.md)
-- [zkSync testnet](./testnet.md)
+- [汇总介绍](./rollups.md)
+- [zkSync 概述](./zkSync.md)
+- [zkSync 测试网](./testnet.md)

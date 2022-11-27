@@ -133,8 +133,6 @@ networks: {
 
 合约必须使用官方的 `@matterlabs/hardhat-zksync-solc` 或 `@matterlabs/hardhat-zksync-vyper` 插件进行编译。 使用其他插件编译器编译的合约将无法部署到 zkSync。
 
-
-
 ### Npm
 
 [@matterlabs/hardhat-zksync-deploy](https://www.npmjs.com/package/@matterlabs/hardhat-zksync-deploy)
@@ -254,7 +252,7 @@ zkSyncDeploy: {
 
 `hardhat deploy-zksync` -- 运行 `deploy` 文件夹中的所有脚本。 要运行特定脚本，请添加 `--script` 参数，例如 `hardhat deploy-zksync --script 001_deploy.ts` 将运行脚本 `./deploy/001_deploy.ts`。
 
-::: 提示
+::: tip
 
 请注意，部署脚本必须放在 `deploy`文件夹中!
 

@@ -4,7 +4,7 @@
 
 zkSync 团队为此提供了一个 dockerized 本地设置。
 
-## 先决条件
+## 准备工作
 
 您需要在计算机上安装 `Docker` 和 `docker-compose`。 在此处找到 [安装指南](https://docs.docker.com/get-docker/)
 
@@ -35,11 +35,9 @@ cd local-setup
 
 默认情况下，HTTP JSON-RPC API 将在端口 `3050`上运行，而 WS API 将在端口`3051`上运行。
 
-： 警告
-
 请注意，第一个`start.sh`脚本调用不间断很重要。 如果您在引导过程意外停止后遇到任何问题，您应该[重置](#resetting-the-zksync-state) 本地 zkSync 状态并重试。
 
-:::
+::: tip
 
 ## 重置 zkSync 状态
 
@@ -61,7 +59,7 @@ sudo ./clear.sh
 
  [此处](https://github.com/matter-labs/local-setup/blob/main/rich-wallets.json) 可以找到具有相应私钥的这些帐户地址的完整列表
 
-::: 警告  富有的钱包只有ETH，**如果你需要用 ERC20代币 进行测试，你应该自己部署**。
+::: warning  富有的钱包只有ETH，**如果你需要用 ERC20代币 进行测试，你应该自己部署**。
 
 如果你希望本地节点再次附带预部署的代币，请在我们的[discord](https://discord.gg/px2aR7w)上告诉我们，这样我们就可以相应地安排优先级。
 

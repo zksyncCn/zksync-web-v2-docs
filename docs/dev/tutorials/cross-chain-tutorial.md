@@ -20,7 +20,7 @@
 
 所以创建这些文件夹。
 
-::: 提示
+:::: tip
 
 请注意，`governance` 项目是默认的 Hardhat 项目，因为它将用于在 L1 部署合约，而  `counter` 项目包括所有 zkSync 依赖项和具体配置，因为它会在 L2 部署合约。
 
@@ -282,7 +282,7 @@ yarn hardhat deploy-zksync
 
 在输出中，您应该看到部署合约的地址。
 
-::: 提示
+::: tip
 
 您可以在[快速入门教程](../developer-guides/hello-world.md)或 zkSync [hardhat 插件](../../api/hardhat/getting-started.md)文档中找到有关部署合约的更多具体细节。
 
@@ -439,7 +439,7 @@ async function main() {
 }
 ```
 
-::: 提示 费用机制和费用估算当前仍在开发中
+::: tip 费用机制和费用估算当前仍在开发中
 
 您可能已经注意到 L1->L2 交易中缺少 `ergs_per_pubdata` 和 `ergs_per_storage` 字段。这些对于协议的安全性肯定很重要，并且很快就会添加。请注意，这将是合约接口的重大更改。
 

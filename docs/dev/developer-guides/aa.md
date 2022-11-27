@@ -9,7 +9,7 @@
 
 zkSync 2.0 中的账户可以像 EOA 一样发起交易，但也可以在其中实现任意逻辑，例如智能合约。此功能称为“账户抽象”，它旨在解决上述问题。
 
-::: 警告
+::: tip
 
 功能不稳定
 
@@ -19,7 +19,7 @@ zkSync 2.0 是最早采用 AA 的 EVM 兼容链之一，因此该测试网也用
 
 :::
 
-### 先决条件
+### 准备工作
 
 为了更好地理解此页面，我们建议您先花一些时间阅读关于 [accounts指南](https://ethereum.org/en/developers/docs/accounts/).
 
@@ -29,7 +29,7 @@ zkSync 上的账户抽象协议与 [EIP4337](https://eips.ethereum.org/EIPS/eip-
 
 ### 保持随机数唯一
 
-::: 警告 预计会有变化
+::: warning 可能会有变化
 
 当前模型有一些重要的缺点：它不允许自定义钱包同时发送多个交易，同时保持确定性的顺序。 这是为了 EOAs 的 nonce 按照预计顺序增长，而对于自定义账户，交易顺序无法确定。
 
@@ -181,7 +181,7 @@ await aa.deployed();
 
 ### 验证步骤的局限性
 
-::: 警告 尚未实施
+::: warning 尚未实施
 
 目前尚未完全执行验证规则。 即使您的自定义帐户现在可以正常使用，如果不遵守以下规则，它将来也可能会停止工作。
 
@@ -231,7 +231,7 @@ paymasters 是为了方便使用 ERC20 代币支付费用。 虽然 ETH 是 zkSy
 
 ### 付款人验证规则
 
-::: 警告 尚未实施
+::: warning 尚未实施
 
 目前尚未完全执行验证规则。 即使您的出纳员现在正在工作，如果不遵守以下规则，将来也可能会停止工作。
 
@@ -276,15 +276,15 @@ function approvalBased(
 )
 ```
 
-EOA 将确保支付主管的`token`限额至少设置为`minAllowance`。 `_innerInput` 参数是一个额外的有效负载，可以发送给付款人以实现任何逻辑（例如，可以由付款人验证的额外签名或密钥）。
+EOA 将确保 paymasters 的`token`限额至少设置为`minAllowance`。 `_innerInput` 参数是一个额外的有效负载，可以发送给付款人以实现任何逻辑（例如，可以由付款人验证的额外签名或密钥）。
 
-如果你正在开发付款人，你 _不应该_ 相信交易发送方会诚实（例如，通过 `approvalBased` 流程提供所需的补贴）。 这些流程主要用作对 EOA 的说明，付款主管应始终仔细检查这些要求。
+如果你正在开发付款人，你 _不应该_ 相信交易发送方会诚实（例如，通过 `approvalBased` 流程提供所需的补贴）。 这些流程主要用作对 EOA 的说明，paymasters 应始终仔细检查这些要求。
 
 #### 使用 `zksync-web3` SDK 处理 paymaster 流程
 
 `zksync-web3` SDK 提供了 [方法](../../api/js/utils.md#encoding-paymaster-param) 用于为所有内置的 paymaster 流编码格式正确的 paymaster 参数。
 
-### 测试网支付主管
+### 测试网 paymasters
 
 为了确保用户在 testnet 上体验 paymasters，并继续支持使用 ERC20 代币支付费用，Matter Labs 团队提供了 testnet paymaster，它能够以与 ETH 1:1 的汇率（即这个单位的一个单位）以 ERC20 代币支付费用。 token 等于 1 wei 的 ETH）。
 

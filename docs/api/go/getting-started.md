@@ -8,7 +8,7 @@
 4. 部署一个智能合约。
 5. 与智能合约进行互动。
 
-## 先决条件
+## 准备工作
 
 此指南假定你熟悉 [Go](https://go.dev/doc/) 编程语言。
 Go的版本应该>=1.17, 并且需要 Go 模块。
@@ -27,7 +27,7 @@ go get github.com/zksync-sdk/zksync2-go
 
 使用  `ZkSync Provider`, `EthereumProvider` 和 `Wallet`,您可以通过  zkSync网络执行所有基本操作。
 
-::: 警告
+::: warning
 
 ⚠️ 切勿将私钥提交给文件追踪历史记录，否则你的账户可能会被泄露。
 

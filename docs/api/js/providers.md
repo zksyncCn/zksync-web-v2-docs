@@ -99,7 +99,7 @@ const provider = new Provider("https://zksync2-testnet.zksync.dev");
 console.log(await provider.getMainContractAddress());
 ```
 
-### 获取测试网付款人地址
+### 获取测试网 paymaster 地址
 
 在 zkSync 测试网上，[testnet paymaster](../../dev/developer-guides/aa.md#paymasters) 可用。
 
@@ -169,7 +169,7 @@ console.log(await provider.getConfirmedTokens());
 
 ### `getTokenPrice`
 
-::: 警告已弃用
+::: warning 已弃用
 
 此方法已弃用，很快就会被删除。
 

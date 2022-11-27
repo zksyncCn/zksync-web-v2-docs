@@ -10,7 +10,7 @@ zkSync 2.0 完全支持标准 [Ethereum JSON-RPC API](https://ethereum.org/en/de
 
 ## EIP712
 
-要指定其他字段，例如自定义帐户的自定义签名或选择付款人，应使用 EIP712 交易。 这些交易具有与标准以太坊交易相同的字段，但它们也有包含额外的 L2 特定数据（`paymaster` 等）的字段。
+要指定其他字段，例如自定义帐户的自定义签名或选择 paymaster，应使用 EIP712 交易。 这些交易具有与标准以太坊交易相同的字段，但它们也有包含额外的 L2 特定数据（`paymaster` 等）的字段。
 
 ```json
 "ergsPerPubdata": "1212",
@@ -53,7 +53,7 @@ zkSync 2.0 完全支持标准 [Ethereum JSON-RPC API](https://ethereum.org/en/de
 
 所有 zkSync 特定的方法都位于 `zks_` 命名空间中。 API 还可能提供此处以外的方法。 这些方法是给团队内部使用的，非常不稳定。
 
-：：： 警告
+::: tip
 
 请注意，Metamask 不支持 zks_ 命名空间的方法，我们正在努力在未来支持它，或者，您可以将 `Provider` 类与测试网 RPC 一起使用，而不是依赖 Metamask 的注入提供程序。
 
@@ -145,14 +145,14 @@ Returns the fee for the transaction. The token in which the fee is calculated is
 
 ### `zks_getL2ToL1LogProof`
 
-给定一个区块、一个发件人和一个消息，以及包含L1->L2消息的区块中可选的消息日志索引，返回通过L1Messenger系统合同发送的消息的证明。
+给定一个区块、一个发件人和一个消息，以及包含L1->L2消息的区块中可选的消息日志索引，返回通过L1Messenger系统合约发送的消息的证明。
 
-### Input parameters
+### 输入参数
 
-| Parameter       | Type      | Description                    |
+| 范围              | Type      | 说明                             |
 | --------------- | --------- | ------------------------------ |
 | block           | `uint32`  | 发出该消息的区块编号。                    |
-| sender          | `address` | 消息的发件人（即调用L1Messenger系统合同的账户）。 |
+| sender          | `address` | 消息的发件人（即调用L1Messenger系统合约的账户）。 |
 | msg             | `uint256` | 发送信息的keccak256哈希值。             |
 | l2_log_position | `uint256` | `null`                         |
 
@@ -202,20 +202,20 @@ Returns the fee for the transaction. The token in which the fee is calculated is
 
 给定一个块、一个发送者、一条消息和包含 L1->L2 消息的块中的可选消息日志索引，它返回通过 L1Messenger 系统合约发送的消息的证明。
 
-### Input parameters
+### 输入参数
 
-| Parameter       | Type                    | 说明                                                                                                                            |
+| 范围              | Type                    | 说明                                                                                                                            |
 | --------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | block           | `uint32`                | 发出消息的块的编号。                                                                                                                    |
 | sender          | `address`               | 消息的发送者（即调用 L1Messenger 系统合约的账户）。                                                                                              |
 | msg             | `bytes32`               | 已发送消息的 keccak256 哈希。                                                                                                          |
 | l2_log_position | `uint256` &#124; `null` | 提交此消息时由 [L1Messenger](../dev/developer-guides/contracts/system-contracts.md#il1messenger) 发出的事件块中的索引。 如果省略，则返回具有该内容的第一条消息的证明。 |
 
-### Output format
+### 输出格式
 
 与  [zks_getL2ToL1LogProof](#output-format-4) 中的相同
 
-::: 警告
+:::: warning
 
 `zks_getL2ToL1MsgProof` 端点将被弃用，因为 L2 到 L1 消息的证明也可以从`zks_getL2ToL1LogProof` 中获取。
 

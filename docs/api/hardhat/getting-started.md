@@ -13,7 +13,7 @@ zkSync 为 Hardhat 提供了三个插件：
 本教程展示了如何使用 Hardhat 从头开始​​设置 zkSync Solidity 项目。
 如果您使用的 Vyper，请在 GitHub 查看 [Vyper plugin documentation](./plugins.md#matterlabs-hardhat-zksync-vyper) 或 [this example](https://github.com/matter-labs/hardhat-zksync/tree/main/examples/vyper-example) 。
 
-## 先决条件
+## 准备工作
 
 对于本教程，必须安装以下程序：
 
@@ -71,7 +71,7 @@ module.exports = {
 
 要了解有关“hardhat.config.ts”文件中每个特定属性的更多信息，请查看 [插件文档](./plugins.md)
 
-## 编写和部署合同
+## 编写和部署合约
 
 3. 创建 `contracts` 和 `deploy` 文件夹。 在 contracts 文件夹中，我们将存储所有智能合约文件。 在 deploy 文件夹中，我们将放置与部署合约相关的所有脚本。
 

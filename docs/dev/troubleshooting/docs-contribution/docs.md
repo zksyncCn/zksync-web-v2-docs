@@ -7,7 +7,7 @@ zkSync 文档是开源的，它欢迎包括您在内的来自世界各地的社�
 由于对 zkSync 文档做贡献的协作是社区不可或缺的一部分，所以有很多方法可以与其他做同样工作的人交流并向他们学习:
 
 - 即时通讯工具，如 [zkSync Discord](https://discord.gg/px2aR7w), [Telegram: 用户支持小组](https://t.me/zksync_support)。
-- 问题沟通 - 就可操作的项目（可以采取行动和完成的事情，例如特定文档页面的问题、重组需求等）进行沟通：
+- 问题沟通 - 就操作的项目（可以采取行动和完成的事情，例如特定文档页面的问题、重组需求等）进行沟通：
   - 如果您发现 zkSync 文档中的某个页面有问题，你可以随时[编辑该页面](./edit-doc.md)来修复它。
   - 如果您想发现更大的问题或建议对 zkSync 文档进行重大修改，您可以[在 Github 上提出该问题](https://github.com/matter-labs/zksync-web-v2-docs/issues)。
 - 在我们的[社区论坛](https://community.zksync.io/)上分享观点并了解最新话题。

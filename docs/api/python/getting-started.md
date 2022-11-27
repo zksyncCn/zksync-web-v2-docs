@@ -9,7 +9,7 @@
 5. 部署智能合约。
 6. 使用 create2 部署智能合约。
 
-## 先决条件
+## 准备工作
 
 本指南假定您熟悉 [Python](https://docs.python.org/3/) 编程语言。
 
@@ -38,7 +38,7 @@ zkSync_web3 = zkSyncBuilder.build(ZKSYNC_NETWORK_URL)
 
 ## 以太坊签名
 
-::: 警告
+:::: warning
 
 ⚠️ 切勿将私钥提交到文件跟踪历史记录中，否则您的帐户可能会被盗用。
 

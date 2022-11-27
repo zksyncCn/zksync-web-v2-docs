@@ -3,7 +3,7 @@
 现在，让我们学习如何部署自定义账户并直接与 [ContractDeployer](../developer-guides/contracts/system-contracts.md#contractdeployer) 系统合约交互。
 在本教程中，我们构建了一个部署 2-of-2 多重签名帐户的工厂。
 
-## 先决条件
+## 准备工作
 
 强烈建议在深入学习本教程之前阅读账户抽象协议的[设计](../developer-guides/aa.md)。
 
@@ -34,7 +34,7 @@ yarn add @matterlabs/zksync-contracts @openzeppelin/contracts @openzeppelin/cont
 
 每个账号都需要实现[IAccount](../developer-guides/aa.md#iaccount-interface)接口。 由于我们正在与签名者建立一个帐户，因此我们还应该实施 [EIP1271](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/83277ff916ac4f58fec072b8f28a252c1245c2f1/contracts/interfaces/IERC1271.sol#L12)。
 
-合同的框架将如下所示：
+合约的框架将如下所示：
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -207,8 +207,8 @@ function payForTransaction(bytes32, bytes32, Transaction calldata _transaction) 
 
 ### 实施`prePaymaster`
 
-虽然通常账户抽象协议允许与付款人交互时执行任意操作，但有一些是来自[常见模式](../developer-guides/aa.md#built-in-paymaster-flows) 的内置支持 EOA。
-除非您想从您的帐户中实施或限制某些特定的付款人用例，否则最好使其与 EOA 保持一致。 `TransactionHelper` 库提供了 `processPaymasterInput`，它正是这样做的：像 EOA 一样处理 `prePaymaster` 步骤。
+虽然通常账户抽象协议允许与 paymaster 交互时执行任意操作，但有一些是来自[常见模式](../developer-guides/aa.md#built-in-paymaster-flows) 的内置支持 EOA。
+除非您想从您的帐户中实施或限制某些特定的 paymaster 用例，否则最好使其与 EOA 保持一致。 `TransactionHelper` 库提供了 `processPaymasterInput`，它正是这样做的：像 EOA 一样处理 `prePaymaster` 步骤。
 
 ```solidity
 function prePaymaster(bytes32, bytes32, Transaction calldata _transaction) external payable override onlyBootloader {
@@ -541,7 +541,7 @@ AA factory address: 0x9db333Cb68Fb6D317E3E415269a5b9bE7c72627Ds
 
 请注意，每次运行的地址都会不同。
 
-## 使用账户
+# 
 
 ### 部署账户
 
@@ -632,7 +632,7 @@ aaTx = {
 };
 ```
 
-::: 关于 gasLimit 的注意事项
+::: tip gasLimit 的注意事项
 
 目前，我们希望 `gasLimit` 涵盖验证和执行步骤。 目前，`estimateGas` 返回的 erg 数量是 `execution_ergs + 20000`，其中 `20000` 大致等于 defaultAA 收取费用和验证签名所需的开销。 如果你的 AA 有一个非常昂贵的验证步骤，你应该在 `gasLimit` 中添加一些常量。
 
@@ -767,7 +767,7 @@ The multisig's nonce before the first tx is 0
 The multisig's nonce after the first tx is 1
 ```
 
-::: 提示
+::: tip
 
 如果您收到错误提示`Not enough balance to cover the fee。`，请尝试增加发送到多重签名钱包的 ETH 数量，以便它有足够的资金来支付交易费用。
 
@@ -780,5 +780,5 @@ The multisig's nonce after the first tx is 1
 ## Learn more
 
 - 要了解有关 zkSync 上的 L1->L2 交互的更多信息，请查看 [文档](../developer-guides/bridging/l1-l2.md)。
-- 要了解有关 `zksync-web3` SDK 的更多信息，请查看 [文档。
+- 要了解有关 `zksync-web3` SDK 的更多信息，请查看[文档](../../api/js/README.md)。
 - 要了解有关 zkSync 安全帽插件的更多信息，请查看他们的 [文档](../../api/hardhat)。

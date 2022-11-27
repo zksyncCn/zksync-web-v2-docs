@@ -1,40 +1,40 @@
-# Known issues
+# 已知的问题
 
-zkSync 2.0 is currently in the alpha stage, hence some things you are used to may not work. Please keep in mind that the system is still under ongoing development.
+zkSync 2.0 目前处于 alpha 阶段，因此您习惯的某些功能可能无法正常工作。 请记住，该系统仍在持续开发中。
 
-## Why are Metamask native contract interactions not working?
+## 为什么 Metamask 原生合约交互不起作用？
 
-It is not currently possible to interact with zkSync smart contracts via Metamask with EIP-1559 transactions. zkSync does not support EIP1559 transactions.
+目前无法通过 Metamask 与 EIP-1559 交易和 zkSync 智能合约进行交互。 zkSync 不支持 EIP1559 交易。
 
-**Solution.** Explicitly specify `{ type: 0 }` in transaction overrides to use Ethereum legacy transactions.
+**解决方案。** 在交易覆盖中明确指定 `{ type: 0 }` ，来使用以太坊旧的交易。
 
-## Why does my wallet have no funds and my contract disappears?
+## 为什么我的钱包没有资金，我的合约消失了？
 
-We are expected to update our testnet continuously, so from time to time, we will need to do a re-genesis. This will cause the entire state to reset, and all deployed contracts will cease to exist.
+我们预计会不断更新我们的测试网，因此我们需要不时进行重新生成。 这将导致整个状态重置，所有已部署的合约将不复存在。
 
-**We will communicate re-genesis events before they happen!**
+**我们将在新的事件发生之前告知用户！**
 
-## Why does `wait()` get stuck for L1->L2 transactions?
+## 为什么`wait()` 会卡在 L1->L2 交易中？
 
-If the `wait()` takes much longer than expected, most likely the transaction has failed.
+如果 `wait()` 花费的时间比预期的要长得多，则很可能交易已失败。
 
-## Why is there an `unexpected end of JSON input` compilation error?
+## 为什么会出现 `unexpected end of JSON input` 编译错误？
 
-This is an error that is usually thrown when compiling a large smart contract codebase.
+这是编译大型智能合约代码库时通常会遇到的错误。
 
-If you encounter such an error, please do the following:
+如果遇到此类错误，请执行以下操作：
 
-- Update the `@matterlabs/hardhat-zksync-solc` library and try to re-compile the smart contracts afterwards.
-- If after the recompilation you get the `Library not found` error, then you should follow the instructions from [here](../../../api/hardhat/compiling-libraries.md).
-- If the same error persists, report the issue to our team. We will do our best to help you.
+- 更新 `@matterlabs/hardhat-zksync-solc` 库，然后尝试重新编译智能合约。
+- 如果重新编译后出现“ `Library not found` 错误，则应按照 [此处](../../../api/hardhat/compiling-libraries.md) 中的说明进行操作。
+- 如果同样的错误仍然存在，请将问题报告给我们的团队。 我们会尽力帮助您。
 
-## Why can't I use CREATE/CREATE2 opcodes with raw bytecode?
+## 为什么我不能将 CREATE/CREATE2 操作码与原始字节码一起使用？
 
-zkSync does not support using CREATE/CREATE2 with raw bytecode. We highly recommend using the `new` operator to avoid any issues.
+zkSync 不支持将 CREATE/CREATE2 与原始字节码一起使用。 我们强烈建议使用 `new` 运算符来避免任何问题。
 
-## Why is Hardhat's `console.log` not working?
+## 为什么 Hardhat 的 `console.log` 不起作用？
 
-zkSync does not support the Nomic Foundation's `console.log` contract. Due to different address derivation rules, even when deployed, the `console.log` library will likely have a different address from the one on Ethereum.
+zkSync 不支持 Nomic 基金会的 `console.log` 合约。 由于不同的地址规则，即使在部署时，`console.log` 库也可能与以太坊上的地址不同。
 
 <!---
 
